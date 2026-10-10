@@ -238,16 +238,17 @@ legend + *{clear:both}
     fetch(ENDPOINT, {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify(payload)})
       .then(function(r){return r.json().catch(function(){return {}}).then(function(d){return {ok:r.ok, d:d}})})
       .then(function(x){
-        if(!x.ok || (x.d && x.d.success === 'false')){throw new Error('rejected')}
+        if(!x.ok || (x.d && x.d.success === 'false')){throw new Error((x.d && x.d.message) ? x.d.message : ('HTTP ' + (x.ok ? 'ok' : 'error')))}
         $('f').hidden = true;
         $('donemsg').textContent = 'Thanks ' + val('name').split(' ')[0] + '. I will reply to ' + val('email') + ' soon.';
         $('done').hidden = false;
         $('done').scrollIntoView({behavior:'smooth', block:'start'});
       })
-      .catch(function(){
+      .catch(function(e){
         btn.disabled = false; btn.textContent = 'Send my request';
         err.innerHTML = '';
-        err.appendChild(document.createTextNode('That did not go through. Try again, or message '));
+        var why = (e && e.message) ? ' (' + String(e.message).slice(0, 160) + ')' : '';
+        err.appendChild(document.createTextNode('That did not go through' + why + '. Try again, or message '));
         var a = document.createElement('a'); a.href = DM; a.target = '_blank'; a.rel = 'noopener'; a.textContent = '@fieldwork.dylan on Instagram'; a.style.color = 'inherit';
         err.appendChild(a); err.appendChild(document.createTextNode('.'));
       });
