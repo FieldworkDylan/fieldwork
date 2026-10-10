@@ -9,19 +9,9 @@
 <style>
 /* Layout: one narrow paper sheet, three real steps down the page (what, details, you), message preview at the end. */
 :root{
-  --paper:#EEEFE9; --paper-2:#E2E4DA; --ink:#16231B; --ink-2:#4B5A50; --line:#BFC5B8;
-  --accent:#FF5A1F; --accent-text:#BF3B00; --blue:#2457D6;
+  --paper:#FFF3E0; --paper-2:#F6E3C3; --ink:#0F2A1B; --ink-2:#54604F; --line:#D8C4A0;
+  --accent:#FF5A1F; --accent-text:#BF3B00; --blue:#2457D6; color-scheme:light;
   --display:'Archivo Black','Arial Black',sans-serif; --body:'DM Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --paper:#0F1A13; --paper-2:#182A1E; --ink:#EEF0E6; --ink-2:#A9B7AC; --line:#2F4637;
-    --accent:#FF5A1F; --accent-text:#FF8454; --blue:#8BAAFF; color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --paper:#0F1A13; --paper-2:#182A1E; --ink:#EEF0E6; --ink-2:#A9B7AC; --line:#2F4637;
-  --accent:#FF5A1F; --accent-text:#FF8454; --blue:#8BAAFF; color-scheme:dark;
 }
 *{box-sizing:border-box}
 body{
