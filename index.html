@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Start a painting, drawing or woodworking project with Dylan Havens at Fieldwork.">
+<title>Fieldwork Project Inquiry</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow paper sheet, three real steps down the page (what, details, you), message preview at the end. */
+:root{
+  --paper:#EEEFE9; --paper-2:#E2E4DA; --ink:#16231B; --ink-2:#4B5A50; --line:#BFC5B8;
+  --accent:#FF5A1F; --accent-text:#BF3B00; --blue:#2457D6;
+  --display:'Archivo Black','Arial Black',sans-serif; --body:'DM Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1A13; --paper-2:#182A1E; --ink:#EEF0E6; --ink-2:#A9B7AC; --line:#2F4637;
+    --accent:#FF5A1F; --accent-text:#FF8454; --blue:#8BAAFF; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1A13; --paper-2:#182A1E; --ink:#EEF0E6; --ink-2:#A9B7AC; --line:#2F4637;
+  --accent:#FF5A1F; --accent-text:#FF8454; --blue:#8BAAFF; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background-color:var(--paper); color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.5;
+  padding-inline:20px; padding-block:32px 64px;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.sheet{max-width:700px;margin-inline:auto;display:flex;flex-direction:column;gap:32px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.stamp{border:2px solid var(--ink);border-radius:6px;padding:8px 12px;transform:rotate(-2deg);display:inline-flex}
+.stamp svg{width:112px;height:auto;display:block}
+.lf{fill:var(--ink)} .ld{fill:var(--blue)} .ldot{fill:var(--accent)} .lu{fill:var(--blue)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(34px,8vw,54px);line-height:1.02;margin:0;text-wrap:balance;letter-spacing:-.01em}
+.lede{margin:12px 0 0;max-width:52ch;color:var(--ink-2);font-size:17px}
+form{display:flex;flex-direction:column;gap:0}
+fieldset{border:0;margin:0;padding:28px 0;min-width:0;border-top:2px dashed var(--line);display:flex;flex-direction:column;gap:18px}
+legend{padding:0;float:left;width:100%;display:flex;align-items:center;gap:12px;font-family:var(--display);font-size:22px;margin-bottom:18px}
+legend + *{clear:both}
+.tag{font-family:var(--mono);font-size:12px;font-weight:500;border:1.5px solid var(--ink);border-radius:50%;width:28px;height:28px;display:inline-grid;place-items:center;flex:none}
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.tile{position:relative;display:flex;flex-direction:column;gap:2px;padding:14px 16px;border:2px solid var(--ink);border-radius:4px;cursor:pointer;background:transparent;min-width:0}
+.tile input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer;margin:0}
+.tile .name{font-family:var(--display);font-size:19px;line-height:1.15}
+.tile .sub{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.tile.on{background:var(--paper-2);box-shadow:4px 4px 0 var(--accent)}
+.tile.on::after{content:"";position:absolute;top:10px;right:10px;width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.tile:focus-within{outline:3px solid var(--blue);outline-offset:3px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.field input,.field select,.field textarea{
+  font:inherit;font-family:var(--mono);font-size:15px;color:var(--ink);background:transparent;
+  border:0;border-bottom:2px solid var(--ink);border-radius:0;padding:8px 2px;width:100%;min-width:0
+}
+.field select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 14px) 55%,calc(100% - 8px) 55%;background-size:6px 6px;background-repeat:no-repeat;padding-right:28px}
+.field select option{background:var(--paper);color:var(--ink)}
+.field textarea{resize:vertical;min-height:140px;line-height:28px;border:0;padding:0 2px;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 27px,var(--line) 27px,var(--line) 28px)}
+.field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.field input::placeholder,.field textarea::placeholder{color:var(--ink-2);opacity:.7}
+.qs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px 24px}
+.empty{border:2px dashed var(--line);border-radius:4px;padding:18px;color:var(--ink-2);font-family:var(--mono);font-size:13px}
+.err{color:var(--accent-text);font-family:var(--mono);font-size:13px;min-height:1.4em}
+.btn{font-family:var(--display);font-size:17px;background:var(--ink);color:var(--paper);border:2px solid var(--ink);border-radius:4px;padding:14px 22px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;box-shadow:4px 4px 0 var(--accent);min-height:48px}
+.btn.alt{background:transparent;color:var(--ink);box-shadow:none}
+.btn:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--accent)}
+.send{display:flex;flex-direction:column;gap:10px;align-items:flex-start;border-top:2px dashed var(--line);padding-top:28px}
+#out{border:2px solid var(--ink);border-radius:4px;padding:22px;display:flex;flex-direction:column;gap:16px;background:var(--paper-2)}
+#out h2{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
+#msg{font-family:var(--mono);font-size:13.5px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;margin:0;padding:16px;background:var(--paper);border:1.5px solid var(--line);border-radius:3px;user-select:all}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.addr{font-family:var(--mono);font-size:14px;overflow-wrap:anywhere;user-select:all}
+.note{color:var(--ink-2);font-size:14px;margin:0}
+.foot{border-top:2px dashed var(--line);padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<main class="sheet">
+  <header class="top">
+    <div class="stamp">
+      <svg viewBox="4 76 232 92" role="img" aria-label="FW.D">
+        <rect class="lu" x="12" y="156" width="130" height="7"></rect>
+        <text class="lf" x="12" y="140" font-family="Archivo Black, sans-serif" font-size="78" textLength="48" lengthAdjust="spacingAndGlyphs">F</text>
+        <text class="lf" x="57" y="140" font-family="Archivo Black, sans-serif" font-size="78" textLength="86" lengthAdjust="spacingAndGlyphs">W</text>
+        <circle class="ldot" cx="150" cy="134" r="7"></circle>
+        <g transform="rotate(-12 189 112)"><text class="ld" x="160" y="140" font-family="Archivo Black, sans-serif" font-size="78" textLength="58" lengthAdjust="spacingAndGlyphs">D</text></g>
+      </svg>
+    </div>
+    <div class="mono">fieldwork.dylan<br>Project request</div>
+  </header>
+
+  <div>
+    <h1>Got a project in mind?</h1>
+    <p class="lede">Paintings, drawings and furniture, made by hand. Pick what you are after, answer a few questions, and send it over. I read every request.</p>
+  </div>
+
+  <form id="f" novalidate>
+    <fieldset>
+      <legend><span class="tag">1</span> What are you after?</legend>
+      <div class="choices" role="radiogroup" aria-label="Project type">
+        <label class="tile"><input type="radio" name="type" value="painting"><span class="name">Painting</span><span class="sub">Portraits, pets, places</span></label>
+        <label class="tile"><input type="radio" name="type" value="drawing"><span class="name">Drawing</span><span class="sub">Illustration and portraits</span></label>
+        <label class="tile"><input type="radio" name="type" value="furniture"><span class="name">Woodworking</span><span class="sub">Tables, shelves, frames</span></label>
+        <label class="tile"><input type="radio" name="type" value="other"><span class="name">Something else</span><span class="sub">Tell me what you have in mind</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="tag">2</span> <span id="dtitle">The details</span></legend>
+      <div id="dq" class="qs"><div class="empty" style="grid-column:1/-1">Pick a project type above and the right questions show up here.</div></div>
+      <div class="field">
+        <label for="idea">Tell me about the idea</label>
+        <textarea id="idea" placeholder="What you are picturing, who it is for, anything that matters to you."></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="tag">3</span> About you</legend>
+      <div class="qs">
+        <div class="field"><label for="name">Your name</label><input id="name" autocomplete="name"></div>
+        <div class="field"><label for="email">Your email</label><input id="email" type="email" autocomplete="email" inputmode="email"></div>
+        <div class="field"><label for="budget">Budget</label>
+          <select id="budget"><option>Not sure yet</option><option>Under $250</option><option>$250 to $500</option><option>$500 to $1,000</option><option>$1,000 and up</option></select></div>
+        <div class="field"><label for="when">When do you need it?</label><input id="when" placeholder="A date, or no rush"></div>
+      </div>
+    </fieldset>
+
+    <div class="send">
+      <input type="text" id="hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
+      <div class="err" id="err" role="alert"></div>
+      <button class="btn" type="submit" id="go">Send my request</button>
+    </div>
+  </form>
+
+  <section id="done" hidden aria-live="polite">
+    <h2>Request sent</h2>
+    <p class="note" id="donemsg"></p>
+    <button class="btn alt" type="button" id="again">Send another</button>
+  </section>
+
+  <footer class="foot">
+    <span class="mono">Tattoo requests: @dylandotattoo</span>
+    <span class="mono">fieldwork.dylan</span>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var INBOX = '027deb3078663909fd5bd75d20ef0f98';
+  var SIZE = ['Small (under 16 in)','Medium (16 to 30 in)','Large (30 in and up)','Not sure yet'];
+  var T = {
+    painting:{label:'Painting',title:'About the painting',qs:[
+      {id:'subject',l:'What should it show?',k:'s',o:['A pet portrait','A person','A landscape or place','Abstract','Something else']},
+      {id:'size',l:'Roughly how big?',k:'s',o:SIZE},
+      {id:'frame',l:'Framed?',k:'s',o:['Floating frame','Unframed','Not sure yet']},
+      {id:'ref',l:'Reference photos',k:'t',p:'Link to photos (Drive, Dropbox, Instagram)'},
+      {id:'where',l:'Where will it hang?',k:'t',p:'Room, wall, colors nearby'}]},
+    drawing:{label:'Drawing',title:'About the drawing',qs:[
+      {id:'subject',l:'What should it show?',k:'s',o:['A person or portrait','A pet','An illustration','Something else']},
+      {id:'color',l:'Color or black and white?',k:'s',o:['Black and white','Color','Not sure yet']},
+      {id:'size',l:'Roughly how big?',k:'s',o:SIZE},
+      {id:'ref',l:'Reference photos',k:'t',p:'Link to photos (Drive, Dropbox, Instagram)'},
+      {id:'gift',l:'Is it a gift?',k:'s',o:['No','Yes','Maybe']}]},
+    furniture:{label:'Woodworking',title:'About the piece',qs:[
+      {id:'piece',l:'What do you need?',k:'s',o:['Side table','Shelf or bookcase','Bench or stool','Frame','Something custom']},
+      {id:'dims',l:'Rough size',k:'t',p:'e.g. 16 x 12 x 24 in, or bedside height'},
+      {id:'material',l:'Material',k:'s',o:['Birch plywood, clean edges','Solid hardwood','Not sure yet']},
+      {id:'finish',l:'Finish',k:'s',o:['Natural clear coat','Stained','Painted','Not sure yet']},
+      {id:'where',l:'Where will it live?',k:'t',p:'Room, and what it sits next to'},
+      {id:'delivery',l:'Pickup or delivery?',k:'s',o:['Local pickup','Needs shipping','Not sure yet']}]},
+    other:{label:'Something else',title:'About the project',qs:[
+      {id:'what',l:'What kind of thing is it?',k:'t',p:'Mural, sign, logo, trade...'},
+      {id:'like',l:'Anything of mine it should feel like?',k:'t',p:'A piece, a color, a mood'}]}
+  };
+  var $ = function(id){return document.getElementById(id)};
+  var current = null;
+
+  function build(type){
+    var cfg = T[type], box = $('dq');
+    box.textContent = '';
+    $('dtitle').textContent = cfg.title;
+    cfg.qs.forEach(function(q){
+      var f = document.createElement('div'); f.className = 'field';
+      var lab = document.createElement('label'); lab.htmlFor = 'q_'+q.id; lab.textContent = q.l; f.appendChild(lab);
+      var c;
+      if(q.k === 's'){
+        c = document.createElement('select');
+        q.o.forEach(function(o){var op = document.createElement('option'); op.textContent = o; c.appendChild(op)});
+      } else {
+        c = document.createElement('input'); c.placeholder = q.p || '';
+      }
+      c.id = 'q_'+q.id; f.appendChild(c); box.appendChild(f);
+    });
+  }
+
+  document.querySelectorAll('input[name=type]').forEach(function(r){
+    r.addEventListener('change', function(){
+      current = r.value;
+      document.querySelectorAll('.tile').forEach(function(t){t.classList.toggle('on', t.contains(r) && r.checked)});
+      build(current);
+    });
+  });
+
+  function val(id){var e = $(id); return e ? e.value.trim() : ''}
+
+  var ENDPOINT = 'https://formsubmit.co/ajax/' + INBOX;
+  var DM = 'https://ig.me/m/fieldwork.dylan';
+
+  $('f').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var err = $('err'); err.textContent = '';
+    if($('hp').value){return}
+    if(!current){err.textContent = 'Pick a project type first.'; return}
+    if(!val('idea')){err.textContent = 'Tell me a little about the idea.'; $('idea').focus(); return}
+    if(!val('name')){err.textContent = 'Add your name so I know who to reply to.'; $('name').focus(); return}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email'))){err.textContent = 'Add an email address I can reply to.'; $('email').focus(); return}
+    var cfg = T[current];
+    var payload = {
+      _subject: 'Project inquiry: ' + cfg.label + ' (' + val('name') + ')',
+      _template: 'table',
+      _captcha: 'false',
+      name: val('name'),
+      email: val('email'),
+      project: cfg.label,
+      idea: val('idea'),
+      budget: val('budget'),
+      timing: val('when')
+    };
+    cfg.qs.forEach(function(q){var v = val('q_'+q.id); if(v) payload[q.l.replace(/\?$/,'')] = v});
+    var btn = $('go'); btn.disabled = true; btn.textContent = 'Sending...';
+    fetch(ENDPOINT, {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify(payload)})
+      .then(function(r){return r.json().catch(function(){return {}}).then(function(d){return {ok:r.ok, d:d}})})
+      .then(function(x){
+        if(!x.ok || (x.d && x.d.success === 'false')){throw new Error('rejected')}
+        $('f').hidden = true;
+        $('donemsg').textContent = 'Thanks ' + val('name').split(' ')[0] + '. I will reply to ' + val('email') + ' soon.';
+        $('done').hidden = false;
+        $('done').scrollIntoView({behavior:'smooth', block:'start'});
+      })
+      .catch(function(){
+        btn.disabled = false; btn.textContent = 'Send my request';
+        err.innerHTML = '';
+        err.appendChild(document.createTextNode('That did not go through. Try again, or message '));
+        var a = document.createElement('a'); a.href = DM; a.target = '_blank'; a.rel = 'noopener'; a.textContent = '@fieldwork.dylan on Instagram'; a.style.color = 'inherit';
+        err.appendChild(a); err.appendChild(document.createTextNode('.'));
+      });
+  });
+
+  $('again').addEventListener('click', function(){
+    $('done').hidden = true; $('f').hidden = false; $('f').reset(); current = null;
+    document.querySelectorAll('.tile').forEach(function(t){t.classList.remove('on')});
+    $('dq').innerHTML = '<div class="empty" style="grid-column:1/-1">Pick a project type above and the right questions show up here.</div>';
+    $('go').disabled = false; $('go').textContent = 'Send my request';
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+})();
+</script>
+</body>
+</html>
