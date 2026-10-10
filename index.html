@@ -3,8 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Start a painting, drawing or woodworking project with Dylan Havens at Fieldwork.">
-<title>Fieldwork Project Inquiry</title>
+<meta name="description" content="Paintings, drawings and furniture, made by hand. Start a project with Dylan Havens at Fieldwork.">
+<title>Fieldwork | Start a Project</title>
+<meta name="theme-color" content="#FFF3E0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Fieldwork">
+<meta property="og:title" content="Start a project with Dylan Havens">
+<meta property="og:description" content="Paintings, drawings and furniture, made by hand. Tell me what you have in mind.">
+<meta property="og:url" content="https://fieldworkdylan.github.io/fieldwork/">
+<meta property="og:image" content="https://fieldworkdylan.github.io/fieldwork/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FW.D, Fieldwork. Start a project.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fieldworkdylan.github.io/fieldwork/og.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: one narrow paper sheet, three real steps down the page (what, details, you), message preview at the end. */
@@ -175,13 +188,13 @@ legend + *{clear:both}
       {id:'subject',l:'What should it show?',k:'s',o:['A pet portrait','A person','A landscape or place','Abstract','Something else']},
       {id:'size',l:'Roughly how big?',k:'s',o:SIZE},
       {id:'frame',l:'Framed?',k:'s',o:['Floating frame','Unframed','Not sure yet']},
-      {id:'ref',l:'Reference photos',k:'t',p:'Link to photos (Drive, Dropbox, Instagram)'},
+      {id:'ref',l:'Inspo or reference links (optional)',k:'t',p:'Links to photos or inspo (Instagram, Pinterest, Drive)'},
       {id:'where',l:'Where will it hang?',k:'t',p:'Room, wall, colors nearby'}]},
     drawing:{label:'Drawing',title:'About the drawing',qs:[
       {id:'subject',l:'What should it show?',k:'s',o:['A person or portrait','A pet','An illustration','Something else']},
       {id:'color',l:'Color or black and white?',k:'s',o:['Black and white','Color','Not sure yet']},
       {id:'size',l:'Roughly how big?',k:'s',o:SIZE},
-      {id:'ref',l:'Reference photos',k:'t',p:'Link to photos (Drive, Dropbox, Instagram)'},
+      {id:'ref',l:'Inspo or reference links (optional)',k:'t',p:'Links to photos or inspo (Instagram, Pinterest, Drive)'},
       {id:'gift',l:'Is it a gift?',k:'s',o:['No','Yes','Maybe']}]},
     furniture:{label:'Woodworking',title:'About the piece',qs:[
       {id:'piece',l:'What do you need?',k:'s',o:['Side table','Shelf or bookcase','Bench or stool','Frame','Something custom']},
@@ -189,10 +202,12 @@ legend + *{clear:both}
       {id:'material',l:'Material',k:'s',o:['Birch plywood, clean edges','Solid hardwood','Not sure yet']},
       {id:'finish',l:'Finish',k:'s',o:['Natural clear coat','Stained','Painted','Not sure yet']},
       {id:'where',l:'Where will it live?',k:'t',p:'Room, and what it sits next to'},
-      {id:'delivery',l:'Pickup or delivery?',k:'s',o:['Local pickup','Needs shipping','Not sure yet']}]},
+      {id:'delivery',l:'Pickup or delivery?',k:'s',o:['Local pickup','Needs shipping','Not sure yet']},
+      {id:'ref',l:'Inspo or reference links (optional)',k:'t',p:'Links to photos or inspo (Instagram, Pinterest, Drive)'}]},
     other:{label:'Something else',title:'About the project',qs:[
       {id:'what',l:'What kind of thing is it?',k:'t',p:'Mural, sign, logo, trade...'},
-      {id:'like',l:'Anything of mine it should feel like?',k:'t',p:'A piece, a color, a mood'}]}
+      {id:'like',l:'Anything of mine it should feel like?',k:'t',p:'A piece, a color, a mood'},
+      {id:'ref',l:'Inspo or reference links (optional)',k:'t',p:'Links to photos or inspo (Instagram, Pinterest, Drive)'}]}
   };
   var $ = function(id){return document.getElementById(id)};
   var current = null;
@@ -241,6 +256,7 @@ legend + *{clear:both}
       _subject: 'Project inquiry: ' + cfg.label + ' (' + val('name') + ')',
       _template: 'table',
       _captcha: 'false',
+      _autoresponse: 'Thanks for submitting, I look forward to working with you!\n\nI will read through your request and be in touch soon.\n\nDylan\nFieldwork (@fieldwork.dylan)',
       name: val('name'),
       email: val('email'),
       project: cfg.label,
@@ -255,7 +271,7 @@ legend + *{clear:both}
       .then(function(x){
         if(!x.ok || (x.d && x.d.success === 'false')){throw new Error((x.d && x.d.message) ? x.d.message : ('HTTP ' + (x.ok ? 'ok' : 'error')))}
         $('f').hidden = true;
-        $('donemsg').textContent = 'Thanks ' + val('name').split(' ')[0] + '. I will reply to ' + val('email') + ' soon.';
+        $('donemsg').textContent = 'Thanks ' + val('name').split(' ')[0] + ', I look forward to working with you. I will reply to ' + val('email') + ' soon, and a confirmation is on its way to your inbox.';
         $('done').hidden = false;
         $('done').scrollIntoView({behavior:'smooth', block:'start'});
       })
