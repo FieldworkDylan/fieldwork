@@ -33,7 +33,7 @@ body{
 .stamp.open .eyes{animation:eyes 5s ease-out forwards}
 .stamp.open .eyes b{animation:pupils 5s ease-out forwards}
 @keyframes lid{0%{transform:rotateX(0)}12%{transform:rotateX(-112deg)}82%{transform:rotateX(-112deg)}96%,100%{transform:rotateX(0)}}
-@keyframes eyes{0%,10%{transform:translateX(0) scale(.3)}18%{transform:translateX(0) scale(1.18)}22%{transform:translateX(0) scale(1)}28%,40%{transform:translateX(-9px) scale(1)}52%,66%{transform:translateX(9px) scale(1)}78%,100%{transform:translateX(0) scale(1)}}
+@keyframes eyes{0%,16%{transform:translateX(0)}26%,40%{transform:translateX(-9px)}52%,66%{transform:translateX(9px)}78%,100%{transform:translateX(0)}}
 @keyframes pupils{0%,16%{transform:translate(-50%,-50%)}26%,40%{transform:translate(calc(-50% - 7px),-50%)}52%,66%{transform:translate(calc(-50% + 7px),-50%)}78%,100%{transform:translate(-50%,-50%)}}
 @media (prefers-reduced-motion: reduce){.stamp.open .lid{animation:none;opacity:0}.stamp.open .eyes,.stamp.open .eyes b{animation:none}}
 .stamp svg{width:132px;height:auto;display:block;overflow:visible}
