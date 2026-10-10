@@ -25,14 +25,20 @@ body{
 .stamp:focus-visible{outline:3px solid var(--blue);outline-offset:4px;border-radius:8px}
 .lid{display:flex;border:2px solid var(--ink);border-radius:6px;padding:8px 12px;background:var(--paper);transform-origin:50% 0;backface-visibility:hidden;-webkit-backface-visibility:hidden;position:relative;z-index:2}
 .box{position:absolute;inset:0;z-index:1;border:2px solid var(--ink);border-radius:6px;background:#0A1810;display:flex;align-items:center;justify-content:center;visibility:hidden}
-.eyes{display:flex;gap:20px}
-.eyes i{display:block;width:15px;height:15px;border-radius:50%;background:#fff}
+.eyes{display:flex;gap:22px}
+.eyes i{position:relative;display:block;width:32px;height:32px;border-radius:50%;background:#fff;overflow:hidden;box-shadow:inset 0 0 0 1px #0A1810}
+.eyes i::before{content:"";position:absolute;left:-2px;right:-2px;top:-2px;height:60%;background:#0A1810;z-index:2}
+.eyes i:first-child::before{clip-path:polygon(0 0,100% 0,100% 46%,0 82%)}
+.eyes i:last-child::before{clip-path:polygon(0 0,100% 0,100% 82%,0 46%)}
+.eyes b{position:absolute;left:50%;top:64%;width:14px;height:14px;border-radius:50%;background:#0A1810;transform:translate(-50%,-50%)}
 .stamp.open .box{visibility:visible}
 .stamp.open .lid{animation:lid 5s ease-in-out forwards}
 .stamp.open .eyes{animation:eyes 5s ease-in-out forwards}
+.stamp.open .eyes b{animation:pupils 5s ease-in-out forwards}
 @keyframes lid{0%{transform:rotateX(0)}12%{transform:rotateX(-112deg)}82%{transform:rotateX(-112deg)}96%,100%{transform:rotateX(0)}}
-@keyframes eyes{0%,16%{transform:translateX(0)}26%,40%{transform:translateX(-14px)}52%,66%{transform:translateX(14px)}78%,100%{transform:translateX(0)}}
-@media (prefers-reduced-motion: reduce){.stamp.open .lid{animation:none;opacity:0}.stamp.open .eyes{animation:none}}
+@keyframes eyes{0%,16%{transform:translateX(0)}26%,40%{transform:translateX(-9px)}52%,66%{transform:translateX(9px)}78%,100%{transform:translateX(0)}}
+@keyframes pupils{0%,16%{transform:translate(-50%,-50%)}26%,40%{transform:translate(calc(-50% - 7px),-50%)}52%,66%{transform:translate(calc(-50% + 7px),-50%)}78%,100%{transform:translate(-50%,-50%)}}
+@media (prefers-reduced-motion: reduce){.stamp.open .lid{animation:none;opacity:0}.stamp.open .eyes,.stamp.open .eyes b{animation:none}}
 .stamp svg{width:132px;height:auto;display:block;overflow:visible}
 /* The D hangs from its top-left corner and swings gently around its resting tilt. */
 .swing{transform-box:fill-box;transform-origin:0% 8%;transform:rotate(-18deg);animation:dangle 3.6s ease-in-out infinite}
@@ -93,7 +99,7 @@ legend + *{clear:both}
 <main class="sheet">
   <header class="top">
     <button class="stamp" id="stamp" type="button" aria-label="FW.D logo. Tap to open.">
-      <span class="box" aria-hidden="true"><span class="eyes"><i></i><i></i></span></span>
+      <span class="box" aria-hidden="true"><span class="eyes"><i><b></b></i><i><b></b></i></span></span>
       <span class="lid">
       <svg viewBox="-14 -20 316 172" role="img" aria-label="FW.D">
         <g class="lg">
