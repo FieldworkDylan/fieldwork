@@ -101,6 +101,60 @@ legend + *{clear:both}
 .addr{font-family:var(--mono);font-size:14px;overflow-wrap:anywhere;user-select:all}
 .note{color:var(--ink-2);font-size:14px;margin:0}
 .foot{border-top:2px dashed var(--line);padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+/* Gallery door: a little storefront off to the side of the header. */
+.top{align-items:flex-end;flex-wrap:nowrap}
+@media (max-width:420px){.stamp svg{width:124px}.door svg{width:142px}.top{gap:10px}}
+.door{padding:0;border:0;background:none;cursor:pointer;transform:rotate(1.5deg);margin-right:4px;-webkit-tap-highlight-color:transparent}
+.door svg{width:148px;height:auto;display:block;overflow:visible}
+.door:focus-visible{outline:3px solid var(--blue);outline-offset:4px;border-radius:6px}
+.door .dw{fill:var(--paper-2);stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+.door .sign{fill:var(--ink)}
+.door .signt{font-family:var(--display);font-size:11px;letter-spacing:.08em;fill:var(--paper)}
+.door .hang{stroke:var(--ink);stroke-width:2}
+.door .inside{fill:#FFE7C2}
+.door .floor{stroke:#E8C995;stroke-width:1.5}
+.door .art{fill:#C98A4B;stroke:var(--ink);stroke-width:1.2}
+.door .art-sky{fill:var(--blue)} .door .art-rock{fill:var(--accent)} .door .art-moon{fill:var(--paper)}
+.door .leaf path{fill:var(--blue);stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
+.door .leaf circle{fill:var(--paper)}
+.door .leaf{transform-box:view-box;transform-origin:30px 92px;transition:transform .35s ease}
+.door .frame{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+.door .bench{stroke:#C98A4B;stroke-width:6;stroke-linecap:round}
+.door .legs{stroke:var(--ink);stroke-width:2.5;stroke-linecap:round}
+.door .ground{stroke:var(--ink);stroke-width:2.5;stroke-linecap:round}
+.door:hover .leaf,.door.go .leaf{transform:scaleX(.45)}
+/* Someone on the bench, sipping coffee every few seconds (SMIL, paused for reduced motion). */
+.door .go{stroke:var(--ink);stroke-width:1.15;stroke-linejoin:round;stroke-linecap:round}
+.door .gl{fill:none;stroke:var(--ink);stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round}
+
+/* Gallery overlay */
+.gal{position:fixed;inset:0;z-index:50;background-color:var(--paper);background-image:inherit;overflow-y:auto;padding:24px 20px 64px;opacity:0;transform:scale(.97);transition:opacity .25s ease,transform .25s ease}
+.gal[hidden]{display:none}
+.gal.in{opacity:1;transform:none}
+.gal-in{max-width:1000px;margin-inline:auto;display:flex;flex-direction:column;gap:22px}
+.gal-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.gal h2{font-family:var(--display);font-weight:400;font-size:clamp(32px,7vw,48px);line-height:1;margin:0}
+.x{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;background:transparent;color:var(--ink);border:2px solid var(--ink);border-radius:4px;padding:10px 14px;min-height:44px;cursor:pointer}
+.x:focus-visible,.tab:focus-visible,.card:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:2px solid var(--ink);border-radius:999px;padding:8px 14px;min-height:40px;cursor:pointer}
+.tab[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.tab small{font-size:11px;opacity:.7;margin-left:4px}
+.grid{columns:2;column-gap:12px}
+@media (min-width:760px){.grid{columns:3;column-gap:18px}}
+.card{display:block;width:100%;break-inside:avoid;margin:0 0 14px;padding:0;border:0;background:none;text-align:left;cursor:pointer;color:inherit;font:inherit}
+.card img{display:block;width:100%;height:auto;border:2px solid var(--ink);border-radius:4px;background:var(--paper-2);transition:box-shadow .15s ease,transform .15s ease}
+.card:hover img{box-shadow:4px 4px 0 var(--accent);transform:translate(-2px,-2px)}
+.card .cap{display:flex;justify-content:space-between;gap:8px;padding:6px 2px 0;font-family:var(--mono);font-size:12px;letter-spacing:.04em}
+.card .cap span:last-child{color:var(--ink-2);white-space:nowrap}
+.lb{position:fixed;inset:0;z-index:60;background:rgba(10,24,16,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:16px}
+.lb[hidden]{display:none}
+.lb img{max-width:100%;max-height:calc(100vh - 170px);border-radius:3px;object-fit:contain;touch-action:pan-y}
+.lb-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;max-width:900px;color:var(--paper);font-family:var(--mono);font-size:13px;flex-wrap:wrap}
+.lb .x{color:var(--paper);border-color:var(--paper)}
+.lb .nav{display:flex;gap:8px}
+.lb .btn{box-shadow:4px 4px 0 var(--accent);background:var(--paper);color:var(--ink);border-color:var(--paper);font-size:15px;padding:10px 16px;min-height:44px}
+body.locked{overflow:hidden}
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
 
@@ -121,7 +175,66 @@ legend + *{clear:both}
       </svg>
       </span>
     </button>
-    <div class="mono">fieldwork.dylan<br>Project request</div>
+    <button class="door" id="door" type="button" aria-label="Open the gallery" aria-haspopup="dialog">
+      <svg viewBox="0 0 160 132" aria-hidden="true">
+        <path class="dw" d="M14 128V30H146V128"/>
+        <rect class="sign" x="45" y="4" width="70" height="20" rx="2"/>
+        <text class="signt" x="80" y="18.5" text-anchor="middle">GALLERY</text>
+        <path class="hang" d="M59 24V30M101 24V30"/>
+        <rect class="inside" x="30" y="56" width="42" height="72"/>
+        <path class="floor" d="M30 116H72"/>
+        <rect class="art" x="43" y="70" width="22" height="28"/>
+        <path class="art-sky" d="M45.5 72.5H62.5V86H45.5Z"/>
+        <path class="art-rock" d="M45.5 86L52 80L56 83L62.5 78V95.5H45.5Z"/>
+        <circle class="art-moon" cx="50" cy="77" r="1.8"/>
+        <g class="leaf"><path d="M30 56L47 61V123L30 128Z"/><circle cx="43" cy="93" r="1.8"/></g>
+        <path class="frame" d="M30 128V56H72V128"/>
+        <path class="bench" d="M100 109H141"/>
+        <path class="legs" d="M105 112V128M136 112V128"/>
+        <g class="guy" transform="translate(89.2 61.7) scale(.6)">
+<!-- far leg -->
+<path d="M50 72L27 75L25 101" fill="none" stroke="#0F2A1B" stroke-width="13.3" stroke-linejoin="round"/>
+<path d="M50 72L27 75L25 101" fill="none" stroke="#D9B27C" stroke-width="11" stroke-linejoin="round"/>
+<path d="M25 100.5V105" stroke="#0F2A1B" stroke-width="8.7"/><path d="M25 100.5V105" stroke="#F6E3C3" stroke-width="6.4"/>
+<path class="go" fill="#FFF3E0" d="M19.5 104C20 101.5 29.5 101.5 30 104L31 110.5H17C15 110.5 15 107 17.5 106Z"/>
+<path class="gl" d="M16.5 108.6H31"/>
+<!-- torso -->
+<path class="go" fill="#2457D6" d="M41 33C35 35 33 43 33.5 55L34.5 75H61C63.5 63 63 46 58.5 36.5C55 33 46 31.5 41 33Z"/>
+<path class="go" fill="#FFF3E0" d="M42 32.5L47.5 40L53.5 33Z"/>
+<path class="gl" d="M47.5 40V74M51 56H57"/>
+<!-- near leg -->
+<path d="M45 72L22 77L14 102" fill="none" stroke="#0F2A1B" stroke-width="13.3" stroke-linejoin="round"/>
+<path d="M45 72L22 77L14 102" fill="none" stroke="#D9B27C" stroke-width="11" stroke-linejoin="round"/>
+<path class="gl" d="M30 76.5L36 75.5"/>
+<path d="M14.6 100L13.2 104.5" stroke="#0F2A1B" stroke-width="8.7"/><path d="M14.6 100L13.2 104.5" stroke="#F6E3C3" stroke-width="6.4"/>
+<path class="go" fill="#FFF3E0" d="M7.5 104C8 101.5 17.5 101.5 18 104L19 110.5H5C3 110.5 3 107 5.5 106Z"/>
+<path class="gl" d="M4.5 108.6H19M10 103.6L14 105.4M10.5 105.6L14.5 103.6"/>
+<!-- head -->
+<path class="go" fill="#D9976B" d="M45 11C53 10 58 16 58 25C58 33 53 38 47 38C43 38 41 36 40 34L40 31L38 30L39 28L35.5 26L39.5 20C40 15 42 12 45 11Z"/>
+<path fill="#0F2A1B" d="M39.6 30.5C41 35 44 37.6 48 37.6C53 37.6 56.6 33.6 57.4 28C54.4 31.4 50.6 32.6 46.6 31C44.6 30.2 42.8 29.6 39.6 30.5Z"/>
+<ellipse class="go" fill="#D9976B" cx="52" cy="25.5" rx="2.4" ry="3.4"/>
+<circle cx="42.6" cy="23.6" r="1.1" fill="#0F2A1B"/>
+<!-- beanie -->
+<path class="go" fill="#FF5A1F" d="M38.5 18C38.5 8.5 45.5 3.5 50.5 4C56.5 4.5 60 11 59.5 18Z"/>
+<path class="go" fill="#FF5A1F" d="M37.6 16.6H60V21.2H37.6Z"/>
+<!-- upper arm -->
+<path d="M50 38L50.5 57" stroke="#0F2A1B" stroke-width="12.3" stroke-linecap="round"/>
+<path d="M50 38L50.5 57" stroke="#2457D6" stroke-width="10" stroke-linecap="round"/>
+<!-- forearm + mug (sips) -->
+<g>
+<animateTransform attributeName="transform" type="rotate" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.3;0.42;0.7;0.82;1" values="0 50.5 57;0 50.5 57;38 50.5 57;38 50.5 57;0 50.5 57;0 50.5 57" keySplines=".4 0 .2 1;.4 0 .2 1;.4 0 .2 1;.4 0 .2 1;.4 0 .2 1"/>
+<path d="M50.5 57L35 50.5" stroke="#0F2A1B" stroke-width="10.3" stroke-linecap="round"/>
+<path d="M50.5 57L35 50.5" stroke="#2457D6" stroke-width="8" stroke-linecap="round"/>
+<path class="gl" d="M38 49.6L38.8 54.6"/>
+<rect class="go" fill="#FFF3E0" x="24" y="42" width="9.5" height="11" rx="1.6"/>
+<path class="gl" d="M24 45.5H33.5"/>
+<circle class="go" fill="#D9976B" cx="33" cy="49.5" r="3.4"/>
+<path class="gl" d="M27 39.5c-1.6-1.8 1.6-3.6 0-6M30.5 39.5c-1.6-1.8 1.6-3.6 0-6"/>
+</g>
+</g>
+        <path class="ground" d="M2 128H158"/>
+      </svg>
+    </button>
   </header>
 
   <div>
@@ -178,6 +291,137 @@ legend + *{clear:both}
     <span class="mono">fieldwork.dylan</span>
   </footer>
 </main>
+
+<div class="gal" id="gal" role="dialog" aria-modal="true" aria-labelledby="galt" hidden>
+  <div class="gal-in">
+    <div class="gal-top">
+      <h2 id="galt">Gallery</h2>
+      <button class="x" type="button" id="galx">Back outside</button>
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Artwork" hidden>
+  <div class="lb-bar"><span id="lbt"></span><button class="x" type="button" id="lbx">Close</button></div>
+  <img id="lbi" alt="">
+  <div class="lb-bar">
+    <div class="nav"><button class="x" type="button" id="lbp" aria-label="Previous photo">&larr;</button><button class="x" type="button" id="lbn" aria-label="Next photo">&rarr;</button><span id="lbc" style="align-self:center;margin-left:6px"></span></div>
+    <button class="btn" type="button" id="lbgo">Start something like this</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* Each piece: title, category, photo keys (first is the cover). Photos live in img/<key>.jpg and img/<key>-t.jpg */
+  var WORK = [
+    {t:'Platform sofa', c:'furniture', p:['sofa']},
+    {t:'Red rock moon', c:'painting', p:['canyon-1','canyon-2','canyon-3']},
+    {t:'Snake', c:'drawing', p:['snake']},
+    {t:'Scalloped bookshelf', c:'furniture', p:['shelf-1','shelf-2','shelf-3','shelf-4']},
+    {t:'Tower 10', c:'painting', p:['tower']},
+    {t:'Cowboy', c:'drawing', p:['cowboy']},
+    {t:'Wave corner shelf', c:'furniture', p:['corner']},
+    {t:'Rottweiler portrait', c:'painting', p:['dog']},
+    {t:'Stipple portrait and leopard', c:'drawing', p:['stipple']},
+    {t:'Birch nightstand', c:'furniture', p:['night-1','night-2','night-3','night-4','night-5']},
+    {t:'Swimmer', c:'painting', p:['swim']},
+    {t:'Monster', c:'drawing', p:['monster']},
+    {t:'Freeform side table', c:'furniture', p:['freeform']},
+    {t:'Headphones', c:'painting', p:['headphones']},
+    {t:'Fisheye', c:'drawing', p:['fisheye']},
+    {t:'Green field', c:'painting', p:['green']},
+    {t:'Husky', c:'drawing', p:['husky']},
+    {t:'Dusk shoreline', c:'painting', p:['dusk']},
+    {t:'Mouth creature', c:'drawing', p:['mouth']},
+    {t:'Blue house', c:'painting', p:['blue']},
+    {t:'Grin', c:'drawing', p:['grin']},
+    {t:'Red abstract', c:'painting', p:['red']},
+    {t:'Eye mushroom', c:'drawing', p:['eye']},
+    {t:'Seated figure', c:'drawing', p:['seated']},
+    {t:'Tomato study', c:'drawing', p:['tomato']},
+    {t:'Feature studies', c:'drawing', p:['features']}
+  ];
+  var CATS = [['all','All'],['painting','Paintings'],['drawing','Drawings'],['furniture','Woodworking']];
+  var $ = function(id){return document.getElementById(id)};
+  var gal = $('gal'), grid = $('grid'), tabs = $('tabs'), door = $('door'), lb = $('lb');
+  var cat = 'all', piece = null, idx = 0, lastFocus = null;
+
+  CATS.forEach(function(c){
+    var n = c[0] === 'all' ? WORK.length : WORK.filter(function(w){return w.c === c[0]}).length;
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'tab'; b.dataset.c = c[0];
+    b.innerHTML = c[1] + ' <small>' + n + '</small>';
+    b.addEventListener('click', function(){cat = c[0]; render()});
+    tabs.appendChild(b);
+  });
+
+  function render(){
+    tabs.querySelectorAll('.tab').forEach(function(b){b.setAttribute('aria-pressed', b.dataset.c === cat)});
+    grid.textContent = '';
+    WORK.filter(function(w){return cat === 'all' || w.c === cat}).forEach(function(w){
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'card';
+      var im = document.createElement('img'); im.src = 'img/' + w.p[0] + '-t.jpg'; im.alt = w.t; im.loading = 'lazy'; im.width = 480; im.height = 640;
+      var cap = document.createElement('span'); cap.className = 'cap';
+      var a = document.createElement('span'); a.textContent = w.t;
+      var z = document.createElement('span'); z.textContent = w.p.length > 1 ? w.p.length + ' photos' : '';
+      cap.appendChild(a); cap.appendChild(z); b.appendChild(im); b.appendChild(cap);
+      b.addEventListener('click', function(){open(w)});
+      grid.appendChild(b);
+    });
+  }
+
+  function openGal(){
+    lastFocus = document.activeElement;
+    door.classList.add('go');
+    setTimeout(function(){
+      render(); gal.hidden = false; document.body.classList.add('locked');
+      requestAnimationFrame(function(){gal.classList.add('in')});
+      $('galx').focus();
+    }, 320);
+  }
+  function closeGal(){
+    gal.classList.remove('in'); door.classList.remove('go');
+    setTimeout(function(){gal.hidden = true; document.body.classList.remove('locked'); if(lastFocus) lastFocus.focus()}, 220);
+  }
+  door.addEventListener('click', openGal);
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { var ds = door.querySelector('svg'); if (ds.pauseAnimations) ds.pauseAnimations(); }
+  $('galx').addEventListener('click', closeGal);
+
+  function show(){
+    $('lbi').src = 'img/' + piece.p[idx] + '.jpg';
+    $('lbi').alt = piece.t + (piece.p.length > 1 ? ', photo ' + (idx + 1) : '');
+    $('lbt').textContent = piece.t;
+    var multi = piece.p.length > 1;
+    $('lbp').hidden = $('lbn').hidden = !multi;
+    $('lbc').textContent = multi ? (idx + 1) + ' / ' + piece.p.length : '';
+  }
+  function open(w){piece = w; idx = 0; show(); lb.hidden = false; $('lbx').focus()}
+  function step(d){if(!piece || piece.p.length < 2) return; idx = (idx + d + piece.p.length) % piece.p.length; show()}
+  function closeLb(){lb.hidden = true; piece = null}
+  $('lbx').addEventListener('click', closeLb);
+  $('lbp').addEventListener('click', function(){step(-1)});
+  $('lbn').addEventListener('click', function(){step(1)});
+  lb.addEventListener('click', function(e){if(e.target === lb) closeLb()});
+  var sx = null;
+  $('lbi').addEventListener('touchstart', function(e){sx = e.touches[0].clientX}, {passive:true});
+  $('lbi').addEventListener('touchend', function(e){if(sx === null) return; var dx = e.changedTouches[0].clientX - sx; if(Math.abs(dx) > 40) step(dx < 0 ? 1 : -1); sx = null});
+
+  /* "Start something like this": pick the matching project type and drop the piece into the reference field. */
+  $('lbgo').addEventListener('click', function(){
+    var w = piece, r = document.querySelector('input[name=type][value=' + w.c + ']');
+    closeLb(); gal.classList.remove('in'); gal.hidden = true; door.classList.remove('go'); document.body.classList.remove('locked');
+    if(r){r.checked = true; r.dispatchEvent(new Event('change', {bubbles:true}))}
+    var ref = $('q_ref'); if(ref){ref.value = 'Something like your "' + w.t + '" from the gallery'}
+    document.querySelector('fieldset:nth-of-type(2)').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(!lb.hidden){ if(e.key === 'Escape') closeLb(); else if(e.key === 'ArrowRight') step(1); else if(e.key === 'ArrowLeft') step(-1); return }
+    if(!gal.hidden && e.key === 'Escape') closeGal();
+  });
+})();
+</script>
 
 <script>
 (function(){
