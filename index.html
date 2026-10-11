@@ -101,39 +101,31 @@ legend + *{clear:both}
 .addr{font-family:var(--mono);font-size:14px;overflow-wrap:anywhere;user-select:all}
 .note{color:var(--ink-2);font-size:14px;margin:0}
 .foot{border-top:2px dashed var(--line);padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-/* Gallery door: a little storefront off to the side of the header. */
-.top{align-items:flex-end;flex-wrap:nowrap}
-@media (max-width:420px){.stamp svg{width:124px}.door svg{width:142px}.top{gap:10px}}
-.door{padding:0;border:0;background:none;cursor:pointer;transform:rotate(1.5deg);margin-right:4px;-webkit-tap-highlight-color:transparent}
-.door svg{width:148px;height:auto;display:block;overflow:visible}
-.door:focus-visible{outline:3px solid var(--blue);outline-offset:4px;border-radius:6px}
-.door .dw{fill:var(--paper-2);stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
-.door .sign{fill:var(--ink)}
-.door .signt{font-family:var(--display);font-size:11px;letter-spacing:.08em;fill:var(--paper)}
-.door .hang{stroke:var(--ink);stroke-width:2}
-.door .inside{fill:#FFE7C2}
-.door .floor{stroke:#E8C995;stroke-width:1.5}
-.door .art{fill:#C98A4B;stroke:var(--ink);stroke-width:1.2}
-.door .art-sky{fill:var(--blue)} .door .art-rock{fill:var(--accent)} .door .art-moon{fill:var(--paper)}
-.door .leaf path{fill:var(--blue);stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
-.door .leaf circle{fill:var(--paper)}
-.door .leaf{transform-box:view-box;transform-origin:30px 92px;transition:transform .35s ease}
-.door .frame{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
-.door .bench{stroke:#C98A4B;stroke-width:6;stroke-linecap:round}
-.door .legs{stroke:var(--ink);stroke-width:2.5;stroke-linecap:round}
-.door .ground{stroke:var(--ink);stroke-width:2.5;stroke-linecap:round}
-.door:hover .leaf,.door.go .leaf{transform:scaleX(.45)}
-/* Someone on the bench, sipping coffee every few seconds (SMIL, paused for reduced motion). */
-.door .go{stroke:var(--ink);stroke-width:1.15;stroke-linejoin:round;stroke-linecap:round}
-.door .gl{fill:none;stroke:var(--ink);stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round}
+
+/* Gallery book: an upright spine beside the logo; tapping pulls the book out and opens it to the album. */
+.top{align-items:flex-end}
+.door{padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-right:6px}
+.door svg{width:34px;height:auto;display:block}
+.door:focus-visible{outline:3px solid var(--blue);outline-offset:4px;border-radius:4px}
+.bookfx{position:fixed;inset:0;z-index:55;background:var(--blue);display:flex;align-items:center;justify-content:center;perspective:1600px;opacity:0}
+.bookfx[hidden]{display:none}
+.bk{position:relative;width:min(70vw,360px);aspect-ratio:3/4;transform-style:preserve-3d}
+.bk-page{position:absolute;inset:0;overflow:hidden;border-radius:6px 10px 10px 6px;background:#FFFBF2}
+.bk-page > .gal-in{position:absolute;left:0;top:0;margin:0;max-width:none;transform-origin:0 0}
+.bk-cover{position:absolute;inset:-6px -6px -6px 0;background:var(--blue);border:2.5px solid var(--ink);border-radius:4px 10px 10px 4px;transform-origin:0 50%;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;box-shadow:inset 14px 0 0 rgba(15,42,27,.25)}
+.bk-cover .bk-band{position:absolute;left:0;right:0;height:16px;background:var(--accent);border-block:2px solid var(--ink)}
+.bk-cover .bk-logo{width:62%;padding:12px 14px;background:var(--paper);border:2.5px solid var(--ink);border-radius:6px;transform:rotate(-2deg)}
+.bk-cover .bk-logo svg{width:100%;height:auto;display:block;overflow:visible}
+.bk-cover .bk-t{font-family:var(--display);font-size:18px;letter-spacing:.14em;color:var(--paper)}
+
 
 /* Gallery overlay */
-.gal{position:fixed;inset:0;z-index:50;background-color:var(--paper);background-image:inherit;overflow-y:auto;padding:24px 20px 64px;opacity:0;transform:scale(.97);transition:opacity .25s ease,transform .25s ease}
+.gal{position:fixed;inset:0;z-index:50;background-color:var(--blue);overflow-y:auto;padding:24px 20px 64px;opacity:0;transform:scale(.97);transition:opacity .25s ease,transform .25s ease}
 .gal[hidden]{display:none}
 .gal.in{opacity:1;transform:none}
-.gal-in{max-width:1000px;margin-inline:auto;display:flex;flex-direction:column;gap:22px}
+.gal-in{max-width:1000px;margin-inline:auto;display:flex;flex-direction:column;gap:22px;background:#FFFBF2;border:2.5px solid var(--ink);border-radius:6px 10px 10px 6px;padding:24px 20px 28px 30px;box-shadow:inset 12px 0 0 #F0E2C6, 6px 6px 0 var(--ink)}
 .gal-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.gal h2{font-family:var(--display);font-weight:400;font-size:clamp(32px,7vw,48px);line-height:1;margin:0}
+.gal h2,.gal-in h2{font-family:var(--display);font-weight:400;font-size:clamp(32px,7vw,48px);line-height:1;margin:0}
 .x{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;background:transparent;color:var(--ink);border:2px solid var(--ink);border-radius:4px;padding:10px 14px;min-height:44px;cursor:pointer}
 .x:focus-visible,.tab:focus-visible,.card:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
 .tabs{display:flex;gap:8px;flex-wrap:wrap}
@@ -142,9 +134,12 @@ legend + *{clear:both}
 .tab small{font-size:11px;opacity:.7;margin-left:4px}
 .grid{columns:2;column-gap:12px}
 @media (min-width:760px){.grid{columns:3;column-gap:18px}}
-.card{display:block;width:100%;break-inside:avoid;margin:0 0 14px;padding:0;border:0;background:none;text-align:left;cursor:pointer;color:inherit;font:inherit}
+.card{position:relative;display:block;width:100%;break-inside:avoid;margin:0 0 16px;padding:0;border:0;background:none;text-align:left;cursor:pointer;color:inherit;font:inherit}
 .card img{display:block;width:100%;height:auto;border:2px solid var(--ink);border-radius:4px;background:var(--paper-2);transition:box-shadow .15s ease,transform .15s ease}
 .card:hover img{box-shadow:4px 4px 0 var(--accent);transform:translate(-2px,-2px)}
+.card::before,.card::after{content:'';position:absolute;top:-5px;width:16px;height:16px;background:var(--ink);z-index:1;pointer-events:none}
+.card::before{left:-5px;clip-path:polygon(0 0,100% 0,0 100%)}
+.card::after{right:-5px;clip-path:polygon(0 0,100% 0,100% 100%)}
 .card .cap{display:flex;justify-content:space-between;gap:8px;padding:6px 2px 0;font-family:var(--mono);font-size:12px;letter-spacing:.04em}
 .card .cap span:last-child{color:var(--ink-2);white-space:nowrap}
 .lb{position:fixed;inset:0;z-index:60;background:rgba(10,24,16,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:16px}
@@ -155,6 +150,27 @@ legend + *{clear:both}
 .lb .nav{display:flex;gap:8px}
 .lb .btn{box-shadow:4px 4px 0 var(--accent);background:var(--paper);color:var(--ink);border-color:var(--paper);font-size:15px;padding:10px 16px;min-height:44px}
 body.locked{overflow:hidden}
+/* Send animation: the screen folds into a letter over blue, goes in an envelope, gets licked, sealed and mailed. */
+.fold{position:fixed;inset:0;z-index:70;background:var(--blue);overflow:hidden}
+.fold[hidden]{display:none}
+.fold > *{position:absolute}
+.ftravel{inset:0}
+.ftravel > *{position:absolute}
+.fstack{left:0;top:0;perspective:1800px}
+.fp{position:absolute;left:0;width:100%;transform-style:preserve-3d}
+.fface,.fback{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.fface{background-color:var(--paper)}
+.fback{background:#FFFBF2;transform:rotateX(180deg);box-shadow:inset 0 0 0 3px #0F2A1B}
+.fface > main{position:absolute;margin:0}
+.feback,.fefront,.ftongue,.fbox{overflow:visible}
+.ftongue{left:0;top:0;transform-origin:0 50%}
+.fmsg{left:20px;right:20px;top:9%;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;color:var(--paper);opacity:0}
+.fmsg h2{font-family:var(--display);font-weight:400;font-size:clamp(32px,8vw,56px);margin:0;line-height:1.05}
+.fmsg p{margin:0;max-width:40ch;color:var(--paper);opacity:.9}
+.fmsg .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.fold svg g{transform-box:view-box}
+
+
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
 
@@ -176,63 +192,14 @@ body.locked{overflow:hidden}
       </span>
     </button>
     <button class="door" id="door" type="button" aria-label="Open the gallery" aria-haspopup="dialog">
-      <svg viewBox="0 0 160 132" aria-hidden="true">
-        <path class="dw" d="M14 128V30H146V128"/>
-        <rect class="sign" x="45" y="4" width="70" height="20" rx="2"/>
-        <text class="signt" x="80" y="18.5" text-anchor="middle">GALLERY</text>
-        <path class="hang" d="M59 24V30M101 24V30"/>
-        <rect class="inside" x="30" y="56" width="42" height="72"/>
-        <path class="floor" d="M30 116H72"/>
-        <rect class="art" x="43" y="70" width="22" height="28"/>
-        <path class="art-sky" d="M45.5 72.5H62.5V86H45.5Z"/>
-        <path class="art-rock" d="M45.5 86L52 80L56 83L62.5 78V95.5H45.5Z"/>
-        <circle class="art-moon" cx="50" cy="77" r="1.8"/>
-        <g class="leaf"><path d="M30 56L47 61V123L30 128Z"/><circle cx="43" cy="93" r="1.8"/></g>
-        <path class="frame" d="M30 128V56H72V128"/>
-        <path class="bench" d="M100 109H141"/>
-        <path class="legs" d="M105 112V128M136 112V128"/>
-        <g class="guy" transform="translate(89.2 61.7) scale(.6)">
-<!-- far leg -->
-<path d="M50 72L27 75L25 101" fill="none" stroke="#0F2A1B" stroke-width="13.3" stroke-linejoin="round"/>
-<path d="M50 72L27 75L25 101" fill="none" stroke="#D9B27C" stroke-width="11" stroke-linejoin="round"/>
-<path d="M25 100.5V105" stroke="#0F2A1B" stroke-width="8.7"/><path d="M25 100.5V105" stroke="#F6E3C3" stroke-width="6.4"/>
-<path class="go" fill="#FFF3E0" d="M19.5 104C20 101.5 29.5 101.5 30 104L31 110.5H17C15 110.5 15 107 17.5 106Z"/>
-<path class="gl" d="M16.5 108.6H31"/>
-<!-- torso -->
-<path class="go" fill="#2457D6" d="M41 33C35 35 33 43 33.5 55L34.5 75H61C63.5 63 63 46 58.5 36.5C55 33 46 31.5 41 33Z"/>
-<path class="go" fill="#FFF3E0" d="M42 32.5L47.5 40L53.5 33Z"/>
-<path class="gl" d="M47.5 40V74M51 56H57"/>
-<!-- near leg -->
-<path d="M45 72L22 77L14 102" fill="none" stroke="#0F2A1B" stroke-width="13.3" stroke-linejoin="round"/>
-<path d="M45 72L22 77L14 102" fill="none" stroke="#D9B27C" stroke-width="11" stroke-linejoin="round"/>
-<path class="gl" d="M30 76.5L36 75.5"/>
-<path d="M14.6 100L13.2 104.5" stroke="#0F2A1B" stroke-width="8.7"/><path d="M14.6 100L13.2 104.5" stroke="#F6E3C3" stroke-width="6.4"/>
-<path class="go" fill="#FFF3E0" d="M7.5 104C8 101.5 17.5 101.5 18 104L19 110.5H5C3 110.5 3 107 5.5 106Z"/>
-<path class="gl" d="M4.5 108.6H19M10 103.6L14 105.4M10.5 105.6L14.5 103.6"/>
-<!-- head -->
-<path class="go" fill="#D9976B" d="M45 11C53 10 58 16 58 25C58 33 53 38 47 38C43 38 41 36 40 34L40 31L38 30L39 28L35.5 26L39.5 20C40 15 42 12 45 11Z"/>
-<path fill="#0F2A1B" d="M39.6 30.5C41 35 44 37.6 48 37.6C53 37.6 56.6 33.6 57.4 28C54.4 31.4 50.6 32.6 46.6 31C44.6 30.2 42.8 29.6 39.6 30.5Z"/>
-<ellipse class="go" fill="#D9976B" cx="52" cy="25.5" rx="2.4" ry="3.4"/>
-<circle cx="42.6" cy="23.6" r="1.1" fill="#0F2A1B"/>
-<!-- beanie -->
-<path class="go" fill="#FF5A1F" d="M38.5 18C38.5 8.5 45.5 3.5 50.5 4C56.5 4.5 60 11 59.5 18Z"/>
-<path class="go" fill="#FF5A1F" d="M37.6 16.6H60V21.2H37.6Z"/>
-<!-- upper arm -->
-<path d="M50 38L50.5 57" stroke="#0F2A1B" stroke-width="12.3" stroke-linecap="round"/>
-<path d="M50 38L50.5 57" stroke="#2457D6" stroke-width="10" stroke-linecap="round"/>
-<!-- forearm + mug (sips) -->
-<g>
-<animateTransform attributeName="transform" type="rotate" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.3;0.42;0.7;0.82;1" values="0 50.5 57;0 50.5 57;38 50.5 57;38 50.5 57;0 50.5 57;0 50.5 57" keySplines=".4 0 .2 1;.4 0 .2 1;.4 0 .2 1;.4 0 .2 1;.4 0 .2 1"/>
-<path d="M50.5 57L35 50.5" stroke="#0F2A1B" stroke-width="10.3" stroke-linecap="round"/>
-<path d="M50.5 57L35 50.5" stroke="#2457D6" stroke-width="8" stroke-linecap="round"/>
-<path class="gl" d="M38 49.6L38.8 54.6"/>
-<rect class="go" fill="#FFF3E0" x="24" y="42" width="9.5" height="11" rx="1.6"/>
-<path class="gl" d="M24 45.5H33.5"/>
-<circle class="go" fill="#D9976B" cx="33" cy="49.5" r="3.4"/>
-<path class="gl" d="M27 39.5c-1.6-1.8 1.6-3.6 0-6M30.5 39.5c-1.6-1.8 1.6-3.6 0-6"/>
-</g>
-</g>
-        <path class="ground" d="M2 128H158"/>
+      <svg viewBox="0 0 38 128" aria-hidden="true">
+        <!-- bands sized by how much of each color the site uses (cream background excluded): orange 3.1%, blue 9.5%, ink 87.4% -->
+        <defs><clipPath id="spclip"><rect width="38" height="128" rx="2.5"/></clipPath></defs>
+        <g clip-path="url(#spclip)">
+          <rect y="0" width="38" height="3.97" fill="#FF5A1F"/>
+          <rect y="3.97" width="38" height="12.16" fill="#2457D6"/>
+          <rect y="16.13" width="38" height="111.87" fill="#0F2A1B"/>
+        </g>
       </svg>
     </button>
   </header>
@@ -292,11 +259,61 @@ body.locked{overflow:hidden}
   </footer>
 </main>
 
+<div class="fold" id="post" role="status" aria-live="polite" hidden>
+  <svg class="fbox" id="fboxback" viewBox="0 0 300 200" aria-hidden="true">
+    <path d="M0 170V64C0 38 12 20 28 20V170Z" fill="#0A1810" stroke="#0F2A1B" stroke-width="2.4" stroke-linejoin="round"/>
+  </svg>
+  <div class="ftravel" id="ftravel">
+    <svg class="feback" id="feback" viewBox="0 0 150 90" aria-hidden="true"><g id="fflapb"><path d="M1.5 1.5L75-50L148.5 1.5Z" fill="#E8CFA4" stroke="#0F2A1B" stroke-width="2.4" stroke-linejoin="round"/></g><rect x="1.5" y="1.5" width="147" height="87" rx="3" fill="#EFD9B4" stroke="#0F2A1B" stroke-width="2.4"/></svg>
+    <div class="fstack" id="fstack"></div>
+    <svg class="fefront" id="fefront" viewBox="0 0 150 90" aria-hidden="true">
+      <path d="M1.5 88.5V14L75 56L148.5 14V88.5Z" fill="#F6E3C3" stroke="#0F2A1B" stroke-width="2.4" stroke-linejoin="round"/>
+      <g id="fflap"><path d="M1.5 1.5L75-50L148.5 1.5Z" fill="#E8CFA4" stroke="#0F2A1B" stroke-width="2.4" stroke-linejoin="round"/></g>
+      <circle id="fseal" cx="75" cy="47" r="9" fill="#FF5A1F" stroke="#0F2A1B" stroke-width="2.2" opacity="0"/>
+    </svg>
+  </div>
+  <svg class="ftongue" id="ftongue" viewBox="0 0 300 100" aria-hidden="true">
+    <path d="M2 50C2 16 40 6 92 10L320 14V86L92 90C40 94 2 84 2 50Z" fill="#F2899A" stroke="#0F2A1B" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M28 50C70 47 130 49 210 50" fill="none" stroke="#C9566B" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M60 30C70 28 80 29 88 31M70 70C80 72 90 71 98 69" fill="none" stroke="#F7B0BC" stroke-width="3" stroke-linecap="round"/>
+  </svg>
+  <svg class="fbox" id="fbox" viewBox="0 0 300 200" aria-hidden="true">
+    <rect x="140" y="168" width="30" height="400" fill="#C98A4B" stroke="#0F2A1B" stroke-width="2.4"/>
+    <path d="M28 20H340V170H28Z" fill="#FFF3E0" stroke="#0F2A1B" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M28 20V170" stroke="#0F2A1B" stroke-width="2.4"/>
+    <text x="168" y="112" font-family="'Archivo Black','Arial Black',sans-serif" font-size="34" fill="#0F2A1B">FW<tspan fill="#FF5A1F">.</tspan><tspan fill="#2457D6">D</tspan></text>
+    <path d="M0 170H28L20 252H-8Z" fill="#E8CFA4" stroke="#0F2A1B" stroke-width="2.4" stroke-linejoin="round"/>
+    <g id="fflag"><path d="M110 122V34" stroke="#0F2A1B" stroke-width="3.2" stroke-linecap="round"/><rect x="110" y="28" width="40" height="24" rx="2" fill="#FF5A1F" stroke="#0F2A1B" stroke-width="2.4"/><circle cx="110" cy="122" r="4" fill="#FFF3E0" stroke="#0F2A1B" stroke-width="2.4"/></g>
+  </svg>
+  <div class="fmsg" id="fmsg">
+    <h2>It's on its way!</h2>
+    <p id="postmsg"></p>
+    <button class="btn" type="button" id="postagain">Send another</button>
+  </div>
+</div>
+
+<div class="bookfx" id="bookfx" aria-hidden="true" hidden>
+  <div class="bk" id="bk">
+    <div class="bk-page"></div>
+    <div class="bk-cover" id="bkcover">
+      <span class="bk-band" style="top:22px"></span><span class="bk-band" style="bottom:22px"></span>
+      <div class="bk-logo"><svg viewBox="-14 -24 352 180" aria-hidden="true">
+        <g class="lg">
+          <path class="lf" d="M0 20H70V50H34V68H60V96H34V140H0Z"></path>
+          <path class="lf" transform="translate(6 0)" d="M64 20H98L106 88L114 20H142L150 88L158 20H192L170 140H138L128 78L118 140H86Z"></path>
+          <circle class="ldot" cx="190" cy="125" r="15"></circle>
+          <g transform="translate(202 0)"><g class="swing"><path class="ld" fill-rule="evenodd" d="M0 20H42C70 20 84 44 84 80C84 116 70 140 42 140H0ZM32 50H42C50 50 54 62 54 80C54 98 50 110 42 110H32Z"></path></g></g>
+        </g>
+      </svg></div>
+      <div class="bk-t">GALLERY</div>
+    </div>
+  </div>
+</div>
 <div class="gal" id="gal" role="dialog" aria-modal="true" aria-labelledby="galt" hidden>
   <div class="gal-in">
     <div class="gal-top">
       <h2 id="galt">Gallery</h2>
-      <button class="x" type="button" id="galx">Back outside</button>
+      <button class="x" type="button" id="galx">Close book</button>
     </div>
     <div class="tabs" id="tabs"></div>
     <div class="grid" id="grid"></div>
@@ -373,19 +390,59 @@ body.locked{overflow:hidden}
 
   function openGal(){
     lastFocus = document.activeElement;
-    door.classList.add('go');
-    setTimeout(function(){
-      render(); gal.hidden = false; document.body.classList.add('locked');
-      requestAnimationFrame(function(){gal.classList.add('in')});
-      $('galx').focus();
-    }, 320);
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    render();
+    if (reduce || !document.body.animate) {
+      gal.hidden = false; document.body.classList.add('locked');
+      requestAnimationFrame(function(){gal.classList.add('in')}); $('galx').focus({preventScroll:true}); return;
+    }
+    var fx = $('bookfx'), bk = $('bk'), cover = $('bkcover'), page = bk.querySelector('.bk-page');
+    document.body.classList.add('locked');
+    // lay out the real gallery invisibly to learn where its page sits
+    gal.style.transition = 'none'; gal.style.visibility = 'hidden'; gal.hidden = false; gal.scrollTop = 0; gal.classList.add('in');
+    var gi = gal.querySelector('.gal-in'), T = gi.getBoundingClientRect();
+    var tH = Math.min(T.height, window.innerHeight - T.top);
+    // the book's page shows the same album page, shrunk to fit
+    page.textContent = '';
+    var mini = gi.cloneNode(true); mini.querySelectorAll('[id]').forEach(function(n){ n.removeAttribute('id'); }); mini.removeAttribute('id');
+    mini.querySelectorAll('img').forEach(function(im){ im.loading = 'eager'; });
+    mini.style.width = T.width + 'px';
+    page.appendChild(mini);
+    fx.hidden = false;
+    bk.style.cssText = '';
+    var B = bk.getBoundingClientRect(), s0 = B.width / T.width;
+    mini.style.transform = 'scale(' + s0 + ')';
+    var r = door.getBoundingClientRect();
+    var dx = (r.left + r.width / 2) - (B.left + B.width / 2), dy = (r.top + r.height / 2) - (B.top + B.height / 2), sc = r.height / B.height;
+    fx.animate([{opacity:0}, {opacity:1}], {duration:250, fill:'forwards'});
+    bk.animate([{transform:'translate(' + dx + 'px,' + dy + 'px) scale(' + sc + ') rotateY(80deg)'}, {transform:'none'}], {duration:600, easing:'cubic-bezier(.2,.8,.2,1)'}).finished
+      .then(function(){ return cover.animate([{transform:'rotateY(0)'}, {transform:'rotateY(-165deg)'}], {duration:700, easing:'cubic-bezier(.5,0,.3,1)', fill:'forwards'}).finished; })
+      .then(function(){
+        // grow the open page into the full gallery page using transform only (no layout per frame)
+        var Hc = Math.max(tH, B.height / s0);
+        var grow = document.createElement('div');
+        grow.style.cssText = 'position:fixed;left:' + T.left + 'px;top:' + T.top + 'px;width:' + T.width + 'px;height:' + Hc + 'px;overflow:hidden;border-radius:6px 10px 10px 6px;transform-origin:0 0;will-change:transform,clip-path;z-index:2';
+        mini.style.transform = 'none'; mini.getAnimations().forEach(function(a){ a.cancel(); });
+        grow.appendChild(mini); fx.appendChild(grow);
+        bk.style.visibility = 'hidden';
+        var from = 'translate(' + (B.left - T.left) + 'px,' + (B.top - T.top) + 'px) scale(' + s0 + ')';
+        var ga = grow.animate([{transform:from, clipPath:'inset(0 0 ' + (Hc - B.height / s0) + 'px 0 round 6px)'}, {transform:'none', clipPath:'inset(0 0 ' + (Hc - tH) + 'px 0 round 6px)'}], {duration:600, easing:'cubic-bezier(.5,0,.2,1)', fill:'forwards'});
+        return ga.finished.then(function(){ return grow; });
+      })
+      .then(function(grow){
+        gal.style.visibility = ''; fx.hidden = true; fx.style.opacity = '';
+        [fx, bk, cover].forEach(function(n){ n.getAnimations().forEach(function(a){ a.cancel(); }); });
+        if (grow) grow.remove();
+        bk.style.cssText = ''; page.textContent = '';
+        requestAnimationFrame(function(){ gal.style.transition = ''; });
+        $('galx').focus({preventScroll:true});
+      });
   }
   function closeGal(){
-    gal.classList.remove('in'); door.classList.remove('go');
-    setTimeout(function(){gal.hidden = true; document.body.classList.remove('locked'); if(lastFocus) lastFocus.focus()}, 220);
+    gal.classList.remove('in');
+    setTimeout(function(){gal.hidden = true; document.body.classList.remove('locked'); if(lastFocus) lastFocus.focus({preventScroll:true})}, 220);
   }
   door.addEventListener('click', openGal);
-  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { var ds = door.querySelector('svg'); if (ds.pauseAnimations) ds.pauseAnimations(); }
   $('galx').addEventListener('click', closeGal);
 
   function show(){
@@ -514,10 +571,11 @@ body.locked{overflow:hidden}
       .then(function(r){return r.json().catch(function(){return {}}).then(function(d){return {ok:r.ok, d:d}})})
       .then(function(x){
         if(!x.ok || (x.d && x.d.success === 'false')){throw new Error((x.d && x.d.message) ? x.d.message : ('HTTP ' + (x.ok ? 'ok' : 'error')))}
-        $('f').hidden = true;
-        $('donemsg').textContent = 'Thanks ' + val('name').split(' ')[0] + ', I look forward to working with you. I will reply to ' + val('email') + ' soon, and a confirmation is on its way to your inbox.';
-        $('done').hidden = false;
-        $('done').scrollIntoView({behavior:'smooth', block:'start'});
+        var thanks = 'Thanks ' + val('name').split(' ')[0] + ', I look forward to working with you. I will reply to ' + val('email') + ' soon, and a confirmation is on its way to your inbox.';
+        if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          $('f').hidden = true; $('donemsg').textContent = thanks; $('done').hidden = false;
+          $('done').scrollIntoView({behavior:'smooth', block:'start'});
+        } else { playSend(thanks); }
       })
       .catch(function(e){
         btn.disabled = false; btn.textContent = 'Send my request';
@@ -529,6 +587,89 @@ body.locked{overflow:hidden}
       });
   });
 
+
+  /* Fold the actual screen into a letter over blue, envelope it, lick, seal, and shove it in the mailbox. */
+  function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+  function anim(el, frames, opts){ return el.animate(frames, Object.assign({fill:'forwards', easing:'ease-in-out'}, opts)).finished; }
+  var sending = false;
+  async function playSend(msg){
+    if (sending) return; sending = true;
+    var post = $('post'), main = document.querySelector('main.sheet');
+    var W = window.innerWidth, H = window.innerHeight, third = H / 3;
+    var mr = main.getBoundingClientRect();
+    var bg = getComputedStyle(document.body).backgroundImage;
+    // three paper panels, each showing its third of the current screen
+    var stack = $('fstack'); stack.textContent = ''; stack.style.width = W + 'px'; stack.style.height = H + 'px';
+    var srcFields = main.querySelectorAll('input,textarea,select');
+    function panel(i){
+      var fp = document.createElement('div'); fp.className = 'fp'; fp.style.top = (i * third) + 'px'; fp.style.height = third + 'px';
+      var face = document.createElement('div'); face.className = 'fface'; face.style.backgroundImage = bg;
+      var c = main.cloneNode(true); c.removeAttribute('id'); c.querySelectorAll('[id]').forEach(function(n){ n.removeAttribute('id'); });
+      c.querySelectorAll('input,textarea,select').forEach(function(n, k){ var o = srcFields[k]; if (!o) return; if (o.type === 'radio' || o.type === 'checkbox') n.checked = o.checked; else n.value = o.value; });
+      c.style.left = mr.left + 'px'; c.style.top = (mr.top - i * third) + 'px'; c.style.width = mr.width + 'px';
+      face.appendChild(c);
+      var back = document.createElement('div'); back.className = 'fback';
+      fp.appendChild(face); fp.appendChild(back); return fp;
+    }
+    var mid = panel(1), bot = panel(2), top = panel(0);
+    stack.appendChild(mid); stack.appendChild(bot); stack.appendChild(top);
+    // envelope geometry
+    var E = Math.min(W * 0.86, 560), eh = E * 0.6, ecx = W / 2, ecy = H * 0.56, el = ecx - E / 2, et = ecy - eh / 2;
+    [$('feback'), $('fefront')].forEach(function(s){ s.style.left = el + 'px'; s.style.top = et + 'px'; s.style.width = E + 'px'; s.style.height = eh + 'px'; s.style.transform = 'translateY(' + (H - et + eh + 40) + 'px)'; });
+    var flap = $('fflap'), seal = $('fseal');
+    var flapb = $('fflapb'); flapb.style.transformOrigin = '75px 1.5px'; flapb.style.transform = '';
+    flap.style.transformOrigin = '75px 1.5px'; flap.style.transform = 'scaleY(0)'; seal.style.opacity = 0; seal.style.transform = '';
+    var tg = $('ftongue'), th = E * 0.44; tg.style.height = th + 'px'; tg.style.width = th * 3 + 'px'; tg.style.transform = 'translate(' + (W + 40) + 'px,' + (et - th) + 'px)';
+    var box = $('fbox'), boxb = $('fboxback'), sEnv = Math.min(0.9, (W * 0.55) / E), Hm = sEnv * E;
+    var bl = W * 0.6, bt = ecy - 0.475 * Hm;
+    [box, boxb].forEach(function(b){ b.style.height = Hm + 'px'; b.style.width = Hm * 1.5 + 'px'; b.style.left = bl + 'px'; b.style.top = bt + 'px'; b.style.transform = 'translateX(' + (W - bl + 60) + 'px)'; });
+    var flag = $('fflag'); flag.style.transformOrigin = '110px 122px'; flag.style.transform = 'rotate(-90deg)';
+    var travel = $('ftravel'); travel.style.transform = ''; travel.style.transformOrigin = ecx + 'px ' + ecy + 'px';
+    stack.style.transform = ''; stack.style.transformOrigin = (W / 2) + 'px ' + (H / 2) + 'px';
+    $('postmsg').textContent = msg; $('fmsg').style.opacity = 0;
+    post.hidden = false; document.body.classList.add('locked'); main.style.visibility = 'hidden';
+
+    // 1. fold the screen into thirds
+    bot.style.transformOrigin = '50% 0'; top.style.transformOrigin = '50% 100%';
+    await anim(bot, [{transform:'rotateX(0)'}, {transform:'rotateX(180deg)'}], {duration:650});
+    await anim(top, [{transform:'rotateX(0)'}, {transform:'rotateX(-180deg)'}], {duration:650});
+    // 2. letter shrinks while the envelope rises
+    var sL = Math.min(E * 0.88 / W, (eh * 0.78) / third), lcy = et + eh * 0.36;
+    anim(stack, [{transform:'none'}, {transform:'translate(' + (ecx - W / 2) + 'px,' + (lcy - H / 2) + 'px) scale(' + sL + ')'}], {duration:600, easing:'cubic-bezier(.2,.8,.2,1)'});
+    await wait(250);
+    [$('feback'), $('fefront')].forEach(function(s){ anim(s, [{transform:s.style.transform}, {transform:'none'}], {duration:550, easing:'cubic-bezier(.2,.8,.2,1)'}); });
+    await wait(650);
+    // 3. letter drops in
+    await anim(stack, [{transform:'translate(' + (ecx - W / 2) + 'px,' + (lcy - H / 2) + 'px) scale(' + sL + ')'}, {transform:'translate(' + (ecx - W / 2) + 'px,' + (lcy + eh * 0.22 - H / 2) + 'px) scale(' + sL + ')'}], {duration:350, easing:'ease-in'});
+    // 4. the big tongue licks the flap
+    var apexY = et - eh * (51.5 / 90);
+    function tp(x, y, r){ return {transform:'translate(' + x + 'px,' + (y - th / 2) + 'px) rotate(' + r + 'deg)'}; }
+    await anim(tg, [tp(W + 40, et - th, -12), tp(el + E, et, -22), tp(ecx, apexY, -4), tp(ecx - E * 0.22, et - (et - apexY) * 0.45, 16), tp(ecx + E * 0.05, apexY + 4, 0), tp(W + 40, et - th, -12)], {duration:1500});
+    // 5. flap closes, seal pops
+    await anim(flapb, [{transform:'scaleY(1)'}, {transform:'scaleY(0)'}], {duration:210, easing:'ease-in'});
+    await anim(flap, [{transform:'scaleY(0)'}, {transform:'scaleY(-1)'}], {duration:210, easing:'ease-out'});
+    await anim(seal, [{opacity:0, transform:'scale(0)', transformOrigin:'75px 47px'}, {opacity:1, transform:'scale(1)', transformOrigin:'75px 47px'}], {duration:300, easing:'cubic-bezier(.3,1.6,.5,1)'});
+    // 6. envelope shrinks aside, the mailbox slides in, envelope gets shoved in
+    var c1 = W * 0.3;
+    await anim(travel, [{transform:'none'}, {transform:'translate(' + (c1 - ecx) + 'px,0) scale(' + sEnv + ')'}], {duration:500});
+    anim(boxb, [{transform:boxb.style.transform}, {transform:'none'}], {duration:550, easing:'cubic-bezier(.2,.8,.2,1)'});
+    await anim(box, [{transform:box.style.transform}, {transform:'none'}], {duration:550, easing:'cubic-bezier(.2,.8,.2,1)'});
+    var openR = bl + 0.14 * Hm, half = E * sEnv / 2;
+    await anim(travel, [{transform:'translate(' + (c1 - ecx) + 'px,0) scale(' + sEnv + ')'}, {transform:'translate(' + (bl - half + 4 - ecx) + 'px,0) scale(' + sEnv + ')'}], {duration:380});
+    await wait(120);
+    await anim(travel, [{transform:'translate(' + (bl - half + 4 - ecx) + 'px,0) scale(' + sEnv + ')'}, {transform:'translate(' + (openR + half + 12 - ecx) + 'px,0) scale(' + sEnv + ')'}], {duration:320, easing:'cubic-bezier(.6,0,.9,.4)'});
+    // 7. flag up, message
+    await anim(flag, [{transform:'rotate(-90deg)'}, {transform:'rotate(0)'}], {duration:420, easing:'cubic-bezier(.3,1.6,.5,1)'});
+    await anim($('fmsg'), [{opacity:0, transform:'translateY(10px)'}, {opacity:1, transform:'none'}], {duration:450});
+    $('postagain').focus({preventScroll:true});
+    sending = false;
+  }
+  $('postagain').addEventListener('click', function(){
+    var post = $('post'), main = document.querySelector('main.sheet');
+    post.hidden = true; $('fstack').textContent = ''; main.style.visibility = ''; document.body.classList.remove('locked');
+    post.querySelectorAll('*').forEach(function(n){ if (n.getAnimations) n.getAnimations().forEach(function(a){ a.cancel(); }); });
+    $('again').click();
+  });
   $('again').addEventListener('click', function(){
     $('done').hidden = true; $('f').hidden = false; $('f').reset(); current = null;
     document.querySelectorAll('.tile').forEach(function(t){t.classList.remove('on')});
