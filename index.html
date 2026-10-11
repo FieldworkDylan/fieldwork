@@ -137,9 +137,6 @@ legend + *{clear:both}
 .card{position:relative;display:block;width:100%;break-inside:avoid;margin:0 0 16px;padding:0;border:0;background:none;text-align:left;cursor:pointer;color:inherit;font:inherit}
 .card img{display:block;width:100%;height:auto;border:2px solid var(--ink);border-radius:4px;background:var(--paper-2);transition:box-shadow .15s ease,transform .15s ease}
 .card:hover img{box-shadow:4px 4px 0 var(--accent);transform:translate(-2px,-2px)}
-.card::before,.card::after{content:'';position:absolute;top:-5px;width:16px;height:16px;background:var(--ink);z-index:1;pointer-events:none}
-.card::before{left:-5px;clip-path:polygon(0 0,100% 0,0 100%)}
-.card::after{right:-5px;clip-path:polygon(0 0,100% 0,100% 100%)}
 .card .cap{display:flex;justify-content:space-between;gap:8px;padding:6px 2px 0;font-family:var(--mono);font-size:12px;letter-spacing:.04em}
 .card .cap span:last-child{color:var(--ink-2);white-space:nowrap}
 .lb{position:fixed;inset:0;z-index:60;background:rgba(10,24,16,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:16px}
