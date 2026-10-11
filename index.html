@@ -661,6 +661,14 @@ body.locked{overflow:hidden}
     $('postagain').focus({preventScroll:true});
     sending = false;
   }
+  /* Secret preview: open the page with #mail on the end to watch the send animation. Nothing is sent. */
+  function secretMail(){
+    if (location.hash !== '#mail') return;
+    history.replaceState(null, '', location.pathname + location.search);
+    setTimeout(function(){ playSend('Preview only, nothing was sent. This is what people see after they send a request.'); }, 400);
+  }
+  window.addEventListener('hashchange', secretMail);
+  if (document.readyState === 'complete') secretMail(); else window.addEventListener('load', secretMail);
   $('postagain').addEventListener('click', function(){
     var post = $('post'), main = document.querySelector('main.sheet');
     post.hidden = true; $('fstack').textContent = ''; main.style.visibility = ''; document.body.classList.remove('locked');
