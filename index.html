@@ -169,6 +169,30 @@ body.locked{overflow:hidden}
 
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+
+/* speakeasy door: cracked open, light spilling out */
+.sd-door-wrap{display:flex;justify-content:center;padding-block:34px 6px}
+.sd-door{position:relative;display:block;width:58px;height:96px;perspective:420px;-webkit-tap-highlight-color:transparent;outline:none}
+.sd-door:focus-visible .sd-door-frame{outline:2px solid #0F2A1B;outline-offset:6px}
+.sd-door-frame{position:absolute;left:0;right:0;top:0;bottom:6px;border:4px solid #0F2A1B;border-bottom:0;border-radius:30px 30px 0 0;
+  background:radial-gradient(120% 90% at 85% 60%,#EEE8FF 0%,#6A4FD0 55%,#0F2A1B 100%);overflow:visible;perspective:260px;perspective-origin:0 50%}
+.sd-door-leaf{position:absolute;inset:0;border-radius:26px 26px 0 0;background:#0F2A1B;transform-origin:0 50%;transform:rotateY(26deg);
+  transition:transform .55s cubic-bezier(.3,.7,.3,1);box-shadow:inset -3px 0 0 rgba(255,255,255,.08), 4px 0 10px rgba(0,0,0,.25)}
+.sd-door-leaf::before{content:"";position:absolute;left:9px;right:9px;top:14px;height:30px;border:2px solid rgba(255,255,255,.14);border-radius:14px 14px 3px 3px}
+.sd-door-leaf::after{content:"";position:absolute;left:9px;right:9px;top:52px;height:24px;border:2px solid rgba(255,255,255,.14);border-radius:3px}
+.sd-door-knob{position:absolute;right:8px;top:48px;width:7px;height:7px;border-radius:50%;background:#FF5A1F;box-shadow:0 0 0 1.5px rgba(0,0,0,.35)}
+.sd-door-step{position:absolute;left:-8px;right:-8px;bottom:0;height:6px;background:#0F2A1B;border-radius:2px}
+.sd-door-spill{position:absolute;left:40px;bottom:6px;width:84px;height:30px;transform-origin:0 100%;
+  background:linear-gradient(90deg,#EEE8FF 0%,transparent 90%);opacity:.55;clip-path:polygon(0 100%,14% 0,100% 100%);pointer-events:none;transition:opacity .4s,width .5s}
+.sd-door:hover .sd-door-leaf{transform:rotateY(38deg)}
+.sd-door:hover .sd-door-spill{opacity:.75;width:104px}
+@media (hover:none){.sd-door .sd-door-leaf{animation:sd-creak 5s ease-in-out 2s infinite}}
+@keyframes sd-creak{0%,82%,100%{transform:rotateY(26deg)}88%{transform:rotateY(36deg)}94%{transform:rotateY(22deg)}}
+.sd-door.open .sd-door-leaf{animation:none;transform:rotateY(88deg);transition-duration:.6s}
+.sd-door.open .sd-door-spill{opacity:1;width:150px}
+.sd-flood{position:fixed;inset:0;z-index:99;background:#F6EFDF;clip-path:circle(0 at var(--fx) var(--fy));transition:clip-path .7s cubic-bezier(.6,0,.3,1) .35s;pointer-events:none}
+.sd-flood.go{clip-path:circle(150% at var(--fx) var(--fy))}
+@media (prefers-reduced-motion:reduce){.sd-door-leaf,.sd-door-spill,.sd-flood{transition:none!important;animation:none!important}}
 </style>
 
 </head>
@@ -254,6 +278,7 @@ body.locked{overflow:hidden}
     <span class="mono">Tattoo requests: @dylandotattoo</span>
     <span class="mono">fieldwork.dylan</span>
   </footer>
+  <div class="sd-door-wrap"><a class="sd-door" id="sd-door" href="https://fieldworkdylan.github.io/fieldwork/tattoo/" target="_top" aria-label="A cracked door. Step through to the tattoo shop"><span class="sd-door-frame"><span class="sd-door-leaf"><span class="sd-door-knob"></span></span></span><span class="sd-door-spill"></span><span class="sd-door-step"></span></a></div>
 </main>
 
 <div class="fold" id="post" role="status" aria-live="polite" hidden>
@@ -691,6 +716,25 @@ body.locked{overflow:hidden}
     if (st.classList.contains('open')) return;
     st.classList.add('open');
     t = setTimeout(function(){ st.classList.remove('open'); }, 5100);
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var d = document.getElementById('sd-door'); if (!d) return;
+  d.addEventListener('click', function(e){
+    var framed = false; try { framed = window.top !== window; } catch(_e) { framed = true; }
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (framed) { d.setAttribute('target','_blank'); d.classList.add('open'); setTimeout(function(){ d.classList.remove('open'); }, 1400); return; }
+    if (reduce) return;
+    e.preventDefault();
+    var r = d.getBoundingClientRect(), f = document.createElement('div');
+    f.className = 'sd-flood'; f.style.setProperty('--fx', (r.left + r.width*.6) + 'px'); f.style.setProperty('--fy', (r.top + r.height*.55) + 'px');
+    document.body.appendChild(f); d.classList.add('open');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ f.classList.add('go'); }); });
+    setTimeout(function(){ window.location.href = d.href; }, 1050);
+    window.addEventListener('pageshow', function(ev){ if (ev.persisted) { f.remove(); d.classList.remove('open'); } }, {once:true});
   });
 })();
 </script>
