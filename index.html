@@ -424,7 +424,7 @@ body.locked{overflow:hidden}
       var a = document.createElement('span'); a.textContent = w.t;
       var z = document.createElement('span'); z.textContent = w.p.length > 1 ? w.p.length + ' photos' : '';
       cap.appendChild(a); cap.appendChild(z); b.appendChild(im); b.appendChild(cap);
-      b.addEventListener('click', function(){open(w)});
+      b.addEventListener('click', function(){open(w, im)});
       grid.appendChild(b);
     });
   }
@@ -486,18 +486,85 @@ body.locked{overflow:hidden}
   door.addEventListener('click', openGal);
   $('galx').addEventListener('click', closeGal);
 
-  function show(){
-    $('lbi').src = 'img/' + piece.p[idx] + '.jpg';
+  /* Lightbox: the tapped photo grows out of its spot in the album, and shrinks back into it on close. */
+  var thumb = null, busy = false;
+  var EASE = 'cubic-bezier(.2,.8,.2,1)';
+  function calm(){ return window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  function full(i){ return 'img/' + piece.p[i] + '.jpg'; }
+  function small(i){ return 'img/' + piece.p[i] + '-t.jpg'; }
+  function labels(){
     $('lbi').alt = piece.t + (piece.p.length > 1 ? ', photo ' + (idx + 1) : '');
     $('lbt').textContent = piece.t;
     var multi = piece.p.length > 1;
     $('lbp').hidden = $('lbn').hidden = !multi;
     $('lbc').textContent = multi ? (idx + 1) + ' / ' + piece.p.length : '';
   }
-  function open(w){piece = w; idx = 0; show(); lb.hidden = false; $('lbx').focus()}
-  function step(d){if(!piece || piece.p.length < 2) return; idx = (idx + d + piece.p.length) % piece.p.length; show()}
-  function closeLb(){lb.hidden = true; piece = null}
-  $('lbx').addEventListener('click', closeLb);
+  function upgrade(){ // swap the small photo for the sharp one once it is ready, with no visible jump
+    var want = full(idx), im = new Image(); im.src = want;
+    (im.decode ? im.decode() : Promise.resolve()).then(function(){ if (piece && full(idx) === want) $('lbi').src = want; }).catch(function(){});
+  }
+  function preloadRest(){ if (!piece) return; piece.p.forEach(function(_, i){ if (i) { var pre = new Image(); pre.src = full(i); } }); }
+  function flip(from, to){
+    return 'translate(' + (from.left - to.left) + 'px,' + (from.top - to.top) + 'px) scale(' + (from.width / to.width) + ',' + (from.height / to.height) + ')';
+  }
+  function bars(){ return lb.querySelectorAll('.lb-bar'); }
+  function open(w, tEl){
+    if (busy) return;
+    piece = w; idx = 0; thumb = tEl || null;
+    var img = $('lbi');
+    img.src = thumb ? thumb.currentSrc || thumb.src : small(0);
+    labels(); lb.hidden = false;
+    $('lbx').focus({preventScroll:true});
+    if (calm() || !thumb || !img.animate) { upgrade(); preloadRest(); return; }
+    busy = true;
+    var to = img.getBoundingClientRect(), from = thumb.getBoundingClientRect();
+    thumb.style.visibility = 'hidden';
+    lb.animate([{backgroundColor:'rgba(10,24,16,0)'}, {backgroundColor:'rgba(10,24,16,.94)'}], {duration:380, easing:'ease-out'});
+    bars().forEach(function(b){ b.animate([{opacity:0, transform:'translateY(6px)'}, {opacity:1, transform:'none'}], {duration:300, delay:180, easing:'ease-out', fill:'backwards'}); });
+    img.style.transformOrigin = '0 0'; img.style.willChange = 'transform';
+    img.animate([{transform:flip(from, to), borderRadius:'4px'}, {transform:'none', borderRadius:'3px'}], {duration:440, easing:EASE}).finished
+      .then(function(){ busy = false; upgrade(); setTimeout(preloadRest, 300); }, function(){ busy = false; });
+  }
+  function step(d){
+    if (!piece || piece.p.length < 2 || busy) return;
+    var img = $('lbi'), next = (idx + d + piece.p.length) % piece.p.length, url = full(next);
+    var pre = new Image(); pre.src = url;
+    var ready = pre.decode ? pre.decode().catch(function(){}) : Promise.resolve();
+    if (calm() || !img.animate) { idx = next; labels(); ready.then(function(){ img.src = url; }); return; }
+    busy = true;
+    ready.then(function(){
+      // lay a copy of the current photo on top, put the next photo underneath, then crossfade
+      var r = img.getBoundingClientRect(), ghost = img.cloneNode();
+      ghost.removeAttribute('id'); ghost.alt = '';
+      ghost.style.cssText = 'position:fixed;margin:0;left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + r.height + 'px;max-width:none;max-height:none;z-index:61;pointer-events:none;border-radius:3px';
+      lb.appendChild(ghost);
+      idx = next; img.src = url; labels();
+      ghost.animate([{opacity:1, transform:'none'}, {opacity:0, transform:'translateX(' + (-28 * d) + 'px)'}], {duration:320, easing:'ease-out', fill:'forwards'});
+      return img.animate([{opacity:0, transform:'translateX(' + (28 * d) + 'px)'}, {opacity:1, transform:'none'}], {duration:360, easing:EASE}).finished
+        .then(function(){ ghost.remove(); });
+    }).then(function(){ busy = false; }, function(){ busy = false; });
+  }
+  function closeLb(instant){
+    if (lb.hidden) return;
+    var img = $('lbi'), t = thumb;
+    function done(){ lb.hidden = true; piece = null; if (t) t.style.visibility = ''; thumb = null; busy = false; }
+    if (instant === true || calm() || !t || !img.animate || !t.isConnected) { done(); return; }
+    busy = true;
+    if (idx !== 0) img.src = t.currentSrc || t.src; // fly back as the cover photo so it lands in its spot
+    var from = img.getBoundingClientRect();
+    if (from.width < 2) { done(); return; }
+    t.scrollIntoView({block:'nearest'});
+    var to = t.getBoundingClientRect();
+    lb.animate([{backgroundColor:'rgba(10,24,16,.94)'}, {backgroundColor:'rgba(10,24,16,0)'}], {duration:340, easing:'ease-in', fill:'forwards'});
+    bars().forEach(function(b){ b.animate([{opacity:1}, {opacity:0}], {duration:150, fill:'forwards'}); });
+    img.style.transformOrigin = '0 0';
+    img.animate([{transform:'none'}, {transform:flip(to, from)}], {duration:380, easing:'cubic-bezier(.4,0,.2,1)', fill:'forwards'}).finished
+      .then(function(){
+        done();
+        lb.getAnimations({subtree:true}).forEach(function(a){ a.cancel(); });
+      });
+  }
+  $('lbx').addEventListener('click', function(){ closeLb(); });
   $('lbp').addEventListener('click', function(){step(-1)});
   $('lbn').addEventListener('click', function(){step(1)});
   lb.addEventListener('click', function(e){if(e.target === lb) closeLb()});
@@ -508,7 +575,7 @@ body.locked{overflow:hidden}
   /* "Start something like this": pick the matching project type and drop the piece into the reference field. */
   $('lbgo').addEventListener('click', function(){
     var w = piece, r = document.querySelector('input[name=type][value=' + w.c + ']');
-    closeLb(); gal.classList.remove('in'); gal.hidden = true; door.classList.remove('go'); document.body.classList.remove('locked');
+    closeLb(true); gal.classList.remove('in'); gal.hidden = true; door.classList.remove('go'); document.body.classList.remove('locked');
     if(r){r.checked = true; r.dispatchEvent(new Event('change', {bubbles:true}))}
     var ref = $('q_ref'); if(ref){ref.value = 'Something like your "' + w.t + '" from the gallery'}
     document.querySelector('fieldset:nth-of-type(2)').scrollIntoView({behavior:'smooth', block:'start'});
