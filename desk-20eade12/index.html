@@ -200,6 +200,58 @@ h1,h2,h3,p{margin:0}
 .foot{text-align:center;font-size:12.5px;color:var(--ink-3);display:flex;flex-direction:column;align-items:center;gap:6px}
 .link{background:none;border:0;padding:6px;font-size:12.5px;color:var(--ink-3);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 
+/* calendar */
+.cal{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:12px 10px 10px}
+.cal-h{display:flex;align-items:center;gap:6px;padding:0 4px 8px}
+.cal-h h2{flex:1;font-size:17px;font-weight:700}
+.navb{width:36px;height:36px;border-radius:50%;border:0;background:var(--sunk);display:grid;place-items:center;cursor:pointer}
+.navb svg{width:16px;height:16px}
+.todayb{border:0;background:var(--sunk);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer;min-height:36px}
+.wk,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.wk span{text-align:center;font-size:11.5px;font-weight:600;color:var(--ink-3);padding:2px 0 6px}
+.day{border:0;background:none;aspect-ratio:1/1;min-height:40px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:15px;font-weight:500;cursor:pointer;color:var(--ink);font-variant-numeric:tabular-nums;position:relative}
+.day.out{color:var(--ink-3);opacity:.55}
+.day.past:not(.sel){color:var(--ink-3)}
+.day.today .num{color:var(--accent-ink);font-weight:700}
+.day.sel{background:var(--ink);color:var(--bg)}
+.day.sel.today .num{color:var(--bg)}
+.day .dots{display:flex;gap:3px;height:5px}
+.day .dots i{width:5px;height:5px;border-radius:50%}
+.k-tattoo{background:var(--blue)} .k-project{background:var(--accent)} .k-other{background:var(--ink-3)}
+.day.sel .dots i{box-shadow:0 0 0 1.5px var(--ink)}
+.agenda{display:flex;flex-direction:column;gap:8px}
+.ev{all:unset;box-sizing:border-box;display:grid;grid-template-columns:66px 4px minmax(0,1fr);gap:12px;align-items:center;background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:12px 14px;cursor:pointer;width:100%}
+.ev:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.ev .t{font-size:13.5px;font-weight:600;color:var(--ink-2);font-variant-numeric:tabular-nums;line-height:1.3}
+.ev .stripe{align-self:stretch;border-radius:2px;min-height:34px}
+.ev .w{display:flex;flex-direction:column;min-width:0}
+.ev .w b{font-weight:600;font-size:15.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ev .w span{font-size:13px;color:var(--ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fab{position:fixed;right:max(16px,calc(50% - 264px));bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 16px);z-index:19;width:56px;height:56px;border-radius:50%;border:0;background:var(--ink);color:var(--bg);display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 24px -8px rgba(15,42,27,.55)}
+.fab svg{width:24px;height:24px}
+.booked{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--blue-ink);margin-top:4px}
+.booked svg{width:14px;height:14px;flex:none}
+/* bottom sheet */
+.scrim{position:fixed;inset:0;z-index:40;background:rgba(10,20,15,.42);opacity:0;transition:opacity .25s ease}
+.scrim.on{opacity:1}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:41;max-width:560px;margin:0 auto;background:var(--card);border-radius:22px 22px 0 0;padding:10px 18px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px;transform:translateY(105%);transition:transform .32s cubic-bezier(.2,.8,.2,1);max-height:92vh;overflow:auto;box-shadow:0 -10px 40px -10px rgba(0,0,0,.3)}
+.sheet.on{transform:none}
+.sheet .grab{width:38px;height:5px;border-radius:3px;background:var(--track);align-self:center}
+.sheet h2{font-size:20px;font-weight:700}
+.sheet .for{font-size:14px;color:var(--ink-2);margin-top:-8px}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:var(--ink-2);min-width:0}
+.fld input,.fld textarea{font:inherit;font-size:16px;font-weight:400;color:var(--ink);background:var(--bg);border:1.5px solid var(--hair);border-radius:12px;padding:11px 13px;min-height:48px;width:100%;-webkit-appearance:none;appearance:none}
+.fld input:disabled{opacity:.45}
+.fld input:focus,.fld textarea:focus{outline:none;border-color:var(--ink-3)}
+.fld textarea{resize:vertical;min-height:72px}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.allday{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-2);font-weight:500;cursor:pointer;margin-top:-4px}
+.allday input{width:20px;height:20px;accent-color:var(--ink)}
+.pbtn.danger{background:var(--accent-soft);color:var(--accent-ink);margin-left:auto}
+.calnote{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:12px}
+.calnote h2{font-size:17px;font-weight:700}
+.calnote p{color:var(--ink-2);font-size:15px}
+
 /* settings */
 .set{display:flex;flex-direction:column;gap:10px}
 .opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
@@ -223,7 +275,7 @@ h1,h2,h3,p{margin:0}
 
 /* tab bar */
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--bar);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);border-top:1px solid var(--hair);padding-bottom:env(safe-area-inset-bottom,0px)}
-.tabbar-in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;height:var(--tabh)}
+.tabbar-in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);height:var(--tabh)}
 .tabbar button{border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:600;color:var(--ink-3);cursor:pointer;position:relative}
 .tabbar button[aria-selected=true]{color:var(--ink)}
 .tabbar svg{width:25px;height:25px}
@@ -233,6 +285,7 @@ h1,h2,h3,p{margin:0}
 /* toast */
 .toast{position:fixed;left:50%;bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 14px);z-index:30;transform:translate(-50%,12px);opacity:0;background:var(--ink);color:var(--bg);border-radius:999px;padding:10px 18px;font-size:14.5px;font-weight:600;pointer-events:none;transition:opacity .22s ease,transform .22s ease;white-space:nowrap;box-shadow:0 8px 24px -8px rgba(0,0,0,.4)}
 .toast.on{opacity:1;transform:translate(-50%,0)}
+body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86px)}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
 </style>
@@ -275,6 +328,34 @@ h1,h2,h3,p{margin:0}
       <button type="button" data-f="done" aria-pressed="false">Done</button>
     </div>
     <div class="reqs" id="reqs"></div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="panel" id="p-cal" role="tabpanel" aria-labelledby="tab-cal" hidden>
+    <div class="calnote" id="calupdate" hidden>
+      <h2>One quick update turns your calendar on</h2>
+      <p>Your bookings save to the same Google Sheet as your requests. It needs the new version of the script:</p>
+      <ol class="steps">
+        <li><span>Open your Fieldwork inbox sheet, then <b>Extensions → Apps Script</b>.</span></li>
+        <li><span>Select all the old code, paste the new script over it, and tap <b>Save</b>.</span></li>
+        <li><span><b>Deploy → Manage deployments</b>, tap the pencil, set Version to <b>New version</b>, then <b>Deploy</b>.</span></li>
+      </ol>
+      <p class="note">The link stays the same. Pull down here to refresh when you’re done.</p>
+    </div>
+    <p class="sample" id="sampletag3" hidden>Sample bookings</p>
+    <p class="err" id="calerr" hidden></p>
+    <div class="cal" id="cal">
+      <div class="cal-h">
+        <h2 id="calmonth">&nbsp;</h2>
+        <button type="button" class="todayb" id="caltoday">Today</button>
+        <button type="button" class="navb" id="calprev" aria-label="Previous month"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>
+        <button type="button" class="navb" id="calnext" aria-label="Next month"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
+      </div>
+      <div class="wk" aria-hidden="true"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+      <div class="grid" id="calgrid"></div>
+    </div>
+    <section class="sec" aria-labelledby="h-dayl"><div class="sec-h"><h2 id="h-dayl">Today</h2></div><div class="agenda" id="dayl"></div></section>
+    <section class="sec" aria-labelledby="h-up"><div class="sec-h"><h2 id="h-up">Coming up</h2></div><div class="agenda" id="upl"></div></section>
   </div>
 
   <!-- VISITORS -->
@@ -366,9 +447,28 @@ h1,h2,h3,p{margin:0}
   </footer>
 </main>
 
+<button type="button" class="fab" id="fab" aria-label="Add a booking" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+<div class="scrim" id="scrim" hidden></div>
+<form class="sheet" id="evform" role="dialog" aria-modal="true" aria-labelledby="evh" hidden autocomplete="off">
+  <span class="grab" aria-hidden="true"></span>
+  <h2 id="evh">New booking</h2>
+  <p class="for" id="evfor" hidden></p>
+  <label class="fld">What<input id="ev-title" maxlength="140" placeholder="Tattoo session, pickup, delivery…"></label>
+  <div class="row2">
+    <label class="fld">Date<input id="ev-date" type="date"></label>
+    <label class="fld">Time<input id="ev-time" type="time"></label>
+  </div>
+  <label class="allday"><input type="checkbox" id="ev-allday">All day</label>
+  <div class="segs" id="ev-kind" role="group" aria-label="Type"><button type="button" data-k="tattoo" aria-pressed="false">Tattoo</button><button type="button" data-k="project" aria-pressed="false">Project</button><button type="button" data-k="other" aria-pressed="true">Other</button></div>
+  <label class="fld">Note<textarea id="ev-note" rows="2" maxlength="2000" placeholder="Deposit paid, size, address…"></textarea></label>
+  <p class="err" id="everr" hidden></p>
+  <div class="acts"><button type="submit" class="pbtn main" id="ev-save">Save</button><button type="button" class="pbtn" id="ev-cancel">Cancel</button><button type="button" class="pbtn danger" id="ev-del" hidden>Delete</button></div>
+</form>
+
 <nav class="tabbar" aria-label="Sections">
   <div class="tabbar-in" role="tablist">
     <button type="button" role="tab" id="tab-req" aria-controls="p-req" aria-selected="true"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 13.5 6 5.8A2 2 0 0 1 7.9 4.5h8.2A2 2 0 0 1 18 5.8l2.5 7.7"/><path d="M3.5 13.5V18a1.5 1.5 0 0 0 1.5 1.5h14a1.5 1.5 0 0 0 1.5-1.5v-4.5h-5l-1.3 2.2h-4.4L8.5 13.5z"/></svg><span class="badge" id="newcount" hidden>0</span></span>Requests</button>
+    <button type="button" role="tab" id="tab-cal" aria-controls="p-cal" aria-selected="false"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><circle cx="8.5" cy="14.5" r="1.1" fill="currentColor" stroke="none"/></svg></span>Calendar</button>
     <button type="button" role="tab" id="tab-vis" aria-controls="p-vis" aria-selected="false"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><rect x="5.5" y="11" width="3" height="6" rx="1"/><rect x="10.5" y="6" width="3" height="11" rx="1"/><rect x="15.5" y="9" width="3" height="8" rx="1"/></svg></span>Visitors</button>
     <button type="button" role="tab" id="tab-set" aria-controls="p-set" aria-selected="false"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" aria-hidden="true"><path d="M12 4v16M5.07 8l13.86 8M5.07 16l13.86-8"/></svg></span>Settings</button>
   </div>
@@ -388,23 +488,25 @@ h1,h2,h3,p{margin:0}
   var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   /* ---------- shell ---------- */
-  var tab = ['req', 'vis', 'set'].indexOf(store('fwlog-tab')) > -1 ? store('fwlog-tab') : 'req', subVis = '', subReq = '', stampVis = '', stampReq = '';
+  var TABS = ['req', 'cal', 'vis', 'set'];
+  var tab = TABS.indexOf(store('fwlog-tab')) > -1 ? store('fwlog-tab') : 'req', subVis = '', subReq = '', subCal = '', stampVis = '', stampReq = '';
   function greet(){ var h = new Date().getHours(); $('hi').textContent = (h < 5 ? 'Up late' : h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening') + ', Dylan.'; }
   function head(){
     if (tab === 'set') { $('hi').textContent = 'Settings'; $('sub').textContent = 'Make the Desk yours.'; }
-    else { greet(); $('sub').textContent = (tab === 'req' ? subReq : subVis) || ' '; }
-    $('stamp').textContent = (tab === 'req' ? stampReq : tab === 'vis' ? stampVis : '') || ' ';
+    else { greet(); $('sub').textContent = (tab === 'req' ? subReq : tab === 'cal' ? subCal : subVis) || ' '; }
+    $('stamp').textContent = (tab === 'req' || tab === 'cal' ? stampReq : tab === 'vis' ? stampVis : '') || ' ';
+    $('fab').hidden = tab !== 'cal' || calOK === false; document.body.classList.toggle('fabon', !$('fab').hidden);
     $('foot').hidden = tab === 'set';
     conns();
   }
   function setTab(t, scroll){
     tab = t; store('fwlog-tab', t);
-    ['req', 'vis', 'set'].forEach(function(k){ $('tab-' + k).setAttribute('aria-selected', k === t); $('p-' + k).hidden = k !== t; });
+    TABS.forEach(function(k){ $('tab-' + k).setAttribute('aria-selected', k === t); $('p-' + k).hidden = k !== t; });
     head();
     if (scroll) window.scrollTo(0, 0);
     if (t === 'vis') { if (pendingChart) { chart(pendingChart); pendingChart = null; } grow(); }
   }
-  ['req', 'vis', 'set'].forEach(function(k){ $('tab-' + k).addEventListener('click', function(){ if (tab === k) window.scrollTo({top:0, behavior:calm() ? 'auto' : 'smooth'}); else setTab(k, true); }); });
+  TABS.forEach(function(k){ $('tab-' + k).addEventListener('click', function(){ if (tab === k) window.scrollTo({top:0, behavior:calm() ? 'auto' : 'smooth'}); else setTab(k, true); }); });
   window.addEventListener('scroll', function(){ $('bar').classList.toggle('lined', window.scrollY > 4); }, {passive:true});
   var toastT = 0;
   function toast(msg){ var t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(function(){ t.classList.remove('on'); }, 1800); }
@@ -451,9 +553,9 @@ h1,h2,h3,p{margin:0}
         '<button type="button" class="rhead" aria-expanded="' + open + '"><span class="av ' + site + '" aria-hidden="true">' + esc(initial(x.name)) + (st === 'new' ? '<span class="dot"></span>' : '') + '</span>' +
         '<span class="rmain"><span class="rline"><span class="rname">' + esc(x.name || 'No name') + '</span><span class="rtime">' + esc(ago(x.received, true)) + '</span></span>' +
         '<span class="rkind">' + esc(kind) + ' · ' + (site === 't' ? 'Tattoo' : 'Fieldwork') + (st !== 'new' ? ' · ' + ST[st] : '') + '</span>' +
-        '<span class="ridea">' + esc(d.idea || '') + '</span></span></button>' +
+        '<span class="ridea">' + esc(d.idea || '') + '</span>' + bookedLine(x.id) + '</span></button>' +
         '<div class="rmore"' + (open ? '' : ' hidden') + '><div class="rmore-in">' + (facts ? '<dl class="facts">' + facts + '</dl>' : '') +
-        '<div class="acts">' + (mail ? '<a class="pbtn main" href="' + mail + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 9 5 13l5 4"/><path d="M5 13h9a5 5 0 0 1 5 5v1"/></svg>Reply</a><button type="button" class="pbtn" data-copy="' + esc(x.email) + '">Copy email</button>' : '') + '</div>' +
+        '<div class="acts">' + (mail ? '<a class="pbtn main" href="' + mail + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 9 5 13l5 4"/><path d="M5 13h9a5 5 0 0 1 5 5v1"/></svg>Reply</a><button type="button" class="pbtn" data-copy="' + esc(x.email) + '">Copy email</button>' : '') + '<button type="button" class="pbtn" data-sched="1">' + (bookingFor(x.id) ? 'Edit booking' : 'Schedule') + '</button></div>' +
         '<div class="segs" role="group" aria-label="Status">' + ['new', 'read', 'replied', 'done'].map(function(sv){ return '<button type="button" data-st="' + sv + '" aria-pressed="' + (st === sv) + '">' + ST[sv] + '</button>'; }).join('') + '</div>' +
         '<span class="st-label">Received ' + esc(new Date(x.received).toLocaleString([], {weekday:'short', month:'short', day:'numeric', hour:'numeric', minute:'2-digit'})) + '</span>' +
         '</div></div></article>';
@@ -464,6 +566,7 @@ h1,h2,h3,p{margin:0}
     var card = e.target.closest('.req'); if (!card) return;
     var id = card.dataset.id, x = list().filter(function(r){ return r.id === id; })[0]; if (!x) return;
     if (e.target.closest('.rhead')) { toggle(card, id); return; }
+    if (e.target.closest('[data-sched]')) { var bk = bookingFor(id); if (bk) openSheet(bk); else openSheet(null, x); return; }
     var cp = e.target.closest('[data-copy]');
     if (cp) {
       var ok = function(){ toast('Email copied'); };
@@ -502,13 +605,14 @@ h1,h2,h3,p{margin:0}
       .then(function(d){ if (!d || !d.ok) throw {kind:d && d.error === 'key' ? 'key' : 'server'}; return d; });
   }
   function loadInbox(fromKey){
-    if (!ikey) { $('connect2').hidden = false; items = null; stampReq = ''; renderReqs(SAMPLE_REQS, true); return Promise.resolve(); }
+    if (!ikey) { $('connect2').hidden = false; items = null; stampReq = ''; events = null; calOK = null; renderReqs(SAMPLE_REQS, true); renderCal(); return Promise.resolve(); }
     if (ibusy) return Promise.resolve(); ibusy = true; $('inboxerr').hidden = true;
     if (!items) skeleton();
     return iget({key:ikey}).then(function(d){
       store(IKEY, ikey); items = d.items || []; $('connect2').hidden = true; $('keyerr2').hidden = true;
-      stampReq = 'Requests updated ' + time(); renderReqs(items, false);
+      stampReq = 'Updated ' + time(); renderReqs(items, false);
       if (fromKey) toast('Inbox connected');
+      return loadEvents(d.calendar === true);
     }, function(e){
       var msg = e.kind === 'key' ? 'That inbox key didn’t work. Copy the whole thing and try again.' : e.kind === 'net' ? 'Couldn’t reach your inbox. Check your connection and pull down to refresh.' : 'Your inbox had a hiccup. Pull down to refresh in a minute.';
       if (e.kind === 'key') { ikey = ''; if (!fromKey) store(IKEY, null); items = null; $('connect2').hidden = false; $('keyerr2').textContent = msg; $('keyerr2').hidden = false; renderReqs(SAMPLE_REQS, true); stampReq = ''; }
@@ -526,6 +630,134 @@ h1,h2,h3,p{margin:0}
     {id:'s2', received:new Date(NOW - 27 * HR).toISOString(), site:'tattoo', name:'Jordan K.', email:'jordan@example.com', status:'new', details:{request:'Custom design', idea:'Small line-work dog on my forearm, curly hair like your dog.', placement:'Forearm', size:'Palm-sized', first_tattoo:'Yes', best_days:'Weekends', confirmed_18_plus:'Yes'}},
     {id:'s3', received:new Date(NOW - 76 * HR).toISOString(), site:'fieldwork', name:'Sam T.', email:'sam@example.com', status:'replied', details:{project:'Art', idea:'A painting for my living room, blues and oranges.', budget:'$300–500', timing:'No rush'}}
   ];
+
+  /* ---------- calendar (saved to the Calendar tab of the same Google Sheet) ---------- */
+  var events = null, calOK = null, calMonth = null, selDay = null, editing = null, forReq = null, kind = 'other', delArm = 0;
+  var KINDS = {tattoo:'Tattoo', project:'Project', other:'Other'}, MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  var DAYFULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  var CAL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>';
+  function pd(s){ var p = String(s).split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function todayKey(){ return dayKey(new Date()); }
+  function addDays(k, n){ var d = pd(k); d.setDate(d.getDate() + n); return dayKey(d); }
+  function fmtTime(t){ if (!t) return 'All day'; var h = +t.slice(0, 2), m = t.slice(3, 5); return (h % 12 || 12) + (m !== '00' ? ':' + m : '') + (h < 12 ? ' AM' : ' PM'); }
+  function dayLabel(k, long){ var t = todayKey(); if (k === t) return 'Today'; if (k === addDays(t, 1)) return 'Tomorrow'; if (k === addDays(t, -1)) return 'Yesterday'; var d = pd(k); return (long ? DAYFULL[d.getDay()] : DAYS[d.getDay()]) + ', ' + MON[d.getMonth()] + ' ' + d.getDate(); }
+  function evs(){ return events || (ikey ? [] : SAMPLE_EVENTS); }
+  function sorted(a){ return a.slice().sort(function(x, y){ return (x.date + (x.time || '')).localeCompare(y.date + (y.time || '')); }); }
+  function bookingFor(rid){ // the next booking for a request (or its last one if they're all past)
+    var mine = sorted(evs().filter(function(e){ return e.request && e.request === rid; })); if (!mine.length) return null;
+    var t = todayKey(), up = mine.filter(function(e){ return e.date >= t; }); return up[0] || mine[mine.length - 1];
+  }
+  function bookedLine(rid){ var b = bookingFor(rid); return b ? '<span class="booked">' + CAL_ICON + esc(dayLabel(b.date) + (b.time ? ' · ' + fmtTime(b.time) : '')) + '</span>' : ''; }
+  function loadEvents(isNew){
+    if (!ikey) { renderCal(); return Promise.resolve(); }
+    if (!isNew) { calOK = false; events = []; renderCal(); return Promise.resolve(); } // the sheet still runs the first script
+    return iget({key:ikey, action:'events'}).then(function(d){
+      calOK = true; events = d.events || []; $('calerr').hidden = true; renderCal(); renderReqs(items || [], false);
+    }, function(){ $('calerr').textContent = 'Couldn’t load your calendar. Pull down to refresh.'; $('calerr').hidden = false; });
+  }
+  function evRow(e, showDay){
+    return '<button type="button" class="ev" data-ev="' + esc(e.id) + '"><span class="t">' + (showDay ? esc(dayLabel(e.date)) + '<br>' : '') + esc(e.time ? fmtTime(e.time) : 'All day') + '</span><span class="stripe k-' + esc(KINDS[e.kind] ? e.kind : 'other') + '" aria-hidden="true"></span>' +
+      '<span class="w"><b>' + esc(e.title) + '</b><span>' + esc(KINDS[e.kind] || 'Other') + (e.note ? ' · ' + esc(e.note) : '') + '</span></span></button>';
+  }
+  function renderCal(){
+    var sample = !ikey, list = evs(), t = todayKey();
+    $('sampletag3').hidden = !sample;
+    $('calupdate').hidden = calOK !== false; ['cal', 'dayl', 'upl'].forEach(function(id){ ($(id).closest('section') || $(id)).hidden = calOK === false; });
+    if (!selDay) selDay = t;
+    if (!calMonth) { var sd = pd(selDay); calMonth = new Date(sd.getFullYear(), sd.getMonth(), 1); }
+    var byDay = {}; list.forEach(function(e){ (byDay[e.date] = byDay[e.date] || []).push(e); });
+    var week = list.filter(function(e){ return e.date >= t && e.date <= addDays(t, 6); }).length;
+    subCal = calOK === false ? 'One quick update and your calendar is ready.' : week ? plural(week, 'booking', 'bookings') + ' in the next 7 days.' : 'Nothing booked in the next 7 days.';
+    head();
+    // month grid
+    $('calmonth').textContent = MONTHS[calMonth.getMonth()] + ' ' + calMonth.getFullYear();
+    var start = new Date(calMonth.getFullYear(), calMonth.getMonth(), 1 - calMonth.getDay()), h = '';
+    for (var i = 0; i < 42; i++) {
+      var d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+      if (i === 35 && d.getMonth() !== calMonth.getMonth()) break; // five rows are enough this month
+      var k = dayKey(d), mine = sorted(byDay[k] || []), dots = mine.slice(0, 3).map(function(e){ return '<i class="k-' + esc(KINDS[e.kind] ? e.kind : 'other') + '"></i>'; }).join('');
+      var cls = 'day' + (d.getMonth() !== calMonth.getMonth() ? ' out' : '') + (k === t ? ' today' : '') + (k < t ? ' past' : '') + (k === selDay ? ' sel' : '');
+      h += '<button type="button" class="' + cls + '" data-day="' + k + '" aria-pressed="' + (k === selDay) + '" aria-label="' + esc(dayLabel(k, true) + (mine.length ? ', ' + plural(mine.length, 'booking', 'bookings') : '')) + '"><span class="num">' + d.getDate() + '</span><span class="dots">' + dots + '</span></button>';
+    }
+    $('calgrid').innerHTML = h;
+    // the chosen day
+    $('h-dayl').textContent = dayLabel(selDay, true);
+    var dl = sorted(byDay[selDay] || []);
+    $('dayl').innerHTML = dl.length ? dl.map(function(e){ return evRow(e, false); }).join('') : emptyCard('Nothing booked. Tap + to add something.');
+    // coming up (leaves out the chosen day so nothing shows twice)
+    var up = sorted(list.filter(function(e){ return e.date >= t && e.date !== selDay; })).slice(0, 8);
+    $('upl').innerHTML = up.length ? up.map(function(e){ return evRow(e, true); }).join('') : emptyCard('Nothing else coming up.');
+  }
+  $('calgrid').addEventListener('click', function(e){ var b = e.target.closest('[data-day]'); if (!b) return; selDay = b.dataset.day; var d = pd(selDay); if (d.getMonth() !== calMonth.getMonth() || d.getFullYear() !== calMonth.getFullYear()) calMonth = new Date(d.getFullYear(), d.getMonth(), 1); renderCal(); });
+  $('calprev').addEventListener('click', function(){ calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() - 1, 1); renderCal(); });
+  $('calnext').addEventListener('click', function(){ calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + 1, 1); renderCal(); });
+  $('caltoday').addEventListener('click', function(){ selDay = todayKey(); var d = new Date(); calMonth = new Date(d.getFullYear(), d.getMonth(), 1); renderCal(); });
+  ['dayl', 'upl'].forEach(function(id){ $(id).addEventListener('click', function(e){ var b = e.target.closest('[data-ev]'); if (!b) return; var ev = evs().filter(function(x){ return x.id === b.dataset.ev; })[0]; if (ev) openSheet(ev); }); });
+  $('fab').addEventListener('click', function(){ openSheet(null); });
+
+  // the add / edit sheet
+  function setKind(k){ kind = KINDS[k] ? k : 'other'; document.querySelectorAll('#ev-kind button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.k === kind); }); }
+  document.querySelectorAll('#ev-kind button').forEach(function(b){ b.addEventListener('click', function(){ setKind(b.dataset.k); }); });
+  $('ev-allday').addEventListener('change', function(){ $('ev-time').disabled = this.checked; if (this.checked) $('ev-time').value = ''; });
+  $('ev-time').addEventListener('input', function(){ if (this.value) $('ev-allday').checked = false; });
+  function openSheet(ev, req){
+    if (calOK === false) { setTab('cal', true); toast('Do the quick update first'); return; }
+    editing = ev; forReq = ev ? (ev.request || null) : (req ? req.id : null); delArm = 0;
+    var r = req || (forReq && list().filter(function(x){ return x.id === forReq; })[0]) || null;
+    var dd = r ? (r.details || {}) : {}, rk = r ? (dd.project || dd.request || '') : '';
+    $('evh').textContent = ev ? 'Edit booking' : 'New booking';
+    $('evfor').hidden = !r; $('evfor').textContent = r ? 'For ' + (r.name || 'this request') + (rk ? ' · ' + rk : '') : '';
+    $('ev-title').value = ev ? ev.title : r ? (r.name || 'Booking') + (r.site === 'tattoo' ? ' · Tattoo' : rk ? ' · ' + rk : '') : '';
+    $('ev-date').value = ev ? ev.date : (tab === 'cal' && selDay && selDay >= todayKey() ? selDay : todayKey());
+    $('ev-time').value = ev ? (ev.time || '') : ''; $('ev-allday').checked = ev ? !ev.time : false; $('ev-time').disabled = $('ev-allday').checked;
+    $('ev-note').value = ev ? (ev.note || '') : '';
+    setKind(ev ? ev.kind : r ? (r.site === 'tattoo' ? 'tattoo' : 'project') : 'other');
+    $('ev-del').hidden = !ev; $('ev-del').textContent = 'Delete'; $('everr').hidden = true;
+    var sc = $('scrim'), sh = $('evform'); sc.hidden = false; sh.hidden = false; document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ sc.classList.add('on'); sh.classList.add('on'); }); });
+    if (!ev && !r) setTimeout(function(){ $('ev-title').focus(); }, 340);
+  }
+  function closeSheet(){
+    var sc = $('scrim'), sh = $('evform'); sc.classList.remove('on'); sh.classList.remove('on'); document.body.style.overflow = '';
+    setTimeout(function(){ if (!sh.classList.contains('on')) { sc.hidden = true; sh.hidden = true; } }, calm() ? 0 : 330);
+  }
+  $('scrim').addEventListener('click', closeSheet); $('ev-cancel').addEventListener('click', closeSheet);
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !$('evform').hidden) closeSheet(); });
+  function upsert(ev){ if (!events) events = ikey ? [] : SAMPLE_EVENTS.slice(); var i = events.map(function(x){ return x.id; }).indexOf(ev.id); if (i > -1) events[i] = ev; else events.push(ev); }
+  function refreshAll(){ renderCal(); renderReqs(list(), !items); }
+  $('evform').addEventListener('submit', function(e){
+    e.preventDefault();
+    var title = $('ev-title').value.trim(), date = $('ev-date').value, tm = $('ev-allday').checked ? '' : $('ev-time').value;
+    if (!title) { $('everr').textContent = 'Give it a name, like “Tattoo session”.'; $('everr').hidden = false; $('ev-title').focus(); return; }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) { $('everr').textContent = 'Pick a date.'; $('everr').hidden = false; return; }
+    var before = editing ? JSON.parse(JSON.stringify(editing)) : null;
+    var ev = {id:editing ? editing.id : 'ev-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), date:date, time:tm, title:title, kind:kind, request:forReq || '', note:$('ev-note').value.trim()};
+    upsert(ev); selDay = date; var d = pd(date); calMonth = new Date(d.getFullYear(), d.getMonth(), 1);
+    refreshAll(); closeSheet(); toast((before ? 'Saved for ' : 'Booked for ') + dayLabel(date) + (tm ? ' · ' + fmtTime(tm) : ''));
+    if (ikey) iget({key:ikey, action:'saveEvent', ev:JSON.stringify(ev)}).catch(function(){
+      if (before) upsert(before); else events = events.filter(function(x){ return x.id !== ev.id; });
+      refreshAll(); toast('Couldn’t save. Try again.');
+    });
+  });
+  $('ev-del').addEventListener('click', function(){
+    if (!editing) return;
+    var b = this;
+    if (!delArm) { delArm = 1; b.textContent = 'Tap again to delete'; setTimeout(function(){ if (delArm) { delArm = 0; b.textContent = 'Delete'; } }, 3000); return; }
+    delArm = 0;
+    var gone = editing; events = evs().filter(function(x){ return x.id !== gone.id; });
+    refreshAll(); closeSheet(); toast('Booking deleted');
+    if (ikey) iget({key:ikey, action:'deleteEvent', id:gone.id}).catch(function(){ upsert(gone); refreshAll(); toast('Couldn’t delete. Try again.'); });
+  });
+  var SAMPLE_EVENTS = (function(){
+    var d = new Date(), t = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    var plus = function(n){ var x = new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); return x.getFullYear() + '-' + ('0' + (x.getMonth() + 1)).slice(-2) + '-' + ('0' + x.getDate()).slice(-2); };
+    return [
+      {id:'se1', date:t, time:'14:00', title:'Jordan K. · Tattoo', kind:'tattoo', request:'s2', note:'Forearm, palm-sized'},
+      {id:'se2', date:plus(2), time:'10:30', title:'Maya R. · Coffee table consult', kind:'project', request:'s1', note:''},
+      {id:'se3', date:plus(5), time:'', title:'Wood pickup', kind:'other', request:'', note:'Birch ply × 4'},
+      {id:'se4', date:plus(9), time:'12:00', title:'Sam T. · Painting drop-off', kind:'project', request:'s3', note:''}
+    ];
+  })();
 
   /* ---------- visitors (GoatCounter) ---------- */
   var API = 'https://fieldworkdylan.goatcounter.com/api/v0/', KEY = 'fwlog-key', RANGE = 'fwlog-range';
