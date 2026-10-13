@@ -434,7 +434,7 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
     grid.textContent = '';
     WORK.filter(function(w){return cat === 'all' || w.c === cat}).forEach(function(w){
       var b = document.createElement('button'); b.type = 'button'; b.className = 'card';
-      var im = document.createElement('img'); im.src = 'img/' + w.p[0] + '-t.jpg'; im.alt = w.t; im.loading = 'lazy'; im.width = 480; im.height = 640;
+      var im = document.createElement('img'); im.src = 'img/' + w.p[0] + '-t.jpg'; im.alt = w.t; im.decoding = 'async'; im.width = 480; im.height = 640;
       var cap = document.createElement('span'); cap.className = 'cap';
       var a = document.createElement('span'); a.textContent = w.t;
       var z = document.createElement('span'); z.textContent = w.p.length > 1 ? w.p.length + ' photos' : '';
@@ -444,8 +444,25 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
     });
   }
 
+  /* Warm up the album: quietly download and decode every cover photo after the page loads,
+     so the first time the book opens nothing is still loading. */
+  var warm = [];
+  function warmUp(){
+    if (warm.length) return;
+    WORK.forEach(function(w){
+      var im = new Image(); im.decoding = 'async'; if ('fetchPriority' in im) im.fetchPriority = 'low';
+      im.src = 'img/' + w.p[0] + '-t.jpg';
+      warm.push(im.decode ? im.decode().catch(function(){}) : Promise.resolve());
+    });
+  }
+  window.addEventListener('load', function(){ setTimeout(function(){ (window.requestIdleCallback || setTimeout)(warmUp); }, 600); });
+  function ready(imgs, maxWait){ // resolves when these photos are decoded, or after maxWait
+    var all = Promise.all([].map.call(imgs, function(im){ return im.decode ? im.decode().catch(function(){}) : Promise.resolve(); }));
+    return Promise.race([all, new Promise(function(r){ setTimeout(r, maxWait); })]);
+  }
   function openGal(){
     lastFocus = document.activeElement;
+    warmUp();
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     render();
     if (reduce || !document.body.animate) {
@@ -461,7 +478,8 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
     // the book's page shows the same album page, shrunk to fit
     page.textContent = '';
     var mini = gi.cloneNode(true); mini.querySelectorAll('[id]').forEach(function(n){ n.removeAttribute('id'); }); mini.removeAttribute('id');
-    mini.querySelectorAll('img').forEach(function(im){ im.loading = 'eager'; });
+    mini.querySelectorAll('img').forEach(function(im){ im.loading = 'eager'; im.decoding = 'async'; });
+    var firstImgs = [].slice.call(mini.querySelectorAll('img'), 0, 12);
     mini.style.width = T.width + 'px';
     page.appendChild(mini);
     fx.hidden = false;
@@ -472,6 +490,7 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
     var dx = (r.left + r.width / 2) - (B.left + B.width / 2), dy = (r.top + r.height / 2) - (B.top + B.height / 2), sc = r.height / B.height;
     fx.animate([{opacity:0}, {opacity:1}], {duration:250, fill:'forwards'});
     bk.animate([{transform:'translate(' + dx + 'px,' + dy + 'px) scale(' + sc + ') rotateY(80deg)'}, {transform:'none'}], {duration:600, easing:'cubic-bezier(.2,.8,.2,1)'}).finished
+      .then(function(){ return ready(firstImgs, 400); }) // photos under the cover are ready before it opens
       .then(function(){ return cover.animate([{transform:'rotateY(0)'}, {transform:'rotateY(-165deg)'}], {duration:700, easing:'cubic-bezier(.5,0,.3,1)', fill:'forwards'}).finished; })
       .then(function(){
         // grow the open page into the full gallery page using transform only (no layout per frame)
