@@ -549,9 +549,9 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
       if (!ctx) {
         var C = window.AudioContext || window.webkitAudioContext; if (!C) return null;
         try { if (navigator.audioSession) navigator.audioSession.type = 'ambient'; } catch (e) {} // follows the silent switch and mixes with music
-        ctx = new C(); master = ctx.createGain(); master.gain.value = 3.6;
-        // everything goes through a soft low-pass: it takes the sharp edges off, like a keyboard sunk in milk
-        var milk = ctx.createBiquadFilter(); milk.type = 'lowpass'; milk.frequency.value = 900; milk.Q.value = .55;
+        ctx = new C(); master = ctx.createGain(); master.gain.value = 6.5;
+        // everything goes through a gentle low-pass: it softens the very top of each click so it sounds milky, not sharp
+        var milk = ctx.createBiquadFilter(); milk.type = 'lowpass'; milk.frequency.value = 2600; milk.Q.value = .5;
         var comp = ctx.createDynamicsCompressor(); master.connect(milk); milk.connect(comp); comp.connect(ctx.destination);
       }
       if (ctx.state === 'suspended') ctx.resume();
@@ -573,28 +573,25 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
       g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
       s.connect(f); f.connect(g); g.connect(master); s.start(t); s.stop(t + dur + .02);
     }
-    // a milky keyboard thock: a round low body, a muffled knock, and the key's soft rebound a beat later
-    function thock(f, vol, delay){
-      var d = delay || 0;
-      tone(f, f * .74, .065, vol, 'sine', d);
-      tone(f * 1.9, f * 1.4, .026, vol * .28, 'triangle', d);
-      noise(.02, vol * .6, 850, .5, d);
-      tone(f * 1.32, f * 1.1, .032, vol * .2, 'sine', d + .024);
+    // a milky click: one quick, soft-edged tap with a hint of body under it. No pitch slides, no rebound, no bounce.
+    function click(f, vol){
+      noise(.016, vol, f, .9);
+      tone(f * .42, 0, .028, vol * .32, 'sine');
     }
     var KIT = {
-      pop:function(){ tone(250, 330, .08, .22); noise(.022, .1, 800, .5); tone(500, 640, .04, .05, 'triangle'); tone(330, 290, .04, .06, 'sine', .028); }, // tabs: a milky bloop, same every time
-      tick:function(){ thock(275, .2); },                      // pills, filters, days, settings
-      open:function(){ thock(292, .2); },
-      close:function(){ thock(255, .19); },
-      soft:function(){ thock(278, .2); },                      // read / replied / new
-      done:function(){ thock(270, .11); thock(296, .1, .085); }, // done, connected: a satisfying double press
-      booked:function(){ thock(268, .11); thock(294, .1, .08); },
-      trash:function(){ thock(195, .24); },
-      up:function(){ thock(284, .16); },
-      down:function(){ thock(250, .15); },
-      copy:function(){ thock(298, .18); },
-      pull:function(){ thock(280, .14); },
-      fresh:function(){ thock(288, .14); }
+      pop:function(){ click(1900, .3); tone(760, 0, .032, .06, 'sine'); },  // tabs: the same click, a touch fuller
+      tick:function(){ click(2000, .26); },                                // pills, filters, days, settings
+      open:function(){ click(2150, .26); },
+      close:function(){ click(1850, .24); },
+      soft:function(){ click(2000, .26); },                                // read / replied / new
+      done:function(){ click(1950, .3); tone(800, 0, .04, .07, 'sine'); }, // done, connected: a slightly fuller click
+      booked:function(){ click(1950, .3); tone(800, 0, .04, .07, 'sine'); },
+      trash:function(){ click(1400, .3); },
+      up:function(){ click(2050, .2); },
+      down:function(){ click(1850, .18); },
+      copy:function(){ click(2100, .24); },
+      pull:function(){ click(2000, .16); },
+      fresh:function(){ click(2050, .16); }
     };
     // wake the audio on the first touch so the first real sound isn't lost
     var wake = function(){ if (on) ac(); window.removeEventListener('touchstart', wake, true); window.removeEventListener('mousedown', wake, true); };
