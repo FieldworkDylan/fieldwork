@@ -30,7 +30,7 @@
   --shadow:0 1px 2px rgba(15,42,27,.05),0 8px 24px -12px rgba(15,42,27,.16);
   --bar:rgba(255,243,224,.86);
   --display:'Archivo Black','Arial Black',sans-serif; --body:'DM Sans',system-ui,-apple-system,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
-  --glow:rgba(255,90,31,.42); --glow-2:rgba(255,90,31,.16);
+  --pill:rgba(15,42,27,.07);
   --r:16px; --tabh:64px;
   color-scheme:light;
 }
@@ -41,7 +41,7 @@
   --blue:#6F94FF; --blue-ink:#9DB6FF; --blue-soft:rgba(111,148,255,.16);
   --good:#7CC496; --good-soft:rgba(124,196,150,.15);
   --shadow:0 1px 2px rgba(0,0,0,.25),0 10px 28px -14px rgba(0,0,0,.5);
-  --bar:rgba(16,32,26,.86); --glow:rgba(255,120,64,.62); --glow-2:rgba(255,120,64,.22); color-scheme:dark}}
+  --bar:rgba(16,32,26,.86); --pill:rgba(255,255,255,.09); color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#10201A; --card:#172A22; --sunk:#1E352B; --ink:#F3E8D5; --ink-2:#AEB7A6; --ink-3:#7F8B7A;
   --hair:rgba(243,232,213,.09); --track:#24392F;
@@ -49,7 +49,7 @@
   --blue:#6F94FF; --blue-ink:#9DB6FF; --blue-soft:rgba(111,148,255,.16);
   --good:#7CC496; --good-soft:rgba(124,196,150,.15);
   --shadow:0 1px 2px rgba(0,0,0,.25),0 10px 28px -14px rgba(0,0,0,.5);
-  --bar:rgba(16,32,26,.86); --glow:rgba(255,120,64,.62); --glow-2:rgba(255,120,64,.22); color-scheme:dark}
+  --bar:rgba(16,32,26,.86); --pill:rgba(255,255,255,.09); color-scheme:dark}
 
 /* themes change the surfaces only; orange stays Fieldwork and blue stays Tattoo */
 :root[data-palette="cloud"]{--bg:#EEF1F6; --card:#FFFFFF; --sunk:#E2E7F0; --track:#DCE2EC; --bar:rgba(238,241,246,.86); --hair:rgba(20,32,58,.09)}
@@ -277,12 +277,12 @@ h1,h2,h3,p{margin:0}
 /* tab bar */
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--bar);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);border-top:1px solid var(--hair);padding-bottom:env(safe-area-inset-bottom,0px)}
 .tabbar-in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);height:var(--tabh);position:relative}
-/* a soft glowing circle sitting right behind the current tab's icon */
-.glow{position:absolute;top:0;bottom:0;left:0;width:25%;pointer-events:none;z-index:0;will-change:transform}
-.glow::after{content:"";position:absolute;left:50%;top:23px;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:radial-gradient(circle,var(--glow) 0%,var(--glow-2) 42%,transparent 70%);animation:hum 4.5s ease-in-out infinite}
-@keyframes hum{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.86;transform:scale(.96)}}
+/* a soft pill behind the current tab that bounces over to whichever tab you tap */
+.tabpill{position:absolute;top:0;bottom:0;left:0;width:25%;pointer-events:none;z-index:0;will-change:transform}
+.tabpill::after{content:"";position:absolute;left:50%;top:7px;width:70px;height:50px;margin-left:-35px;border-radius:18px;background:var(--pill);box-shadow:inset 0 0 0 1px var(--hair),0 1px 3px rgba(15,42,27,.08)}
 .tabbar button{z-index:1}
-.tabbar button[aria-selected=true] .ico svg{filter:drop-shadow(0 0 6px var(--glow))}
+.tabbar button:active .ico{transform:scale(.92)}
+.tabbar .ico{transition:transform .15s ease}
 .tabbar button{border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:600;color:var(--ink-3);cursor:pointer;position:relative}
 .tabbar button[aria-selected=true]{color:var(--ink)}
 .tabbar svg{width:25px;height:25px}
@@ -474,7 +474,7 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
 
 <nav class="tabbar" aria-label="Sections">
   <div class="tabbar-in" role="tablist">
-    <span class="glow" id="glow" aria-hidden="true"></span>
+    <span class="tabpill" id="tabpill" aria-hidden="true"></span>
     <button type="button" role="tab" id="tab-req" aria-controls="p-req" aria-selected="true"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 13.5 6 5.8A2 2 0 0 1 7.9 4.5h8.2A2 2 0 0 1 18 5.8l2.5 7.7"/><path d="M3.5 13.5V18a1.5 1.5 0 0 0 1.5 1.5h14a1.5 1.5 0 0 0 1.5-1.5v-4.5h-5l-1.3 2.2h-4.4L8.5 13.5z"/></svg><span class="badge" id="newcount" hidden>0</span></span>Requests</button>
     <button type="button" role="tab" id="tab-cal" aria-controls="p-cal" aria-selected="false"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><circle cx="8.5" cy="14.5" r="1.1" fill="currentColor" stroke="none"/></svg></span>Calendar</button>
     <button type="button" role="tab" id="tab-vis" aria-controls="p-vis" aria-selected="false"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><rect x="5.5" y="11" width="3" height="6" rx="1"/><rect x="10.5" y="6" width="3" height="11" rx="1"/><rect x="15.5" y="9" width="3" height="8" rx="1"/></svg></span>Visitors</button>
@@ -507,20 +507,22 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
     $('foot').hidden = tab === 'set';
     conns();
   }
-  var glowAt = -1;
-  function moveGlow(i){ // the light zips over to the new tab, stretching a little on the way
-    var g = $('glow'), to = 'translateX(' + (i * 100) + '%)';
-    if (glowAt < 0 || glowAt === i || calm() || !g.animate) { g.style.transform = to; glowAt = i; return; }
-    var running = g.getAnimations().length, from = running ? getComputedStyle(g).transform : 'translateX(' + (glowAt * 100) + '%)'; // tapped mid-glide: carry on from where it is
-    var mid = 'translateX(' + ((glowAt + i) * 50) + '%) scaleX(' + (1 + Math.abs(i - glowAt) * .35) + ') scaleY(.9)';
+  var pillAt = -1;
+  function movePill(i){ // springs over to the new tab: stretches on the way, overshoots a touch, settles
+    var g = $('tabpill'), to = 'translateX(' + (i * 100) + '%)';
+    if (pillAt < 0 || pillAt === i || calm() || !g.animate) { g.style.transform = to; pillAt = i; return; }
+    var running = g.getAnimations().length, from = running ? getComputedStyle(g).transform : 'translateX(' + (pillAt * 100) + '%)';
+    var dir = i > pillAt ? 1 : -1, dist = Math.min(3, Math.abs(i - pillAt));
+    var over = 'translateX(' + (i * 100 + dir * (6 + dist * 2)) + '%) scale(.97, 1.03)';
+    var mid = 'translateX(' + ((pillAt + i) * 50) + '%) scale(' + (1.1 + dist * .06) + ', .9)';
     g.getAnimations().forEach(function(a){ a.cancel(); });
-    g.style.transform = to; glowAt = i;
-    g.animate([{transform:from}, {transform:mid, opacity:.85, offset:.5}, {transform:to}], {duration:300, easing:'cubic-bezier(.3,.8,.3,1)'});
+    g.style.transform = to; pillAt = i;
+    g.animate([{transform:from}, {transform:mid, offset:.38}, {transform:over, offset:.68}, {transform:'translateX(' + (i * 100 - dir * 2) + '%)', offset:.86}, {transform:to}], {duration:560, easing:'cubic-bezier(.3,.7,.3,1)'});
   }
   function setTab(t, scroll){
     tab = t; store('fwlog-tab', t);
     TABS.forEach(function(k){ $('tab-' + k).setAttribute('aria-selected', k === t); $('p-' + k).hidden = k !== t; });
-    moveGlow(TABS.indexOf(t));
+    movePill(TABS.indexOf(t));
     head();
     if (scroll) window.scrollTo(0, 0);
     if (t === 'vis') { if (pendingChart) { chart(pendingChart); pendingChart = null; } grow(); }
