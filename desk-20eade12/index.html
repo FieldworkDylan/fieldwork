@@ -433,7 +433,7 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
     </section>
     <section class="set" aria-labelledby="h-snd" id="sounds">
       <div class="sec-h"><h2 id="h-snd">Sounds</h2></div>
-      <ul class="rowlist"><li><span class="rt"><b>Tap sounds</b><span>Soft clicks and chimes. Your phone’s silent switch mutes them.</span></span><button type="button" class="switch" id="sndsw" role="switch" aria-checked="true" aria-label="Tap sounds"><i></i></button></li></ul>
+      <ul class="rowlist"><li><span class="rt"><b>Tap sounds</b><span>Soft clicks as you tap around. Your phone’s silent switch mutes them.</span></span><button type="button" class="switch" id="sndsw" role="switch" aria-checked="true" aria-label="Tap sounds"><i></i></button></li></ul>
     </section>
     <section class="set" aria-labelledby="h-conn">
       <div class="sec-h"><h2 id="h-conn">Connections</h2></div>
@@ -535,7 +535,7 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
     if (scroll) window.scrollTo(0, 0);
     if (t === 'vis') { if (pendingChart) { chart(pendingChart); pendingChart = null; } grow(); }
   }
-  TABS.forEach(function(k, i){ $('tab-' + k).addEventListener('click', function(){ if (tab === k) window.scrollTo({top:0, behavior:calm() ? 'auto' : 'smooth'}); else { SFX.play('pop', i); setTab(k, true); } }); });
+  TABS.forEach(function(k, i){ $('tab-' + k).addEventListener('click', function(){ if (tab === k) window.scrollTo({top:0, behavior:calm() ? 'auto' : 'smooth'}); else { SFX.play('pop'); setTab(k, true); } }); });
   window.addEventListener('scroll', function(){ $('bar').classList.toggle('lined', window.scrollY > 4); }, {passive:true});
   var toastT = 0;
   function toast(msg){ var t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(function(){ t.classList.remove('on'); }, 1800); }
@@ -571,20 +571,26 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
       g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
       s.connect(f); f.connect(g); g.connect(master); s.start(t); s.stop(t + dur + .02);
     }
+    // a "creamy" click: a short rounded body tone plus a muffled tap, like a well-lubed keyboard key
+    function thock(f, vol, bright, delay){
+      tone(f, f * .72, .045, vol, 'sine', delay);
+      tone(f * 2.02, f * 1.5, .02, vol * .22, 'triangle', delay);
+      noise(.022, vol * .55, bright || 1400, .7, delay);
+    }
     var KIT = {
-      tick:function(){ noise(.028, .09, 3200, 1.5); tone(1900, 1300, .03, .025, 'triangle'); },              // pills, filters, days
-      pop:function(i){ var b = 470 + (i || 0) * 55; tone(b, b * 1.5, .09, .1); tone(b * 2, b * 3, .05, .018, 'triangle'); }, // tabs
-      open:function(){ tone(380, 520, .08, .06); },
-      close:function(){ tone(460, 330, .08, .045); },
-      done:function(){ tone(880, 0, .45, .065); tone(1318.5, 0, .55, .055, 'sine', .085); tone(2637, 0, .25, .012, 'sine', .085); }, // marked done, connected
-      soft:function(){ tone(700, 0, .16, .05); tone(1050, 0, .2, .035, 'sine', .06); },                    // read / replied / new
-      booked:function(){ [659.3, 880, 1318.5].forEach(function(f, i){ tone(f, 0, .42 - i * .06, .06 - i * .01, 'sine', i * .075); }); },
-      trash:function(){ tone(170, 70, .2, .14); noise(.07, .05, 500, .8); },
-      up:function(){ tone(300, 560, .13, .05); },
-      down:function(){ tone(520, 300, .12, .04); },
-      copy:function(){ noise(.02, .08, 4200, 2); tone(1500, 0, .05, .03, 'triangle', .02); },
-      pull:function(){ tone(900, 1200, .05, .04, 'triangle'); },
-      fresh:function(){ tone(1046.5, 0, .14, .035); }
+      pop:function(){ tone(520, 780, .09, .1); tone(1040, 1560, .05, .018, 'triangle'); }, // tabs: the same bubbly pop every time
+      tick:function(){ thock(230, .16); },                                   // pills, filters, days, settings
+      open:function(){ thock(250, .15, 1600); },
+      close:function(){ thock(205, .14, 1200); },
+      soft:function(){ thock(240, .16); },                                   // read / replied / new
+      done:function(){ thock(235, .16); thock(260, .14, 1700, .075); },      // done, connected: a satisfying double click
+      booked:function(){ thock(230, .16); thock(255, .15, 1700, .07); },
+      trash:function(){ thock(150, .2, 800); },
+      up:function(){ thock(245, .12, 1500); },
+      down:function(){ thock(210, .11, 1200); },
+      copy:function(){ thock(260, .14, 1800); },
+      pull:function(){ thock(240, .1, 1500); },
+      fresh:function(){ thock(250, .1, 1600); }
     };
     // wake the audio on the first touch so the first real sound isn't lost
     var wake = function(){ if (on) ac(); window.removeEventListener('touchstart', wake, true); window.removeEventListener('mousedown', wake, true); };
