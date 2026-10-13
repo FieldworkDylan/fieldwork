@@ -273,6 +273,10 @@ h1,h2,h3,p{margin:0}
 .rowlist .go{color:var(--ink-3);font-size:18px;line-height:1}
 .mini{border:0;background:var(--sunk);border-radius:999px;padding:7px 13px;font-size:13.5px;font-weight:600;cursor:pointer;min-height:34px;white-space:nowrap}
 .ver{text-align:center;font-size:12.5px;color:var(--ink-3)}
+.hx{position:absolute;inset:0;z-index:3;border-radius:inherit;cursor:inherit;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+.hx input{visibility:hidden;position:absolute;width:1px;height:1px;margin:0;pointer-events:none}
+.hxhost:not(.fab){position:relative}
+body.nohap .hx{display:none}
 .switch{flex:none;width:51px;height:31px;border-radius:999px;border:0;padding:2px;background:var(--track);cursor:pointer;transition:background-color .2s ease}
 .switch i{display:block;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
 .switch[aria-checked=true]{background:var(--good)}
@@ -552,13 +556,7 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
     var IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     function buzz(){
       if (!hap) return;
-      try {
-        if (navigator.vibrate && !IOS) { navigator.vibrate(8); return; }
-        if (!IOS) return;
-        var l = document.createElement('label'), i = document.createElement('input');
-        l.setAttribute('aria-hidden', 'true'); l.style.display = 'none'; i.type = 'checkbox'; i.setAttribute('switch', '');
-        l.appendChild(i); document.head.appendChild(l); l.click(); l.remove();
-      } catch (e) {}
+      try { if (navigator.vibrate && !IOS) navigator.vibrate(8); } catch (e) {} // iPhone: see the tap overlays further down
     }
     function ac(){
       if (!ctx) {
@@ -616,12 +614,37 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
       play:function(name, arg){ if (!KIT[name]) return; if (name !== 'fresh') buzz(); if (on) { try { KIT[name](arg); } catch (e) {} } },
       get on(){ return on; },
       get hap(){ return hap; },
-      setHap:function(v){ hap = !!v; store('fwlog-haptic', hap ? 'on' : 'off'); buzz(); },
+      setHap:function(v){ hap = !!v; store('fwlog-haptic', hap ? 'on' : 'off'); document.body.classList.toggle('nohap', !hap); buzz(); },
+      ios:IOS,
       set:function(v){ on = !!v; store('fwlog-sound', on ? 'on' : 'off'); if (on) { ac(); KIT.soft(); } }
     };
   })();
+  /* iPhone haptics. Since iOS 26.5 a page can only make the phone tap when your finger lands on a real system switch,
+     so every tappable thing gets an invisible label holding a hidden switch. The tap goes to the label (scrolling still
+     works), iOS ticks the switch, and the click carries on to the button underneath as normal. */
+  (function(){
+    if (!SFX.ios) return;
+    var SEL = '.tabbar [role=tab], .pills button, .segs button, .rhead, button.pbtn, .day, .ev, .navb, .todayb, .fab, .opt, .mini, .iconbtn, .switch';
+    function arm(el){
+      if (el.querySelector(':scope > .hx')) return;
+      var l = document.createElement('label'), i = document.createElement('input');
+      l.className = 'hx'; l.setAttribute('aria-hidden', 'true');
+      i.type = 'checkbox'; i.className = 'hxi'; i.tabIndex = -1; i.setAttribute('switch', '');
+      i.addEventListener('click', function(e){ e.stopPropagation(); }); // the label already delivered this tap
+      if (el.type === 'submit') l.addEventListener('click', function(){ if (el.form && el.form.requestSubmit) el.form.requestSubmit(el); }); // a label tap doesn't press a submit button by itself
+      l.appendChild(i); el.classList.add('hxhost'); el.appendChild(l);
+    }
+    function sweep(root){ if (root.matches && root.matches(SEL)) arm(root); if (root.querySelectorAll) root.querySelectorAll(SEL).forEach(arm); }
+    sweep(document.body);
+    // a tap on the overlay can press a submit button twice (the browser's own press plus ours): keep only the first
+    document.addEventListener('submit', function(e){ var f = e.target, t = Date.now(); if (f._sent && t - f._sent < 700) { e.preventDefault(); e.stopImmediatePropagation(); return; } f._sent = t; }, true);
+    new MutationObserver(function(ms){ ms.forEach(function(m){ m.addedNodes.forEach(function(n){ if (n.nodeType === 1 && !(n.classList && n.classList.contains('hx'))) sweep(n); }); }); }).observe(document.body, {childList:true, subtree:true});
+    document.body.classList.toggle('nohap', !SFX.hap);
+  })();
+
   // small taps everywhere get a light tick; bigger moments call their own sound
   document.addEventListener('click', function(e){
+    if (e.target.classList && e.target.classList.contains('hxi')) return;
     var b = e.target.closest('#filters button, #ranges button, #ev-kind button, .opt, .navb, .todayb, .day, .mini, #ev-allday');
     if (b && !b.closest('#sounds')) SFX.play('tick');
   }, true);
