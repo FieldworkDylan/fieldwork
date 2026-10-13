@@ -961,12 +961,23 @@ function fwTrack(name, title){ try { if (window.goatcounter && window.goatcounte
     var bg = getComputedStyle(document.body).backgroundImage;
     // three paper panels, each showing its third of the current screen
     var stack = $('fstack'); stack.textContent = ''; stack.style.width = W + 'px'; stack.style.height = H + 'px';
-    var srcFields = main.querySelectorAll('input,textarea,select');
+    var srcFields = main.querySelectorAll('input,textarea,select'), srcAll = main.querySelectorAll('*');
+    function still(c){ // the copy holds still: no fade-in replay, and the door stays exactly where it is mid-creak
+      c.classList.remove('intro');
+      var all = c.querySelectorAll('*');
+      for (var k = 0; k < srcAll.length; k++) {
+        var o = srcAll[k], n = all[k];
+        if (!n || !o.getAnimations || !o.getAnimations().length) continue;
+        var cs = getComputedStyle(o);
+        n.style.animation = 'none'; n.style.transition = 'none'; n.style.transform = cs.transform; n.style.opacity = cs.opacity;
+      }
+    }
     function panel(i){
       var fp = document.createElement('div'); fp.className = 'fp'; fp.style.top = (i * third) + 'px'; fp.style.height = third + 'px';
       var face = document.createElement('div'); face.className = 'fface'; face.style.backgroundImage = bg;
       var c = main.cloneNode(true); c.removeAttribute('id'); c.querySelectorAll('[id]').forEach(function(n){ n.removeAttribute('id'); });
       c.querySelectorAll('input,textarea,select').forEach(function(n, k){ var o = srcFields[k]; if (!o) return; if (o.type === 'radio' || o.type === 'checkbox') n.checked = o.checked; else n.value = o.value; });
+      still(c);
       c.style.left = mr.left + 'px'; c.style.top = (mr.top - i * third) + 'px'; c.style.width = mr.width + 'px';
       face.appendChild(c);
       var back = document.createElement('div'); back.className = 'fback';
