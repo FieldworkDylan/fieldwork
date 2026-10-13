@@ -121,6 +121,10 @@ legend + *{clear:both}
 .bk-cover .bk-band{position:absolute;left:0;right:0;height:16px;background:var(--accent);border-block:2px solid var(--ink)}
 .bk-cover .bk-logo{width:62%;padding:12px 14px;background:var(--paper);border:2.5px solid var(--ink);border-radius:6px}
 .bk-cover .bk-logo svg{width:100%;height:auto;display:block;overflow:visible}
+.bk.wsbook .bk-cover .bk-band{background:var(--ink)}
+.bk-dust{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.bk-dust i{position:absolute;display:block;border-radius:40%}
+.bk-dust .bk-puff{position:absolute;left:0;top:30%;width:70%;height:45%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,243,224,.75),rgba(255,243,224,0));filter:blur(6px);opacity:0}
 .bk-cover .bk-t{font-family:var(--display);font-size:18px;letter-spacing:.14em;color:var(--paper)}
 
 
@@ -159,7 +163,7 @@ main.intro > *:nth-child(2){animation-delay:.08s}
 main.intro > *:nth-child(3){animation-delay:.16s}
 main.intro > *:nth-child(n+4){animation-delay:.24s}
 @keyframes introUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.btn{transition:transform .12s ease,box-shadow .12s ease}
+.btn{transition:transform .12s ease,box-shadow .12s ease,opacity .25s ease}
 @media (prefers-reduced-motion: reduce){main.intro > *{animation:none}.tile,.tile::after{transition:none}}
 
 /* Send animation: the screen folds into a letter over blue, goes in an envelope, gets licked, sealed and mailed. */
@@ -226,6 +230,86 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
 .sd-flood{position:fixed;inset:0;z-index:99;background:#F6EFDF;clip-path:circle(0 at var(--fx) var(--fy));transition:clip-path .7s cubic-bezier(.6,0,.3,1) .4s;pointer-events:none}
 .sd-flood.go{clip-path:circle(150% at var(--fx) var(--fy))}
 @media (prefers-reduced-motion:reduce){.sd-door-leaf,.sd-door-spill,.sd-door-light,.sd-eyes,.sd-flood{transition:none!important;animation:none!important}}
+
+/* Workshop: a second book on the shelf. Inside: build a nightstand, or paint something that drips. */
+.shelf{display:flex;align-items:flex-end;gap:7px;margin-right:6px}
+.shelf .door{margin-right:0}
+.ws{position:fixed;inset:0;z-index:52;background-color:var(--blue);overflow-y:auto;padding:24px 20px 64px;-webkit-overflow-scrolling:touch}
+.ws[hidden],.ws [hidden]{display:none!important}
+.ws-in{gap:18px;max-width:560px}
+.ws-sub{margin:0;color:var(--ink-2);font-size:15px;max-width:44ch}
+.wp{display:flex;flex-direction:column;align-items:center;gap:16px}
+.wp[hidden]{display:none}
+.wp > .ws-sub{align-self:flex-start}
+.bwrap{position:relative;width:100%;max-width:440px}
+.bwrap canvas{position:absolute;left:0;top:0;width:100%;height:100%;touch-action:none;cursor:grab;outline:none}
+.bwrap canvas.spinning{cursor:grabbing}
+.bwrap canvas:focus-visible{outline:3px solid var(--blue);outline-offset:4px;border-radius:6px}
+.bench{width:100%;max-width:440px;height:auto;display:block;overflow:visible;-webkit-user-select:none;user-select:none}
+.bench .part{cursor:grab;touch-action:none}
+.bench .part.dragging{cursor:grabbing}
+.bench .part.placed{cursor:default}
+.bench .ghost{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-dasharray:5 5;opacity:.35;transition:opacity .3s ease}
+.bench .ghost.done{opacity:0}
+.wsq{width:100%;display:flex;gap:8px;align-items:stretch}
+.wsq input{flex:1;min-width:0;font-family:var(--mono);font-size:16px;color:var(--ink);background:#FFFBF2;border:2px solid var(--ink);border-radius:4px;padding:10px 12px;min-height:48px}
+.wsq input::placeholder{color:var(--ink-2);opacity:.75}
+.wsq input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wsq .btn{box-shadow:3px 3px 0 var(--accent);padding:10px 16px;font-size:16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.chips{width:100%;display:flex;gap:6px;flex-wrap:wrap}
+.chips button{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--ink);background:transparent;border:1.5px solid var(--ink);border-radius:999px;padding:6px 11px;min-height:34px;cursor:pointer;transition:background-color .2s ease}
+.chips button:hover{background:var(--paper-2)}
+.chips button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.chips.nudge button{animation:nudge .6s ease}
+@keyframes nudge{30%{background:var(--paper-2);transform:translateY(-2px)}}
+@media (prefers-reduced-motion: reduce){.chips.nudge button{animation:none}}
+.score{display:flex;flex-direction:column;align-items:center;gap:2px}
+.score b{font-family:var(--display);font-weight:400;font-size:56px;line-height:1}
+.score span{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.finish{display:flex;flex-direction:column;align-items:center;gap:16px}
+.fins{display:flex;gap:22px 28px;flex-wrap:wrap;justify-content:center}
+.fin-g{display:flex;flex-direction:column;align-items:center;gap:14px}
+.fin-l{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
+.fin-b{display:flex;gap:12px;padding:0 4px 4px}
+.fin-b button{width:36px;height:36px;border-radius:50%;border:2.5px solid var(--ink);padding:0;cursor:pointer;overflow:hidden;background:#E8C793;transition:transform .18s cubic-bezier(.3,1.6,.5,1),box-shadow .18s ease}
+.fin-b button i{display:block;width:100%;height:100%}
+.fin-b button[data-f=honey] i,.fin-b button[data-f=walnut] i,.fin-b button[data-f=ebony] i{background-image:repeating-linear-gradient(0deg,transparent 0 5px,rgba(0,0,0,.12) 5px 6px)!important}
+.fin-b button[aria-pressed=true]{transform:scale(1.12);box-shadow:0 0 0 3px #FFFBF2,0 0 0 5.5px var(--ink)}
+.fin-b button:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.btn.wait{opacity:.45;box-shadow:none}
+.fin-name{font-family:var(--display);font-size:16px}
+.ws-count{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.ws-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.ws-row[hidden]{display:none}
+.easel{width:100%;max-width:420px;aspect-ratio:4/5;border:2.5px solid var(--ink);border-radius:4px;background:var(--paper);box-shadow:5px 5px 0 var(--ink);overflow:hidden;touch-action:none}
+.easel canvas{display:block;width:100%;height:100%;cursor:crosshair}
+.ws-tools{width:100%;max-width:420px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.sw,.sz{display:flex;gap:8px;align-items:center}
+.sw button{width:38px;height:38px;border-radius:50%;border:2.5px solid var(--ink);cursor:pointer;padding:0;transition:transform .18s cubic-bezier(.3,1.6,.5,1),box-shadow .18s ease}
+.sw button[aria-pressed=true]{transform:scale(1.12);box-shadow:0 0 0 3px #FFFBF2,0 0 0 5.5px var(--ink)}
+.sz button{width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);background:transparent;cursor:pointer;display:grid;place-items:center;padding:0;transition:background-color .2s ease}
+.sz button i{display:block;border-radius:50%;background:var(--ink)}
+.sz{transition:opacity .25s ease}
+.sz.off{opacity:.35;pointer-events:none}
+.tool{display:flex;gap:6px}
+.tool button{width:40px;height:40px;border-radius:8px;border:2px solid var(--ink);background:transparent;cursor:pointer;display:grid;place-items:center;padding:0;transition:background-color .2s ease}
+.tool button svg{width:22px;height:22px}
+.tool button[aria-pressed=true]{background:var(--paper-2)}
+.tool button:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.easel.bucket canvas{cursor:cell}
+.sz button[aria-pressed=true]{background:var(--paper-2)}
+.tl{display:flex;gap:8px}
+.tl .x{padding:8px 12px;min-height:40px;font-size:12px}
+.sw button:focus-visible,.sz button:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.fr{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
+.fr[hidden]{display:none}
+.fr img{width:100%;max-width:360px;height:auto;display:block;filter:drop-shadow(0 16px 18px rgba(15,42,27,.3))}
+.fr-cap{display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center}
+.fr-title{font-family:var(--display);font-weight:400;font-size:20px;line-height:1.15;color:var(--ink);background:none;border:0;padding:2px 4px;cursor:pointer;max-width:30ch;text-wrap:balance}
+.fr-title:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
+.fr-cap span{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.ws-link{font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:var(--ink);background:none;border:0;padding:6px 2px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--accent);text-decoration-thickness:2px}
 </style>
 
 </head>
@@ -245,6 +329,7 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
       </svg>
       </span>
     </button>
+    <div class="shelf">
     <button class="door" id="door" type="button" aria-label="Open the gallery" aria-haspopup="dialog">
       <svg viewBox="0 0 38 128" aria-hidden="true">
         <!-- bands sized by how much of each color the site uses (cream background excluded): orange 3.1%, blue 9.5%, ink 87.4% -->
@@ -253,10 +338,22 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
           <rect y="0" width="38" height="3.97" fill="#FF5A1F"/>
           <rect y="3.97" width="38" height="12.16" fill="#2457D6"/>
           <rect y="16.13" width="38" height="111.87" fill="#0F2A1B"/>
-          <text text-anchor="middle" dominant-baseline="central" fill="#FFF3E0" style="font-family:var(--mono);font-size:11px;font-weight:500"><tspan x="19" y="31.5">G</tspan><tspan x="19" y="44.9">A</tspan><tspan x="19" y="58.3">L</tspan><tspan x="19" y="71.7">L</tspan><tspan x="19" y="85.1">E</tspan><tspan x="19" y="98.5">R</tspan><tspan x="19" y="111.9">Y</tspan></text>
+          <text text-anchor="middle" dominant-baseline="central" fill="#FFF3E0" style="font-family:var(--mono);font-size:11px;font-weight:500"><tspan x="19" y="34.9">G</tspan><tspan x="19" y="47.3">A</tspan><tspan x="19" y="59.7">L</tspan><tspan x="19" y="72.1">L</tspan><tspan x="19" y="84.5">E</tspan><tspan x="19" y="96.9">R</tspan><tspan x="19" y="109.3">Y</tspan></text>
         </g>
       </svg>
     </button>
+    <button class="door" id="wsdoor" type="button" aria-label="Open the workshop" aria-haspopup="dialog">
+      <svg viewBox="0 0 38 128" aria-hidden="true">
+        <defs><clipPath id="spclip2"><rect width="38" height="128" rx="2.5"/></clipPath></defs>
+        <g clip-path="url(#spclip2)">
+          <rect y="0" width="38" height="3.97" fill="#FF5A1F"/>
+          <rect y="3.97" width="38" height="12.16" fill="#0F2A1B"/>
+          <rect y="16.13" width="38" height="111.87" fill="#2457D6"/>
+          <text text-anchor="middle" dominant-baseline="central" fill="#FFF3E0" style="font-family:var(--mono);font-size:11px;font-weight:500"><tspan x="19" y="28.7">W</tspan><tspan x="19" y="41.1">O</tspan><tspan x="19" y="53.5">R</tspan><tspan x="19" y="65.9">K</tspan><tspan x="19" y="78.3">S</tspan><tspan x="19" y="90.7">H</tspan><tspan x="19" y="103.1">O</tspan><tspan x="19" y="115.5">P</tspan></text>
+        </g>
+      </svg>
+    </button>
+    </div>
   </header>
 
   <div>
@@ -348,6 +445,102 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
   </div>
 </div>
 
+<div class="ws" id="ws" role="dialog" aria-modal="true" aria-labelledby="wst" hidden>
+  <div class="gal-in ws-in">
+    <div class="gal-top">
+      <h2 id="wst">Workshop</h2>
+      <button class="x" type="button" id="wsx">Close</button>
+    </div>
+    <div class="tabs">
+      <button class="tab" type="button" data-p="build" aria-pressed="true">Build</button>
+      <button class="tab" type="button" data-p="paint" aria-pressed="false">Paint</button>
+    </div>
+
+    <section class="wp" id="wpbuild" aria-label="Build something">
+      <form class="wsq" id="bq" autocomplete="off">
+        <label class="sr" for="bqin">What would you like to build?</label>
+        <input id="bqin" type="text" maxlength="60" placeholder="What would you like to build?" enterkeyhint="go">
+        <button class="btn" type="submit">Build</button>
+      </form>
+      <div class="chips" id="bchips" role="group" aria-label="Ideas">
+        <button type="button">Nightstand</button><button type="button">Tall bookshelf</button><button type="button">Bench</button><button type="button">Round coffee table</button><button type="button">Stool</button><button type="button">Picture frame</button>
+      </div>
+      <p class="ws-sub" id="bmsg">Building a nightstand. Drag each part onto the outline and tap a part to turn it. Nothing snaps, so line it up yourself.</p>
+      <div class="bwrap" id="bwrap">
+      <svg class="bench" id="bench" viewBox="0 0 320 400" role="img" aria-label="Workbench with nightstand parts">
+        <defs>
+        </defs>
+        <ellipse id="bshadow" cx="160" cy="203" rx="92" ry="7" fill="#0F2A1B" opacity=".08"/>
+        <path id="bfloor" d="M30 201H290" stroke="#0F2A1B" stroke-width="3" stroke-linecap="round"/>
+        <g id="ghosts"></g>
+        <g id="tray"><rect id="trayr" x="14" y="222" width="292" height="170" rx="8" fill="#F0E2C6"/>
+        <text x="28" y="243" style="font-family:var(--mono);font-size:10px;letter-spacing:.14em" fill="#54604F">PARTS</text></g>
+        <g id="parts"></g>
+        <g id="bfx"></g>
+      </svg>
+      </div>
+      <div class="score" id="bscore" hidden><b id="bpct">0%</b><span id="blabel"></span></div>
+      <div class="ws-count" id="bcount" aria-live="polite">0 / 5 parts on the bench</div>
+      <div class="ws-row" id="bcheckrow"><button class="btn" type="button" id="bcheck">Check my build</button></div>
+      <div class="finish" id="bfinish" hidden>
+        <div class="fins">
+          <div class="fin-g"><span class="fin-l">Stain</span><div class="fin-b" role="group" aria-label="Stain">
+            <button type="button" data-f="natural" aria-label="Natural" aria-pressed="true"><i style="background:#E8C793"></i></button>
+            <button type="button" data-f="honey" aria-label="Honey stain" aria-pressed="false"><i style="background:#C98A3E"></i></button>
+            <button type="button" data-f="walnut" aria-label="Walnut stain" aria-pressed="false"><i style="background:#6B4226"></i></button>
+            <button type="button" data-f="ebony" aria-label="Ebony stain" aria-pressed="false"><i style="background:#2E241D"></i></button>
+          </div></div>
+          <div class="fin-g"><span class="fin-l">Paint</span><div class="fin-b" role="group" aria-label="Paint">
+            <button type="button" data-f="orange" aria-label="Orange paint" aria-pressed="false"><i style="background:#FF5A1F"></i></button>
+            <button type="button" data-f="blue" aria-label="Blue paint" aria-pressed="false"><i style="background:#2457D6"></i></button>
+            <button type="button" data-f="forest" aria-label="Forest paint" aria-pressed="false"><i style="background:#0F2A1B"></i></button>
+          </div></div>
+        </div>
+        <span class="fin-name" id="bfinname">Natural birch</span>
+      </div>
+      <div class="ws-row" id="bdone" hidden>
+        <button class="btn" type="button" id="breal">Get a real one made</button>
+        <button class="btn alt" type="button" id="bagain">Build again</button>
+      </div>
+    </section>
+
+    <section class="wp" id="wppaint" aria-label="Paint a picture" hidden>
+      <p class="ws-sub">Paint something.</p>
+      <div class="easel" id="easel"><canvas id="cv" aria-label="Painting canvas"></canvas></div>
+      <div class="ws-tools" id="ptools">
+        <div class="sw" role="group" aria-label="Paint color">
+          <button type="button" data-c="#FF5A1F" style="background:#FF5A1F" aria-label="Orange" aria-pressed="true"></button>
+          <button type="button" data-c="#2457D6" style="background:#2457D6" aria-label="Blue" aria-pressed="false"></button>
+          <button type="button" data-c="#0F2A1B" style="background:#0F2A1B" aria-label="Forest" aria-pressed="false"></button>
+          <button type="button" data-c="#FFF3E0" style="background:#FFF3E0" aria-label="Cream" aria-pressed="false"></button>
+        </div>
+        <div class="tool" role="group" aria-label="Tool">
+          <button type="button" data-t="brush" aria-label="Brush" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 3.5L11 13" stroke="#0F2A1B" stroke-width="2.6" stroke-linecap="round"/><path d="M10.2 12.6c1.6 1 1.8 3 .6 4.4C9.2 18.8 6 19.6 3.6 20c.6-2.2 1-5.2 2.8-6.8 1.2-1.1 2.6-1.2 3.8-.6Z" fill="#0F2A1B"/></svg></button>
+          <button type="button" data-t="bucket" aria-label="Paint bucket" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 10.5L11 4l7.5 7.5L12 18Z" fill="none" stroke="#0F2A1B" stroke-width="2.2" stroke-linejoin="round"/><path d="M6.8 12.6h10.4L12 17.9Z" fill="#0F2A1B"/><path d="M20 13.5c1.2 1.8 1.8 3 1.8 3.9a1.8 1.8 0 0 1-3.6 0c0-.9.6-2.1 1.8-3.9Z" fill="#0F2A1B"/></svg></button>
+        </div>
+        <div class="sz" role="group" aria-label="Brush size">
+          <button type="button" data-s=".02" aria-label="Small brush" aria-pressed="false"><i style="width:6px;height:6px"></i></button>
+          <button type="button" data-s=".045" aria-label="Medium brush" aria-pressed="true"><i style="width:12px;height:12px"></i></button>
+          <button type="button" data-s=".085" aria-label="Big brush" aria-pressed="false"><i style="width:20px;height:20px"></i></button>
+        </div>
+        <div class="tl">
+          <button class="x" type="button" id="pundo">Undo</button>
+          <button class="x" type="button" id="pclear">Clear</button>
+        </div>
+      </div>
+      <div class="ws-row" id="prow"><button class="btn" type="button" id="pframe">Frame it</button></div>
+      <div class="fr" id="fr" hidden>
+        <img id="frimg" alt="Your framed painting">
+        <div class="fr-cap"><button type="button" class="fr-title" id="frtitle" aria-label="Painting title. Tap for another title">Untitled</button><span>By you · Fieldwork Workshop</span></div>
+        <div class="ws-row">
+          <button class="btn" type="button" id="psave">Save picture</button>
+          <button class="btn alt" type="button" id="pback">Keep painting</button>
+        </div>
+        <button class="ws-link" type="button" id="preal">Want a real one? Start a painting</button>
+      </div>
+    </section>
+  </div>
+</div>
 <div class="bookfx" id="bookfx" aria-hidden="true" hidden>
   <div class="bk" id="bk">
     <div class="bk-page"></div>
@@ -471,6 +664,7 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
     }
     var fx = $('bookfx'), bk = $('bk'), cover = $('bkcover'), page = bk.querySelector('.bk-page');
     document.body.classList.add('locked');
+    cover.querySelectorAll('.bk-dust').forEach(function(n){ n.remove(); });
     // lay out the real gallery invisibly to learn where its page sits
     gal.style.transition = 'none'; gal.style.visibility = 'hidden'; gal.hidden = false; gal.scrollTop = 0; gal.classList.add('in');
     var gi = gal.querySelector('.gal-in'), T = gi.getBoundingClientRect();
@@ -876,5 +1070,1082 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
   }).observe(err, {childList:true, characterData:true, subtree:true});
 })();
 </script>
+<script>
+/* Workshop: build a nightstand (drag or tap parts into place) and paint with drips. */
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var ws = $('ws'), wsdoor = $('wsdoor'), NS = 'http://www.w3.org/2000/svg';
+  if (!ws || !wsdoor) return;
+  function calm(){ return window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  function track(a, b){ if (window.fwTrack) fwTrack(a, b); }
+  var lastFocus = null, tab = 'build';
+
+  /* ---------- open / close ---------- */
+  function openWs(){
+    lastFocus = document.activeElement;
+    ws.hidden = false; ws.scrollTop = 0; document.body.classList.add('locked');
+    track('fieldwork/workshop-opened', 'Opened the workshop');
+    if (tab === 'paint') sizeCanvas();
+    if (calm() || !document.body.animate || !$('bookfx')) { $('wsx').focus({preventScroll:true}); return; }
+    bookOpen();
+  }
+  function bookOpen(){ // same book as the gallery: pulls off the shelf, cover swings open, the page grows into the workshop
+    var fx = $('bookfx'), bk = $('bk'), cover = $('bkcover'), page = bk.querySelector('.bk-page'), label = cover.querySelector('.bk-t');
+    var sheet = ws.querySelector('.ws-in');
+    ws.style.visibility = 'hidden';
+    var T = sheet.getBoundingClientRect(), tH = Math.min(T.height, window.innerHeight - T.top);
+    page.textContent = '';
+    var mini = sheet.cloneNode(true);
+    mini.querySelectorAll('[id]').forEach(function(n){ if (!n.closest('defs')) n.removeAttribute('id'); });
+    var dsts = mini.querySelectorAll('canvas');
+    sheet.querySelectorAll('canvas').forEach(function(src, i){ var dst = dsts[i]; if (dst && src.width) { dst.width = src.width; dst.height = src.height; dst.getContext('2d').drawImage(src, 0, 0); } });
+    mini.style.width = T.width + 'px';
+    page.appendChild(mini);
+    var oldLabel = label.textContent; label.textContent = 'WORKSHOP'; bk.classList.add('wsbook');
+    // a dusting of sawdust on the cover, blown off before it opens
+    cover.querySelectorAll('.bk-dust').forEach(function(n){ n.remove(); });
+    var dust = document.createElement('div'); dust.className = 'bk-dust';
+    for (var i = 0; i < 110; i++) {
+      var sp = document.createElement('i'), kind = Math.random(), wv, hv;
+      if (kind < .18) { wv = 9 + Math.random() * 8; hv = 2.5 + Math.random() * 1.5; }      // shavings
+      else if (kind < .5) { wv = hv = 4 + Math.random() * 4; }                              // chunks
+      else { wv = hv = 2 + Math.random() * 2.5; }                                           // fine dust
+      var heap = Math.random() < .45, lx = heap ? 4 + Math.random() * 46 : 6 + Math.random() * 88, ty = heap ? 62 + Math.random() * 32 : 8 + Math.random() * 84; // piles up low by the spine
+      sp.style.cssText = 'left:' + lx + '%;top:' + ty + '%;width:' + wv + 'px;height:' + hv + 'px;background:' + ['#E8C793','#D9B176','#F3DDB4','#C9995A','#FFF3E0'][i % 5] + ';transform:rotate(' + Math.round(Math.random() * 180) + 'deg)';
+      dust.appendChild(sp);
+    }
+    cover.appendChild(dust);
+    fx.hidden = false; bk.style.cssText = '';
+    var B = bk.getBoundingClientRect(), s0 = B.width / T.width;
+    mini.style.transform = 'scale(' + s0 + ')';
+    var r = wsdoor.getBoundingClientRect();
+    var dx = (r.left + r.width / 2) - (B.left + B.width / 2), dy = (r.top + r.height / 2) - (B.top + B.height / 2), sc = r.height / B.height;
+    fx.animate([{opacity:0}, {opacity:1}], {duration:250, fill:'forwards'});
+    bk.animate([{transform:'translate(' + dx + 'px,' + dy + 'px) scale(' + sc + ') rotateY(80deg)'}, {transform:'none'}], {duration:600, easing:'cubic-bezier(.2,.8,.2,1)'}).finished
+      .then(function(){ // whoosh: a gust sweeps across from the spine side
+        var specks = [].slice.call(dust.children), last;
+        specks.forEach(function(sp){
+          var x = parseFloat(sp.style.left) / 100, gx = 220 + Math.random() * 260, gy = -60 - Math.random() * 180, rot = (Math.random() - .5) * 720;
+          sp.animate([{transform:sp.style.transform, opacity:1, offset:0}, {transform:'translate(' + gx * .18 + 'px,' + gy * .05 + 'px) rotate(' + rot * .2 + 'deg)', opacity:1, offset:.2}, {transform:'translate(' + gx + 'px,' + gy + 'px) rotate(' + rot + 'deg)', opacity:0, offset:1}],
+            {duration:650 + Math.random() * 350, delay:120 + x * 320, easing:'cubic-bezier(.35,.05,.4,1)', fill:'forwards'});
+        });
+        var puff = document.createElement('span'); puff.className = 'bk-puff'; dust.appendChild(puff); // the breath itself, a soft streak sweeping across
+        puff.animate([{transform:'translateX(-60%) scaleX(.6)', opacity:0}, {opacity:.55, offset:.35}, {transform:'translateX(120%) scaleX(1.2)', opacity:0}], {duration:700, delay:80, easing:'ease-out', fill:'forwards'});
+        return new Promise(function(res){ setTimeout(res, 900); });
+      })
+      .then(function(){ return cover.animate([{transform:'rotateY(0)'}, {transform:'rotateY(-165deg)'}], {duration:700, easing:'cubic-bezier(.5,0,.3,1)', fill:'forwards'}).finished; })
+      .then(function(){
+        dust.remove();
+        var Hc = Math.max(tH, B.height / s0), grow = document.createElement('div');
+        grow.style.cssText = 'position:fixed;left:' + T.left + 'px;top:' + T.top + 'px;width:' + T.width + 'px;height:' + Hc + 'px;overflow:hidden;border-radius:6px 10px 10px 6px;transform-origin:0 0;will-change:transform,clip-path;z-index:2';
+        mini.style.transform = 'none';
+        grow.appendChild(mini); fx.appendChild(grow);
+        bk.style.visibility = 'hidden';
+        var from = 'translate(' + (B.left - T.left) + 'px,' + (B.top - T.top) + 'px) scale(' + s0 + ')';
+        return grow.animate([{transform:from, clipPath:'inset(0 0 ' + (Hc - B.height / s0) + 'px 0 round 6px)'}, {transform:'none', clipPath:'inset(0 0 ' + (Hc - tH) + 'px 0 round 6px)'}], {duration:600, easing:'cubic-bezier(.5,0,.2,1)', fill:'forwards'}).finished.then(function(){ return grow; });
+      })
+      .then(function(grow){
+        ws.style.visibility = ''; fx.hidden = true; fx.style.opacity = '';
+        [fx, bk, cover].forEach(function(n){ n.getAnimations().forEach(function(a){ a.cancel(); }); });
+        if (grow) grow.remove();
+        bk.style.cssText = ''; page.textContent = ''; label.textContent = oldLabel; bk.classList.remove('wsbook');
+        if (tab === 'paint') sizeCanvas();
+        $('wsx').focus({preventScroll:true});
+      });
+  }
+  function closeWs(then){
+    var sheet = ws.querySelector('.ws-in');
+    function done(){ ws.hidden = true; document.body.classList.remove('locked'); if (typeof then === 'function') then(); else if (lastFocus) lastFocus.focus({preventScroll:true}); }
+    if (calm() || !ws.animate) { done(); return; }
+    var a1 = ws.animate([{backgroundColor:'rgba(36,87,214,1)'}, {backgroundColor:'rgba(36,87,214,0)'}], {duration:280, easing:'ease-in', fill:'forwards'});
+    var a2 = sheet.animate([{opacity:1, transform:'none'}, {opacity:0, transform:'translateY(20px)'}], {duration:260, easing:'ease-in', fill:'forwards'});
+    a2.finished.then(function(){ done(); a1.cancel(); a2.cancel(); });
+  }
+  wsdoor.addEventListener('click', openWs);
+  $('wsx').addEventListener('click', function(){ closeWs(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !ws.hidden && $('fr').hidden !== false) closeWs(); else if (e.key === 'Escape' && !ws.hidden) showEasel(); });
+
+  ws.querySelectorAll('.tab').forEach(function(b){
+    b.addEventListener('click', function(){
+      if (b.dataset.p === tab) return;
+      tab = b.dataset.p;
+      ws.querySelectorAll('.tab').forEach(function(t){ t.setAttribute('aria-pressed', t === b); });
+      var show = $(tab === 'build' ? 'wpbuild' : 'wppaint'), hide = $(tab === 'build' ? 'wppaint' : 'wpbuild');
+      hide.hidden = true; show.hidden = false;
+      if (tab === 'paint') sizeCanvas();
+      if (!calm() && show.animate) show.animate([{opacity:0, transform:'translateY(8px)'}, {opacity:1, transform:'none'}], {duration:320, easing:'cubic-bezier(.2,.8,.2,1)'});
+    });
+  });
+
+  /* hand off to the real form */
+  function startProject(type, note){
+    closeWs(function(){
+      var r = document.querySelector('input[name=type][value=' + type + ']');
+      if (r) { r.checked = true; r.dispatchEvent(new Event('change', {bubbles:true})); }
+      var ref = $('q_ref'); if (ref) ref.value = note;
+      var fs = document.querySelector('fieldset:nth-of-type(2)');
+      if (fs) fs.scrollIntoView({behavior: calm() ? 'auto' : 'smooth', block:'start'});
+    });
+  }
+
+  /* ---------- BUILD ---------- */
+  // Type what you want to build. Each build is a set of plywood parts and an outline. Nothing snaps:
+  // drag the parts into place, check the build for a quality score, then stain or paint it.
+  var bench = $('bench'), gParts = $('parts'), gGhost = $('ghosts'), gFx = $('bfx'), trayR = $('trayr');
+  var FIN = {
+    natural:{c:null,  o:0,   n:'Natural birch'},
+    honey:  {c:'#C98A3E', o:.5,  n:'Honey stain'},
+    walnut: {c:'#6B4226', o:.72, n:'Walnut stain'},
+    ebony:  {c:'#2E241D', o:.82, n:'Ebony stain'},
+    orange: {c:'#FF5A1F', o:1,   n:'Painted orange'},
+    blue:   {c:'#2457D6', o:1,   n:'Painted blue'},
+    forest: {c:'#0F2A1B', o:1,   n:'Painted forest green'}
+  };
+  function el(tag, attrs, parent){ var n = document.createElementNS(NS, tag); for (var a in attrs) n.setAttribute(a, attrs[a]); if (parent) parent.appendChild(n); return n; }
+  function R(k, x, y, w, h){ return {k:k, x:Math.round(x * 2) / 2, y:Math.round(y * 2) / 2, w:Math.round(w * 2) / 2, h:Math.round(h * 2) / 2, v:h > w}; }
+  var FLOOR = 200;
+
+  /* the build library. Every builder takes size multipliers and an optional count */
+  function caseBuild(W, H, n){ // sides, top, and n shelves counting the bottom one (nightstand, bookshelf, dresser...)
+    var x0 = 160 - W / 2, P = [R('top', x0 - 6, FLOOR - H, W + 12, 14), R('left side', x0, FLOOR - H + 14, 12, H - 14), R('right side', x0 + W - 12, FLOOR - H + 14, 12, H - 14)];
+    var inner = FLOOR - H + 14, bot = FLOOR - 18;
+    P.push(R('bottom shelf', x0 + 12, bot, W - 24, 10));
+    for (var i = 1; i < n; i++) P.push(R('shelf', x0 + 12, inner + (bot - inner) * i / n - 5, W - 24, 10));
+    return P;
+  }
+  function tableBuild(W, H, stretch){
+    var x0 = 160 - W / 2, P = [R('top', x0, FLOOR - H, W, 14), R('left leg', x0 + 10, FLOOR - H + 14, 12, H - 14), R('right leg', x0 + W - 22, FLOOR - H + 14, 12, H - 14), R('apron', x0 + 22, FLOOR - H + 14, W - 44, 10)];
+    if (stretch) P.push(R('stretcher', x0 + 22, FLOOR - 32, W - 44, 8));
+    return P;
+  }
+  function roundBuild(W, H, seat){ // a disc top on three legs, seen from the front: one leg in front, two behind
+    var a = W * .34, s = a * .866, P = [R(seat ? 'seat' : 'top', 160 - W / 2, FLOOR - H, W, 14)];
+    [['left leg', 160 - s, -a / 2], ['front leg', 160, a], ['right leg', 160 + s, -a / 2]].forEach(function(l){ var p = R(l[0], l[1] - 6, FLOOR - H + 14, 12, H - 14); p.z3 = {r:'rod', z:l[2]}; P.push(p); });
+    P[0].z3 = {r:'disc'};
+    return P;
+  }
+  var LIB = [
+    {id:'bookshelf', words:['bookshelf','bookshelves','bookcase','book case','book shelf','library','shelving unit','etagere'], name:'bookshelf', count:'shelf',
+      make:function(m, n){ return caseBuild(130 * m.w, 180 * m.h, Math.min(6, n || 4)); }, decor:'books'},
+    {id:'dresser', words:['dresser','chest of drawers','chest','drawers','cabinet','cupboard','sideboard','credenza','hutch'], name:'cabinet', count:'shelf',
+      make:function(m, n){ return caseBuild(180 * m.w, 130 * m.h, Math.min(5, n || 3)); }, decor:'plantbooks'},
+    {id:'console', words:['tv stand','media console','console','entertainment center','record cabinet','record stand','vinyl'], name:'console', count:'shelf',
+      make:function(m, n){ return caseBuild(230 * m.w, 84 * m.h, Math.min(3, n || 2)); }, decor:'plantbooks'},
+    {id:'nightstand', words:['nightstand','night stand','bedside','bed side','night table'], name:'nightstand', count:'shelf',
+      make:function(m, n){ return caseBuild(140 * m.w, 140 * m.h, Math.min(4, n || 2)); }, decor:'plantbooks'},
+    {id:'wallshelf', words:['wall shelf','floating shelf','shelf','shelves','ledge','spice rack','plant shelf','plant stand'], name:'wall shelf', count:'shelf',
+      make:function(m, n){ n = Math.min(4, n || 3); var W = 170 * m.w, x0 = 160 - W / 2, top = 40, H = (n > 1 ? 140 : 62) * m.h, P = [R('left upright', x0 + 18, top, 10, H), R('right upright', x0 + W - 28, top, 10, H)];
+        for (var i = 0; i < n; i++) P.push(R('shelf', x0, n > 1 ? top + 18 + (H - 36) * i / (n - 1) : top + 14, W, 10)); return P; }, decor:'plants', wall:true},
+    {id:'coffeetable', words:['coffee table','cocktail table','low table','tea table'], name:'coffee table',
+      make:function(m, n, round){ return round ? roundBuild(200 * m.w, 64 * m.h) : tableBuild(220 * m.w, 64 * m.h, false); }, decor:'mug', round:true},
+    {id:'sidetable', words:['side table','end table','accent table','sofa table','lamp table'], name:'side table',
+      make:function(m, n, round){ return round ? roundBuild(120 * m.w, 112 * m.h) : tableBuild(120 * m.w, 112 * m.h, true); }, decor:'lamp', round:true},
+    {id:'desk', words:['desk','writing desk','work table','workbench','work bench','computer desk','vanity'], name:'desk',
+      make:function(m){ return tableBuild(236 * m.w, 122 * m.h, true); }, decor:'desk'},
+    {id:'table', words:['dining table','kitchen table','table','dinner table','farm table','picnic table'], name:'table',
+      make:function(m, n, round){ return round ? roundBuild(220 * m.w, 118 * m.h) : tableBuild(240 * m.w, 118 * m.h, false); }, decor:'mug', round:true},
+    {id:'bench', words:['bench','entryway bench','banquette','settee','seat','ottoman'], name:'bench',
+      make:function(m){ var W = 230 * m.w, H = 72 * m.h, x0 = 160 - W / 2; return [R('seat', x0, FLOOR - H, W, 16), R('left leg', x0 + 14, FLOOR - H + 16, 18, H - 16), R('right leg', x0 + W - 32, FLOOR - H + 16, 18, H - 16), R('stretcher', x0 + 32, FLOOR - 30, W - 64, 10)]; }, decor:'plant'},
+    {id:'stool', words:['stool','bar stool','barstool','step stool','footstool','foot stool','counter stool'], name:'stool',
+      round:true, make:function(m, n, round){ if (round) return roundBuild(96 * m.w, 112 * m.h, true); var W = 96 * m.w, H = 112 * m.h, x0 = 160 - W / 2; return [R('seat', x0, FLOOR - H, W, 14), R('left leg', x0 + 8, FLOOR - H + 14, 12, H - 14), R('right leg', x0 + W - 20, FLOOR - H + 14, 12, H - 14), R('rung', x0 + 20, FLOOR - 40, W - 40, 8)]; }},
+    {id:'chair', words:['chair','dining chair','side chair','desk chair','kitchen chair','armchair','rocking chair'], name:'chair',
+      make:function(m){ var H = 168 * m.h, seatY = FLOOR - 86; return [R('back post', 186, FLOOR - H, 12, H), R('front leg', 104, seatY + 12, 12, FLOOR - seatY - 12), R('seat', 98, seatY, 100, 12), R('stretcher', 116, FLOOR - 34, 70, 8), R('back rail', 183, FLOOR - H + 18, 18, 14)]; }},
+    {id:'frame', words:['picture frame','frame','art frame','mirror','photo frame','poster frame'], name:'picture frame',
+      make:function(m){ var W = 140 * m.w, H = 160 * m.h, x0 = 160 - W / 2, y0 = 30; return [R('top rail', x0, y0, W, 14), R('bottom rail', x0, y0 + H - 14, W, 14), R('left stile', x0, y0 + 14, 14, H - 28), R('right stile', x0 + W - 14, y0 + 14, 14, H - 28)]; }, decor:'art', wall:true},
+    {id:'bed', words:['bed','bed frame','platform bed','daybed','day bed','bunk bed','headboard','crib','twin bed','queen bed','king bed'], name:'bed frame',
+      make:function(m){ var W = 250 * m.w, H = 120 * m.h, x0 = 160 - W / 2, rail = FLOOR - 52; return [R('headboard', x0, FLOOR - H, 16, H), R('footboard', x0 + W - 16, FLOOR - H * .65, 16, H * .65), R('side rail', x0 + 16, rail, W - 32, 16), R('slat', x0 + 16, rail - 8, W - 32, 8)]; }, decor:'bed'},
+    {id:'planter', words:['planter','planter box','garden box','flower box','raised bed','crate','box','toy box','toybox'], name:'planter box',
+      make:function(m){ var W = 180 * m.w, H = 80 * m.h, x0 = 160 - W / 2, P = []; for (var i = 0; i < 3; i++) P.push(R('slat', x0 + 10, FLOOR - H + 4 + i * (H - 8) / 3, W - 20, (H - 8) / 3 - 4)); P.push(R('left post', x0, FLOOR - H, 12, H), R('right post', x0 + W - 12, FLOOR - H, 12, H)); return P; }, decor:'planter'}
+  ];
+  function lev(a, b){ // edit distance, for typos
+    if (Math.abs(a.length - b.length) > 2) return 9;
+    var r = [], i, j; for (j = 0; j <= b.length; j++) r[j] = j;
+    for (i = 1; i <= a.length; i++) { var prev = r[0]; r[0] = i; for (j = 1; j <= b.length; j++) { var tmp = r[j]; r[j] = Math.min(r[j] + 1, r[j - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1] ? 0 : 1))); prev = tmp; } }
+    return r[b.length];
+  }
+  var NUM = {one:1, two:2, three:3, four:4, five:5, six:6, single:1, double:2, triple:3, a:1};
+  function parse(q){ // what they typed -> build + tweaks. Returns null if there is no plan for it
+    var t = ' ' + q.toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, ' ').trim() + ' ', hit = null, best = 0, hw = null;
+    LIB.forEach(function(b){ b.words.forEach(function(w){ if (t.indexOf(' ' + w + ' ') > -1 || t.indexOf(' ' + w + 's ') > -1 || t.indexOf(' ' + w + 'es ') > -1) { if (w.length > best) { best = w.length; hit = b; hw = w; } } }); });
+    if (!hit) { // close enough? catches typos like "nighstand" or "bookshlef"
+      var toks = t.trim().split(' '), cand = toks.concat(toks.slice(1).map(function(x, i){ return toks[i] + ' ' + x; })), bd = 9;
+      LIB.forEach(function(b){ b.words.forEach(function(w){ if (w.length < 5) return; cand.forEach(function(c){ var d = lev(c, w), ok = d <= (w.length >= 8 ? 2 : 1); if (ok && d < bd) { bd = d; hit = b; } }); }); });
+      if (!hit) return null;
+    }
+    var m = {w:1, h:1}, tw = [];
+    if (/ (tall|taller|tallest|high|towering) /.test(t)) { m.h *= 1.22; tw.push('tall'); }
+    else if (/ (big|bigger|large|huge|giant|massive|oversized) /.test(t)) { m.h *= 1.14; m.w *= 1.14; tw.push('big'); }
+    if (/ (short|low|small|mini|tiny|little|kid|kids|childs|child) /.test(t)) { m.h *= .78; m.w *= .85; tw.push('small'); }
+    if (/ (wide|long|wider|extra long) /.test(t)) { m.w *= 1.22; tw.push('wide'); }
+    if (/ (narrow|skinny|thin|slim) /.test(t)) { m.w *= .8; tw.push('narrow'); }
+    if (hit.round && / (round|circle|circular|oval|tripod) /.test(t)) tw.push('round');
+    var n = 0, mt = t.match(/ (\d+|one|two|three|four|five|six|single|double|triple) (shelf|shelves|shelfs|tier|tiers|level|levels|drawer|drawers|cubby|cubbies|layer|layers) /);
+    if (mt) n = parseInt(mt[1], 10) || NUM[mt[1]] || 0;
+    var fin = null, FW = {walnut:'walnut', dark:'walnut', espresso:'ebony', ebony:'ebony', black:'ebony', honey:'honey', oak:'honey', golden:'honey', natural:'natural', birch:'natural', plywood:'natural', raw:'natural', orange:'orange', blue:'blue', navy:'blue', green:'forest', forest:'forest'};
+    for (var k in FW) if (t.indexOf(' ' + k + ' ') > -1) { fin = FW[k]; break; }
+    var SAME = ['bookcase','tv stand','media console','record cabinet','sideboard','credenza','end table','writing desk','dining table','kitchen table','farm table','floating shelf','plant shelf','daybed','day bed','bunk bed','platform bed','mirror','photo frame','poster frame','art frame','bar stool','barstool','step stool','footstool','counter stool','dining chair','desk chair','kitchen chair','garden box','flower box','toy box','entryway bench']; // same build, their word for it
+    var name = hw && SAME.indexOf(hw) > -1 ? hw.replace('barstool', 'bar stool').replace('day bed', 'daybed') : hit.name;
+    return {b:hit, m:m, n:n, fin:fin, tweaks:tw, q:q.trim(), name:name, round:tw.indexOf('round') > -1};
+  }
+  function an(d){ return (/^[aeiou]/.test(d) ? 'an ' : 'a ') + d; }
+  function describe(r, parts){
+    var s = r.tweaks.filter(function(x, i, a){ return a.indexOf(x) === i; }).join(' '), name = r.name || r.b.name;
+    var shelves = parts.filter(function(p){ return /^shelf$|^bottom shelf$/.test(p.k); }).length;
+    var d = (s ? s + ' ' : '') + name;
+    if (r.b.count && r.n) d += shelves === 1 ? ' with 1 shelf' : ' with ' + shelves + ' shelves';
+    return d;
+  }
+
+  var PARTS = [], cur = null, startT = 0, checked = false, finish = 'natural', lastScore = 0, vb0 = 400, vbH = 400, vbRaf = 0, wantFin = null;
+  function grain(p, g){ // wavy grain lines running the length of the board, plus the odd knot
+    var L = p.v ? p.h : p.w, T = p.v ? p.w : p.h, n = Math.max(2, Math.round(T / 4)), d = '';
+    for (var i = 0; i < n; i++) {
+      var o = (i + .5) * T / n + (Math.random() - .5) * .8, amp = .35 + Math.random() * .5, ph = Math.random() * 6, seg = 10;
+      for (var s = 0; s <= L; s += seg) {
+        var a = Math.min(s, L - .8) + .4, b = o + Math.sin(s / 13 + ph) * amp;
+        d += (s === 0 ? 'M' : 'L') + (p.v ? p.x + b : p.x + a).toFixed(2) + ' ' + (p.v ? p.y + a : p.y + b).toFixed(2);
+      }
+    }
+    el('path', {d:d, fill:'none', stroke:'#BF8E50', 'stroke-width':.8, opacity:.85, 'stroke-linecap':'round'}, g);
+    if (L > 60) {
+      var k = .25 + Math.random() * .5, kx = p.v ? p.x + T / 2 : p.x + L * k, ky = p.v ? p.y + L * k : p.y + T / 2;
+      el('ellipse', {cx:kx, cy:ky, rx:p.v ? T * .18 : 2.4, ry:p.v ? 2.4 : T * .18, fill:'#B9864A', opacity:.55}, g);
+    }
+  }
+  var DECOR = { // little props that sit on the finished piece, drawn relative to a surface (x = left edge, y = top of surface)
+    plant:function(x, y){ return '<path d="M' + x + ' ' + (y - 18) + 'h22l-4 18h-14Z" fill="#FF5A1F"/><path d="M' + (x + 11) + ' ' + (y - 18) + 'c-11-12-11-22-5-28c6 8 7 18 5 28Zm0 0c7-12 15-16 23-16c-4 10-12 16-23 16Zm0 0c-5-8-15-12-23-11c4 8 13 12 23 11Z" fill="#0F2A1B"/>'; },
+    books:function(x, y){ return '<rect x="' + x + '" y="' + (y - 22) + '" width="13" height="22" fill="#2457D6"/><rect x="' + (x + 15) + '" y="' + (y - 17) + '" width="11" height="17" fill="#FF5A1F"/><rect x="' + (x + 28) + '" y="' + (y - 15) + '" width="22" height="15" transform="rotate(-14 ' + (x + 28) + ' ' + y + ')" fill="#0F2A1B"/>'; },
+    mug:function(x, y){ return '<rect x="' + x + '" y="' + (y - 14) + '" width="13" height="14" rx="2" fill="#FFF3E0" stroke="#0F2A1B" stroke-width="2"/><path d="M' + (x + 13) + ' ' + (y - 11) + 'c5 0 5 7 0 7" fill="none" stroke="#0F2A1B" stroke-width="2"/><rect x="' + (x + 24) + '" y="' + (y - 8) + '" width="34" height="8" fill="#2457D6"/><rect x="' + (x + 27) + '" y="' + (y - 14) + '" width="28" height="6" fill="#FF5A1F"/>'; },
+    lamp:function(x, y){ return '<path d="M' + (x - 4) + ' ' + (y - 46) + 'h32l8 22h-48Z" fill="#FF5A1F"/><rect x="' + (x + 10) + '" y="' + (y - 24) + '" width="4" height="18" fill="#0F2A1B"/><rect x="' + (x + 2) + '" y="' + (y - 7) + '" width="20" height="7" rx="3" fill="#0F2A1B"/>'; },
+    art:function(p){ return '<rect x="' + (p.x + 14) + '" y="' + (p.y + 14) + '" width="' + (p.w - 28) + '" height="' + (p.h - 28) + '" fill="#FFF3E0"/><path d="M' + (p.x + 14) + ' ' + (p.y + p.h - 14) + 'L' + (p.x + p.w * .42) + ' ' + (p.y + p.h * .55) + 'L' + (p.x + p.w * .62) + ' ' + (p.y + p.h * .72) + 'L' + (p.x + p.w * .78) + ' ' + (p.y + p.h * .6) + 'L' + (p.x + p.w - 14) + ' ' + (p.y + p.h - 14) + 'Z" fill="#2457D6"/><circle cx="' + (p.x + p.w * .66) + '" cy="' + (p.y + p.h * .36) + '" r="' + Math.max(6, p.w * .09) + '" fill="#FF5A1F"/>'; },
+    mattress:function(p){ return '<rect x="' + (p.x + 1) + '" y="' + (p.y - 17) + '" width="' + (p.w - 2) + '" height="17" rx="5" fill="#FFF3E0" stroke="#0F2A1B" stroke-width="2"/><path d="M' + (p.x + p.w * .38) + ' ' + (p.y - 19) + 'H' + (p.x + p.w - 3) + 'a2 2 0 0 1 2 2V' + (p.y - 4) + 'H' + (p.x + p.w * .38) + 'Z" fill="#2457D6"/><rect x="' + (p.x + 6) + '" y="' + (p.y - 27) + '" width="' + Math.min(44, p.w * .26) + '" height="11" rx="5" fill="#FFF3E0" stroke="#0F2A1B" stroke-width="2"/>'; },
+    soil:function(p){ return '<rect x="' + (p.x + 2) + '" y="' + (p.y - 8) + '" width="' + (p.w - 4) + '" height="8" rx="3" fill="#0F2A1B"/>' + DECOR.plant(p.x + p.w * .2, p.y - 6) + DECOR.plant(p.x + p.w * .6, p.y - 6); }
+  };
+  function decorate(){ // decide which part carries which prop for this build
+    var by = function(k){ return PARTS.filter(function(p){ return p.k === k; }); }, kind = cur.b.decor, out = [];
+    var top = by('top')[0] || by('seat')[0], shelves = by('shelf').concat(by('bottom shelf')).sort(function(a, b){ return a.y - b.y; });
+    var room = function(s){ var r = s.y; PARTS.forEach(function(o){ if (o !== s && o.y + o.h <= s.y + .5 && o.x < s.x + s.w - 14 && o.x + o.w > s.x + 14) r = Math.min(r, s.y - o.y - o.h); }); return r; }; // headroom above a surface
+    if (kind === 'plantbooks' || kind === 'books') { if (top && kind === 'plantbooks') out.push([top, DECOR.plant(top.x + top.w / 2 - 11, top.y)]); if (top && kind === 'books') out.push([top, DECOR.plant(top.x + top.w * .62, top.y)]); shelves.filter(function(s){ return s.w > 60 && room(s) >= 26; }).slice(0, 4).forEach(function(s, i){ out.push([s, DECOR.books(s.x + 8 + (i % 2) * (s.w - 66), s.y)]); }); }
+    if (kind === 'plants') shelves.forEach(function(s, i){ var h = room(s); if (h >= 50 && i % 2 === 0) out.push([s, DECOR.plant(s.x + 18 + (i % 3) * 20, s.y)]); else if (h >= 26) out.push([s, DECOR.books(s.x + s.w - 60, s.y)]); });
+    if (kind === 'bed') { var sl = by('slat')[0]; if (sl) out.push([sl, DECOR.mattress(sl), {bed:sl}]); }
+    if (kind === 'mug' && top) out.push([top, DECOR.mug(top.x + top.w / 2 - 28, top.y)]);
+    if (kind === 'lamp' && top) out.push([top, DECOR.lamp(top.x + top.w / 2 - 12, top.y)]);
+    if (kind === 'desk' && top) { out.push([top, DECOR.lamp(top.x + 26, top.y)]); out.push([top, DECOR.books(top.x + top.w - 70, top.y)]); }
+    if (kind === 'plant' && top) out.push([top, DECOR.plant(top.x + top.w * .7, top.y)]);
+    if (kind === 'art') { var tr = by('top rail')[0]; if (tr) { var fr = {x:tr.x, y:tr.y, w:tr.w, h:by('left stile')[0].h + 28}; out.push([tr, DECOR.art(fr), {art:fr}]); } }
+    if (kind === 'planter') { var sl = by('slat'); if (sl[0]) out.push([sl[0], DECOR.soil(sl[0]), {soil:sl[0], bills:[DECOR.plant(sl[0].x + sl[0].w * .2, sl[0].y - 6), DECOR.plant(sl[0].x + sl[0].w * .6, sl[0].y - 6)]}]); }
+    out.forEach(function(o){ var g = el('g', {opacity:0, 'class':'decor', 'pointer-events':'none'}, o[0].g); g.innerHTML = o[1]; g._mk = o[1]; g._s3 = o[2]; o[0].decors = (o[0].decors || []).concat(g); });
+  }
+  function setT(p){ p.g.setAttribute('transform', 'translate(' + p.dx.toFixed(2) + ' ' + p.dy.toFixed(2) + ') rotate(' + p.rot.toFixed(2) + ' ' + p.cx + ' ' + p.cy + ')'); }
+  function ease(t){ return 1 - Math.pow(1 - t, 3); }
+  function tween(p, to, dur, done){
+    var f = {dx:p.dx, dy:p.dy, rot:p.rot}, t0 = performance.now();
+    if (calm()) dur = 1;
+    cancelAnimationFrame(p.raf);
+    (function step(now){
+      var t = Math.min(1, (now - t0) / dur), e = ease(t);
+      p.dx = f.dx + (to.dx - f.dx) * e; p.dy = f.dy + (to.dy - f.dy) * e; p.rot = f.rot + (to.rot - f.rot) * e; setT(p);
+      if (t < 1) p.raf = requestAnimationFrame(step); else if (done) done();
+    })(t0);
+  }
+  function fade(n, to, dur, delay){
+    if (calm() || !n.animate) { n.setAttribute('opacity', to); return; }
+    var from = parseFloat(n.getAttribute('opacity') || 1);
+    n.setAttribute('opacity', to);
+    n.animate([{opacity:from}, {opacity:to}], {duration:dur, delay:delay || 0, easing:'ease-out', fill:'backwards'});
+  }
+  function onBench(p){ return p.cy + p.dy < 214; }
+  function count(){ var n = PARTS.filter(onBench).length; $('bcount').textContent = n + ' / ' + PARTS.length + ' parts on the bench'; $('bcheck').classList.toggle('wait', n < PARTS.length); }
+  function setVB(to, dur){
+    var from = vbH, t0 = performance.now(); cancelAnimationFrame(vbRaf);
+    if (calm()) dur = 1;
+    (function step(now){
+      var t = Math.min(1, (now - t0) / dur), e = ease(t);
+      vbH = from + (to - from) * e; bench.setAttribute('viewBox', '0 0 320 ' + vbH.toFixed(2));
+      if (t < 1) vbRaf = requestAnimationFrame(step);
+    })(t0);
+  }
+  function scoreAll(){ // 1 = dead on. Matching parts (two sides, the shelves) can go in either spot, so each part is scored against the closest free spot it fits
+    var pairs = [], used = {}, got = {}, sc = PARTS.map(function(p){ p.slot = p; return 0; });
+    PARTS.forEach(function(p, i){
+      if (p.q !== 0) return; // still lying on its side: it can't fit anywhere
+      PARTS.forEach(function(o, j){ if (o.w === p.w && o.h === p.h) pairs.push([Math.hypot(p.cx + p.dx - o.cx, p.cy + p.dy - o.cy), i, j]); });
+    });
+    pairs.sort(function(a, b){ return a[0] - b[0]; }).forEach(function(x){
+      if (got[x[1]] || used[x[2]]) return; got[x[1]] = used[x[2]] = 1; PARTS[x[1]].slot = PARTS[x[2]];
+      sc[x[1]] = Math.max(0, Math.min(1, 1 - Math.max(0, x[0] - 1.5) / 24));
+    });
+    return sc;
+  }
+  function verdict(s){
+    if (s >= 97) return 'Heirloom quality';
+    if (s >= 88) return 'Solid build';
+    if (s >= 75) return 'Pretty sturdy';
+    if (s >= 60) return 'A little wobbly';
+    if (s >= 40) return 'Don’t put a lamp on it';
+    return 'Firewood';
+  }
+  function layoutTray(){ // parts lie flat in the tray, longest first, packed into rows
+    var rows = [], ROOM = 262, y = 254; // first fit: each part goes in the first row it fits
+    PARTS.slice().sort(function(a, b){ return Math.max(b.w, b.h) - Math.max(a.w, a.h); }).forEach(function(p){
+      var L = Math.max(p.w, p.h), row = null;
+      for (var i = 0; i < rows.length && !row; i++) if (rows[i].used + 14 + L <= ROOM) row = rows[i];
+      if (!row) { row = {used:-14, h:0, items:[]}; rows.push(row); }
+      row.items.push([p, row.used + 14, L]); row.used += 14 + L; row.h = Math.max(row.h, Math.min(p.w, p.h));
+    });
+    rows.forEach(function(row){
+      var x = 30 + (ROOM - row.used) / 2 * Math.random() * .5; // a little loose, like they were set down by hand
+      row.items.forEach(function(it){ it[0].tcx = x + it[1] + it[2] / 2; it[0].tcy = y + row.h / 2; });
+      y += row.h + 13;
+    });
+    var trayH = Math.max(120, y - 13 + 16 - 222);
+    trayR.setAttribute('height', trayH);
+    return 222 + trayH + 8;
+  }
+  function makeParts(){
+    gParts.textContent = ''; gGhost.textContent = '';
+    PARTS.forEach(function(p){
+      el('rect', {x:p.x, y:p.y, width:p.w, height:p.h, rx:1.5, 'class':'ghost'}, gGhost);
+      p.g = el('g', {'class':'part', role:'button', tabindex:'0', 'aria-label':p.k + '. Drag to place, tap to turn. Arrow keys move it, R turns it'}, gParts);
+      el('rect', {x:p.x, y:p.y, width:p.w, height:p.h, rx:1.5, fill:'#E8C793', stroke:'#C99B5E', 'stroke-width':1}, p.g);
+      p.grainG = el('g', {}, p.g); grain(p, p.grainG);
+      var pad = 11; el('rect', {x:p.x - pad, y:p.y - pad, width:p.w + pad * 2, height:p.h + pad * 2, fill:'#000', opacity:0, 'class':'grab'}, p.g); // easier to grab with a finger
+      p.coat = null; p.decors = [];
+      p.extras = el('g', {opacity:0, 'pointer-events':'none'}, p.g); // screws ride along with the part
+      (p.v ? [[p.x + p.w / 2, p.y + 7], [p.x + p.w / 2, p.y + p.h - 7]] : [[p.x + 6, p.y + p.h / 2], [p.x + p.w - 6, p.y + p.h / 2]]).forEach(function(s){ el('circle', {cx:s[0], cy:s[1], r:2.2, fill:'#0F2A1B'}, p.extras); });
+      p.cx = p.x + p.w / 2; p.cy = p.y + p.h / 2;
+      bindPart(p);
+    });
+    decorate();
+  }
+  function bbox(P){ var x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9; P.forEach(function(p){ x0 = Math.min(x0, p.x); y0 = Math.min(y0, p.y); x1 = Math.max(x1, p.x + p.w); y1 = Math.max(y1, p.y + p.h); }); return {x:x0, y:y0, w:x1 - x0, h:y1 - y0, b:y1}; }
+  function fit(r){ // shrink a big ask until it fits the bench (and the tray)
+    var m = {w:r.m.w, h:r.m.h}, P;
+    for (var i = 0; i < 8; i++) {
+      P = r.b.make(m, r.n, r.round); var bb = bbox(P), ok = true;
+      if (bb.w > 262) { m.w *= 260 / bb.w; ok = false; }
+      if (bb.y < 18) { m.h *= (bb.b - 20) / bb.h; ok = false; }
+      if (bb.b > FLOOR) { m.h *= (FLOOR - 4 - bb.y) / bb.h; ok = false; }
+      if (ok) return P;
+    }
+    return P;
+  }
+  var loadSeq = 0;
+  function load(r, anim){ // swap in a new build
+    var parts = fit(r);
+    cur = r; wantFin = r.fin;
+    var go = function(){
+      PARTS = parts.map(function(p){ p.q0 = p.v ? 90 : 0; p.wob = (Math.random() - .5) * 7; return p; }); // uprights come lying flat in the tray
+      vb0 = layoutTray();
+      makeParts();
+      var bb = bbox(PARTS), sh = $('bshadow'); sh.setAttribute('rx', Math.round(bb.w * .42)); sh.setAttribute('opacity', r.b.wall ? 0 : .08);
+      resetBuild(false, anim);
+      var d = describe(r, PARTS);
+      cur.desc = d;
+      bench.setAttribute('aria-label', 'Workbench with ' + d + ' parts');
+      $('bmsg').textContent = 'Building ' + an(d) + '. Drag each part onto the outline and tap a part to turn it. Nothing snaps, so line it up yourself.';
+    };
+    var me = ++loadSeq; // only the latest ask wins if they tap around quickly
+    if (!anim || calm() || !gParts.animate || !PARTS.length) return go();
+    var after = function(){
+      if (me !== loadSeq) return;
+      go();
+      [gParts, gGhost].forEach(function(g){ g.getAnimations().forEach(function(a){ if (a.effect && a.effect.target === g) a.cancel(); }); g.animate([{opacity:0}, {opacity:1}], {duration:300, easing:'ease-out'}); });
+    };
+    Promise.all([gParts, gGhost].map(function(g){ var o = getComputedStyle(g).opacity; return g.animate([{opacity:o}, {opacity:0}], {duration:180, easing:'ease-in', fill:'forwards'}).finished; })).then(after, after);
+  }
+  var gen = 0; // bumps on every reset so stale timers from an old build do nothing
+  function later(fn, ms){ var g = gen; setTimeout(function(){ if (g === gen) fn(); }, ms); }
+  function resetBuild(anim, fresh){
+    checked = false; startT = 0; gen++; V3.hide();
+    if (Math.abs(vbH - vb0) > .5) setVB(vb0, fresh ? 420 : 500);
+    var tray = $('tray'); tray.getAnimations && tray.getAnimations().forEach(function(a){ a.cancel(); }); tray.removeAttribute('opacity');
+    gParts.getAnimations && gParts.getAnimations().forEach(function(a){ if (a.effect && a.effect.target === gParts && a.playState !== 'running') a.cancel(); });
+    PARTS.forEach(function(p, i){
+      p.g.classList.remove('placed'); p.g.setAttribute('aria-disabled', 'false');
+      [].slice.call(p.g.querySelectorAll('rect.coat')).forEach(function(r){ r.getAnimations && r.getAnimations().forEach(function(x){ x.cancel(); }); r.remove(); }); p.coat = null;
+      p.extras.setAttribute('opacity', 0); p.decors.forEach(function(d){ d.setAttribute('opacity', 0); });
+      p.q = p.q0; p.sway = 0;
+      var to = {dx:p.tcx - p.cx, dy:p.tcy - p.cy, rot:p.q0 + p.wob};
+      if (anim && !calm()) setTimeout(function(){ tween(p, to, 520); }, 120 + i * 70);
+      else if (fresh && !calm()) { p.dx = to.dx; p.dy = to.dy + 40; p.rot = to.rot; setT(p); setTimeout(function(){ tween(p, to, 480); }, 60 + i * 45); }
+      else { p.dx = to.dx; p.dy = to.dy; p.rot = to.rot; setT(p); }
+    });
+    gGhost.querySelectorAll('.ghost').forEach(function(g){ g.classList.remove('done'); });
+    finish = 'natural'; ws.querySelectorAll('.fin-b button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.f === 'natural'); }); $('bfinname').textContent = FIN.natural.n;
+    $('bscore').hidden = true; $('bfinish').hidden = true; $('bdone').hidden = true; $('bcheckrow').hidden = false; $('bcount').hidden = false;
+    $('bcount').textContent = '0 / ' + PARTS.length + ' parts on the bench'; $('bcheck').classList.add('wait');
+    if (cur && cur.desc) $('bmsg').textContent = 'Building ' + an(cur.desc) + '. Drag each part onto the outline and tap a part to turn it. Nothing snaps, so line it up yourself.';
+  }
+  function svgPt(e){ var pt = bench.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; return pt.matrixTransform(bench.getScreenCTM().inverse()); }
+  function clampP(p){ p.dx = Math.max(10 - p.cx, Math.min(310 - p.cx, p.dx)); p.dy = Math.max(10 - p.cy, Math.min(vb0 - 14 - p.cy, p.dy)); }
+  function check(){
+    if (checked) return;
+    checked = true;
+    var scores = scoreAll(), total = Math.round(scores.reduce(function(a, b){ return a + b; }, 0) / PARTS.length * 100);
+    lastScore = total;
+    PARTS.forEach(function(p, i){
+      p.g.classList.add('placed'); p.g.setAttribute('aria-disabled', 'true');
+      if (scores[i] > .35) fade(p.extras, 1, 260, 120 + i * 60);
+      if (scores[i] >= .6) p.decors.forEach(function(d, j){ fade(d, 1, 450, 600 + j * 90); });
+    });
+    gGhost.querySelectorAll('.ghost').forEach(function(g){ g.classList.add('done'); });
+    fade($('tray'), 0, 300);
+    var bb = gParts.getBBox(), need = Math.min(vb0, Math.max(236, Math.ceil(bb.y + bb.height + 10)) + V3.room());
+    later(function(){ setVB(need, 650); }, 200);
+    later(function(){ V3.show(); }, calm() ? 0 : total < 60 ? 1750 : 1150); // then it turns 3D
+    if (total < 60 && !calm() && gParts.animate) {
+      gParts.style.transformBox = 'view-box'; gParts.style.transformOrigin = '160px 201px';
+      gParts.animate([{transform:'rotate(0)'}, {transform:'rotate(-2.2deg)'}, {transform:'rotate(1.8deg)'}, {transform:'rotate(-1.2deg)'}, {transform:'rotate(.6deg)'}, {transform:'rotate(0)'}], {duration:1100, delay:500, easing:'ease-in-out'});
+    } else if (total >= 88 && !calm()) {
+      for (var i = 0; i < 14; i++) {
+        var a = (i / 14) * Math.PI * 2, d = 38 + Math.random() * 30;
+        var s = el('circle', {cx:160, cy:130, r:2 + Math.random() * 2.2, fill:i % 3 ? '#E8C793' : '#FF5A1F'}, gFx);
+        s.animate([{transform:'translate(0,0)', opacity:1}, {transform:'translate(' + Math.cos(a) * d * 1.6 + 'px,' + Math.sin(a) * d + 'px)', opacity:0}], {duration:900, delay:500, easing:'cubic-bezier(.2,.7,.3,1)', fill:'both'})
+          .finished.then((function(n){ return function(){ n.remove(); }; })(s));
+      }
+    }
+    $('bcheckrow').hidden = true; $('bcount').hidden = true;
+    $('bscore').hidden = false; $('blabel').textContent = verdict(total);
+    var t0 = performance.now(), dur = calm() ? 1 : 900;
+    (function up(now){ var t = Math.min(1, (now - t0) / dur); $('bpct').textContent = Math.round(total * ease(t)) + '%'; if (t < 1) requestAnimationFrame(up); })(t0);
+    $('bmsg').textContent = total >= 88 ? 'Nice build. Spin it around, then give it a finish.' : total >= 60 ? 'Not bad. Spin it around and give it a finish, or try again for a cleaner build.' : total >= 40 ? 'It stands. Mostly. Spin it around and give it a finish anyway.' : 'That’s a pile of wood. Spin it around, give it a finish anyway, or try again.';
+    $('bfinish').hidden = false; $('bdone').hidden = false;
+    [$('bscore'), $('bfinish'), $('bdone')].forEach(function(n, i){
+      if (!calm() && n.animate) n.animate([{opacity:0, transform:'translateY(8px)'}, {opacity:1, transform:'none'}], {duration:380, delay:250 + i * 90, easing:'ease-out', fill:'backwards'});
+    });
+    if (wantFin && wantFin !== 'natural') later(function(){ applyFinish(wantFin); }, calm() ? 0 : 900); // they asked for it by name
+    track('fieldwork/workshop-built', 'Built ' + an(cur ? cur.desc : 'piece') + ' (' + total + '%)');
+  }
+  function applyFinish(k){
+    finish = k; var f = FIN[k]; V3.tint(k);
+    $('bfinname').textContent = f.n;
+    ws.querySelectorAll('.fin-b button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.f === k); });
+    PARTS.forEach(function(p, i){ // new coat fades in over the old one, so the color change is smooth
+      var old = p.coat, base = p.grainG; // stains go over the grain so it shows through
+      if (f.c) {
+        var c = el('rect', {x:p.x, y:p.y, width:p.w, height:p.h, rx:1.5, fill:f.c, opacity:f.o, 'class':'coat'});
+        p.g.insertBefore(c, (old || base).nextSibling);
+        [].slice.call(p.g.querySelectorAll('rect.coat')).forEach(function(r){ if (r !== c && r !== old) r.remove(); });
+        p.coat = c;
+        if (!calm() && c.animate) { var gone = function(){ if (old) old.remove(); }; c.animate([{opacity:0}, {opacity:f.o}], {duration:450, delay:i * 30, easing:'ease-out', fill:'backwards'}).finished.then(gone, gone); }
+        else if (old) old.remove();
+      } else if (old) {
+        p.coat = null;
+        if (!calm() && old.animate) { var rm = function(){ old.remove(); }; old.animate([{opacity:parseFloat(old.getAttribute('opacity'))}, {opacity:0}], {duration:400, delay:i * 30, fill:'forwards'}).finished.then(rm, rm); }
+        else old.remove();
+      }
+    });
+  }
+  ws.querySelectorAll('.fin-b button').forEach(function(b){ b.addEventListener('click', function(){ if (b.dataset.f !== finish) applyFinish(b.dataset.f); }); });
+  function turn(p){ // quarter turn: lying flat <-> standing up
+    p.q = p.q ? 0 : 90; p.wob = 0; p.sway = 0;
+    tween(p, {dx:p.dx, dy:p.dy, rot:p.q}, 280);
+  }
+  function bindPart(p){
+    var drag = null;
+    function move(e){
+      if (!drag || e.pointerId !== drag.id) return;
+      var s = svgPt(e);
+      if (!drag.moved) { if (Math.hypot(s.x - drag.sx, s.y - drag.sy) < 4) return; drag.moved = true; }
+      p.dx = drag.dx + s.x - drag.sx; p.dy = drag.dy + s.y - drag.sy; clampP(p);
+      var vx = s.x - drag.lx; drag.lx = s.x; // swings a little as you carry it, settles when you let go
+      p.sway += (Math.max(-6, Math.min(6, vx * .8)) - p.sway) * .25;
+      p.rot = p.q + (calm() ? 0 : p.sway); setT(p);
+    }
+    function stop(){ window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', end); window.removeEventListener('pointercancel', end); }
+    function end(e){
+      if (!drag || e.pointerId !== drag.id) return;
+      var tap = !drag.moved && e.type === 'pointerup';
+      drag = null; stop(); p.g.classList.remove('dragging');
+      if (tap) turn(p); else { p.sway = 0; tween(p, {dx:p.dx, dy:p.dy, rot:p.q}, 240); }
+      count();
+    }
+    p.g.addEventListener('pointerdown', function(e){
+      if (checked || drag || e.button > 0) return;
+      e.preventDefault(); cancelAnimationFrame(p.raf);
+      var s = svgPt(e); drag = {sx:s.x, sy:s.y, lx:s.x, dx:p.dx, dy:p.dy, id:e.pointerId, moved:false};
+      p.sway = p.rot - p.q; p.wob = 0; // the tray wobble eases out once it's picked up
+      gParts.appendChild(p.g); p.g.classList.add('dragging');
+      window.addEventListener('pointermove', move); window.addEventListener('pointerup', end); window.addEventListener('pointercancel', end);
+      if (!startT) startT = performance.now();
+    });
+    p.g.addEventListener('keydown', function(e){
+      if (checked) return;
+      if (e.key === 'r' || e.key === 'R' || e.key === 'Enter' || e.key === ' ') { e.preventDefault(); turn(p); return; }
+      var k = {ArrowLeft:[-2,0], ArrowRight:[2,0], ArrowUp:[0,-2], ArrowDown:[0,2]}[e.key];
+      if (!k) return; e.preventDefault(); if (!startT) startT = performance.now();
+      cancelAnimationFrame(p.raf); p.wob = 0;
+      p.dx += k[0] * (e.shiftKey ? 5 : 1); p.dy += k[1] * (e.shiftKey ? 5 : 1); clampP(p);
+      p.rot = p.q; setT(p); count();
+    });
+  }
+
+  ['touchstart','touchmove'].forEach(function(t){ bench.addEventListener(t, function(e){ if (e.target.closest && e.target.closest('.part:not(.placed)')) e.preventDefault(); }, {passive:false}); });
+  $('bcheck').addEventListener('click', function(){
+    if (PARTS.filter(onBench).length < PARTS.length) { var b = $('bcheck'); if (!calm() && $('bcount').animate) $('bcount').animate([{color:'#BF3B00'}, {color:'#54604F'}], {duration:900}); if (!calm() && b.animate) b.animate([{transform:'translateX(0)'}, {transform:'translateX(-6px)'}, {transform:'translateX(6px)'}, {transform:'translateX(0)'}], {duration:300}); return; }
+    check();
+  });
+  $('bagain').addEventListener('click', function(){ resetBuild(true); });
+  $('breal').addEventListener('click', function(){
+    startProject('furniture', 'Built ' + an(cur ? cur.desc : 'piece') + ' in your workshop (' + FIN[finish].n.toLowerCase() + ', ' + lastScore + '% build quality).' + (cur && cur.q && cur.q.toLowerCase() !== cur.desc ? ' I asked for: "' + cur.q + '".' : '') + ' Want a real one.');
+  });
+  var NOPE = ['I don’t have plans for that yet.', 'That one’s not in the shop yet.', 'No blueprint for that one yet.'];
+  function ask(q){
+    q = (q || '').trim(); if (!q) { $('bqin').focus(); return; }
+    var r = parse(q);
+    track('fieldwork/workshop-asked', 'Asked to build: ' + q.slice(0, 60) + (r ? '' : ' (no plan)'));
+    if (!r) {
+      $('bmsg').textContent = NOPE[Math.floor(Math.random() * NOPE.length)] + ' Try one of these, or a bookshelf, desk, chair or planter.';
+      var c = $('bchips'); c.classList.remove('nudge'); void c.offsetWidth; c.classList.add('nudge');
+      if (!calm() && $('bmsg').animate) $('bmsg').animate([{opacity:0}, {opacity:1}], {duration:260});
+      return;
+    }
+    $('bqin').blur();
+    load(r, true);
+  }
+  $('bq').addEventListener('submit', function(e){ e.preventDefault(); ask($('bqin').value); });
+  $('bchips').querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(){ $('bqin').value = b.textContent; ask(b.textContent); }); });
+
+  /* ---------- 3D ---------- */
+  // Once a build is checked, the flat drawing turns into a little 3D model you can spin with a finger.
+  // A tiny renderer of its own: boards are boxes, round tops and legs are cylinders. Depth-buffered and flat shaded,
+  // with the same plywood grain and edge lines as the drawing. Plants, books and lamps ride along as paper cutouts.
+  function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+  var DEPTH = function(k, lo, hi){ return function(w){ return clamp(w * k, lo, hi); }; };
+  var RULES3 = { // how deep each build is, and how each part of the front drawing becomes solid wood
+    bookshelf:{D:DEPTH(.42, 48, 84), top:{r:'full', ov:6}},
+    dresser:{D:DEPTH(.42, 48, 84), top:{r:'full', ov:6}},
+    console:{D:DEPTH(.34, 48, 84), top:{r:'full', ov:6}},
+    nightstand:{D:DEPTH(.5, 48, 84), top:{r:'full', ov:6}},
+    wallshelf:{D:46, wall:true, shelf:{r:'full', ov:3}},
+    coffeetable:{D:DEPTH(.5, 60, 130), 'left leg':{r:'pair', inset:10}, 'right leg':{r:'pair', inset:10}, apron:{r:'ring', inset:10}, stretcher:{r:'ring', inset:10}},
+    sidetable:{D:DEPTH(.9, 60, 120), 'left leg':{r:'pair', inset:10}, 'right leg':{r:'pair', inset:10}, apron:{r:'ring', inset:10}, stretcher:{r:'ring', inset:10}},
+    desk:{D:DEPTH(.46, 60, 120), 'left leg':{r:'pair', inset:10}, 'right leg':{r:'pair', inset:10}, apron:{r:'ring', inset:10}, stretcher:{r:'ring', inset:10}},
+    table:{D:DEPTH(.56, 60, 140), 'left leg':{r:'pair', inset:10}, 'right leg':{r:'pair', inset:10}, apron:{r:'ring', inset:10}, stretcher:{r:'ring', inset:10}},
+    bench:{D:66, 'left leg':{r:'full', ov:-8}, 'right leg':{r:'full', ov:-8}, stretcher:{r:'mid'}},
+    stool:{D:DEPTH(1, 40, 140), 'left leg':{r:'pair', inset:8}, 'right leg':{r:'pair', inset:8}, rung:{r:'ring', inset:8}},
+    chair:{D:96, 'back post':{r:'pair'}, 'front leg':{r:'pair', inset:4}, stretcher:{r:'pair', inset:5, t:6}, 'back rail':{r:'full', ov:-3}},
+    frame:{D:12, wall:true},
+    bed:{D:DEPTH(.6, 90, 150), 'side rail':{r:'pair', t:10}, slat:{r:'full', ov:-10}},
+    planter:{D:DEPTH(.5, 50, 100), 'left post':{r:'pair'}, 'right post':{r:'pair'}, slat:{r:'ring'}}
+  };
+  function depth3(){ var R3 = RULES3[cur.b.id] || {}, w = bbox(PARTS).w; return typeof R3.D === 'function' ? R3.D(w) : (R3.D || 60); }
+  var V3 = (function(){
+    var RES = 2, FLAT = 'wood', INK = '#0F2A1B';
+    var cvs = null, ctx = null, off = null, octx = null, io = null, seen = false, on = false;
+    var tris = [], bills = [], nid = 1, D = 60, wall = false, pivot = 0, foot = 100, token = 0;
+    var zoom = 1, ZF = 1, yaw = 0, pitch = 0, vy = 0, vp = 0, raf = 0, last = 0, touched = false, drag = null, intro = null;
+    var pw = 0, ph = 0, S = 1, imgd = null, px = null, zb = null, ib = null, bS = 0, dirty = null;
+    var WOOD = {b:[232, 199, 147], g:[0, 0, 0], e:[201, 155, 94]}, TO = null, tint = null, outA = null;
+    function hex(h){ return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)]; }
+    function mix(a, b, t){ return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+    function woodFor(k){ // same recipe as the drawing: grain over birch, then the coat at its opacity
+      var f = FIN[k], c = f.c ? hex(f.c) : [0, 0, 0], o = f.c ? f.o : 0, base = [232, 199, 147];
+      return {b:mix(base, c, o), g:mix(mix(base, [191, 142, 80], .85), c, o), e:mix(mix([201, 155, 94], c, o * .85), [0, 0, 0], o > .9 ? .18 : .04)};
+    }
+    function u32(c, sh){
+      var r = c[0], g = c[1], b = c[2];
+      if (sh > 1) { var k = (sh - 1) * .7; r += (255 - r) * k; g += (255 - g) * k; b += (255 - b) * k; }
+      else { r *= sh; g *= sh; b *= sh; }
+      return ((255 << 24) | (clamp(Math.round(b), 0, 255) << 16) | (clamp(Math.round(g), 0, 255) << 8) | clamp(Math.round(r), 0, 255)) >>> 0;
+    }
+
+    /* geometry: everything in world units, x centered on the bench, y up from the floor, z toward you */
+    function face(v, n, mat, uv, ph, tex){ // a flat polygon (3 or 4 corners) -> triangles sharing one id, so no line is drawn across it
+      var id = nid++;
+      for (var i = 1; i + 1 < v.length; i++) tris.push({v:[v[0], v[i], v[i + 1]], uv:[uv[0], uv[i], uv[i + 1]], n:n, id:id, mat:mat, ph:ph, tex:tex});
+      return id;
+    }
+    function box(x0, x1, y0, y1, z0, z1, mat, tex){
+      var ext = [x1 - x0, y1 - y0, z1 - z0], L = ext.indexOf(Math.max.apply(null, ext)), ph = Math.random() * 6;
+      var P = function(i){ return [i & 1 ? x1 : x0, i & 2 ? y1 : y0, i & 4 ? z1 : z0]; };
+      [[[0, 2, 6, 4], [-1, 0, 0], 0], [[1, 5, 7, 3], [1, 0, 0], 0], [[0, 4, 5, 1], [0, -1, 0], 1], [[2, 3, 7, 6], [0, 1, 0], 1], [[0, 1, 3, 2], [0, 0, -1], 2], [[4, 6, 7, 5], [0, 0, 1], 2]].forEach(function(f){
+        var ax = [0, 1, 2].filter(function(a){ return a !== f[2]; }), ua = ax.indexOf(L) > -1 ? L : ax[0], va = ax[0] === ua ? ax[1] : ax[0];
+        var v = f[0].map(P), uv = v.map(function(p){ return f[1][2] === 1 && tex ? [p[0], p[1]] : [p[ua], p[va]]; });
+        face(v, f[1], mat, uv, ph, f[1][2] === 1 ? tex : null);
+      });
+    }
+    function cyl(cx, cz, r, y0, y1, mat){
+      var n = r > 20 ? 48 : 14, tall = y1 - y0 > r * 2, ph = Math.random() * 6, side = nid++, top = [], bot = [], tuv = [], buv = [];
+      for (var i = 0; i < n; i++) {
+        var a0 = i / n * Math.PI * 2, a1 = (i + 1) / n * Math.PI * 2, am = (a0 + a1) / 2;
+        var p0 = [cx + Math.cos(a0) * r, cz + Math.sin(a0) * r], p1 = [cx + Math.cos(a1) * r, cz + Math.sin(a1) * r];
+        var nn = [Math.cos(am), 0, Math.sin(am)], s0 = a0 * r, s1 = a1 * r;
+        var v = [[p0[0], y0, p0[1]], [p1[0], y0, p1[1]], [p1[0], y1, p1[1]], [p0[0], y1, p0[1]]];
+        var uv = tall ? [[y0, s0], [y0, s1], [y1, s1], [y1, s0]] : [[s0, y0], [s1, y0], [s1, y1], [s0, y1]];
+        tris.push({v:[v[0], v[1], v[2]], uv:[uv[0], uv[1], uv[2]], n:nn, id:side, mat:mat, ph:ph, seg:1}, {v:[v[0], v[2], v[3]], uv:[uv[0], uv[2], uv[3]], n:nn, id:side, mat:mat, ph:ph, seg:1});
+        top.push([p0[0], y1, p0[1]]); bot.push([p0[0], y0, p0[1]]); tuv.push([p0[0], p0[1]]); buv.push([p0[0], p0[1]]);
+      }
+      face(top, [0, 1, 0], mat, tuv, ph); face(bot, [0, -1, 0], mat, buv, ph);
+    }
+    function build(){
+      tris = []; bills = []; nid = 1;
+      var R3 = RULES3[cur.b.id] || {}, bb = bbox(PARTS); D = depth3(); wall = !!R3.wall;
+      pivot = wall ? FLOOR - (bb.y + bb.h / 2) : 0; foot = Math.hypot(bb.w, D) * .4;
+      var hd = D / 2, W = function(x){ return x - 160; }, Y = function(y){ return FLOOR - y; };
+      var B = function(x0, x1, y0, y1, z0, z1, mat, tex){ box(W(x0), W(x1), Y(y1), Y(y0), z0, z1, mat || FLAT, tex); };
+      PARTS.forEach(function(p){
+        var sl = p.slot || p, rule = sl.z3 || R3[sl.k] || {r:'full'};
+        var lying = p.q !== 0, w = lying ? p.h : p.w, h = lying ? p.w : p.h, cx = p.cx + p.dx, cy = p.cy + p.dy;
+        var x0 = cx - w / 2, x1 = cx + w / 2, y0 = cy - h / 2, y1 = cy + h / 2, t, zc;
+        if (rule.r === 'disc') return lying ? B(x0, x1, y0, y1, -h / 2, h / 2) : cyl(W(cx), 0, w / 2, Y(y1), Y(y0), FLAT);
+        if (rule.r === 'rod') return lying ? B(x0, x1, y0, y1, rule.z - 6, rule.z + 6) : cyl(W(cx), rule.z, w / 2, Y(y1), Y(y0), FLAT);
+        if (rule.r === 'pair') { t = rule.t || clamp(Math.min(w, h), 6, 14); zc = hd - (rule.inset || 0) - t / 2; B(x0, x1, y0, y1, zc - t / 2, zc + t / 2); B(x0, x1, y0, y1, -zc - t / 2, -zc + t / 2); return; }
+        if (rule.r === 'ring') { var o = hd - (rule.inset || 0) - 2, zi = hd - (rule.inset || 0) - 12; B(x0, x1, y0, y1, o - 6, o); B(x0, x1, y0, y1, -o, -o + 6); B(x0 - 10, x0 - 4, y0, y1, -zi, zi); B(x1 + 4, x1 + 10, y0, y1, -zi, zi); return; }
+        if (rule.r === 'mid') return B(x0, x1, y0, y1, -5, 5);
+        var e = hd + (rule.ov || 0); B(x0, x1, y0, y1, -e, e);
+      });
+      var CREAM = {b:hex('#FFF3E0'), e:hex(INK)}, BLUE = {b:hex('#2457D6'), e:hex(INK)}, SOIL = {b:hex('#0F2A1B'), e:hex('#0F2A1B')};
+      PARTS.forEach(function(p){ (p.decors || []).forEach(function(g){
+        if (g.getAttribute('opacity') !== '1') return; // only the props that showed up for this build
+        var s3 = g._s3 || {}, ox = p.dx, oy = p.dy, b;
+        if (s3.bed) { b = s3.bed;
+          B(b.x + 1 + ox, b.x + b.w - 1 + ox, b.y - 17 + oy, b.y + oy, -(hd - 3), hd - 3, CREAM);
+          B(b.x + b.w * .38 + ox, b.x + b.w + ox, b.y - 19 + oy, b.y - 4 + oy, -(hd - 1), hd - 1, BLUE);
+          B(b.x + 6 + ox, b.x + 6 + Math.min(44, b.w * .26) + ox, b.y - 27 + oy, b.y - 16 + oy, -(hd - 16), hd - 16, CREAM);
+        } else if (s3.art) { b = s3.art;
+          B(b.x + 8 + ox, b.x + b.w - 8 + ox, b.y + 8 + oy, b.y + b.h - 8 + oy, -6, -3, CREAM, {mk:g._mk, x:b.x + 14 + ox, y:b.y + 14 + oy, w:b.w - 28, h:b.h - 28, ox:ox, oy:oy, rx:b.x + 14, ry:b.y + 14});
+        } else if (s3.soil) { b = s3.soil;
+          B(b.x + 3 + ox, b.x + b.w - 3 + ox, b.y - 6 + oy, b.y + 4 + oy, -(hd - 8), hd - 8, SOIL);
+          s3.bills.forEach(function(mk){ bills.push({mk:mk, ox:ox, oy:oy}); });
+        } else bills.push({mk:g._mk, ox:ox, oy:oy});
+      }); });
+      var far = 0, top = 0; tris.forEach(function(t){ t.v.forEach(function(v){ far = Math.max(far, Math.hypot(v[0], v[2])); top = Math.max(top, Math.hypot(v[1] - pivot, v[2])); }); });
+      ZF = Math.min(1, 146 / far, (wall ? FLOOR - pivot - 6 : FLOOR - 10) / Math.max(1, top)); // wide pieces step back a little so they never leave the page as they turn
+    }
+    function raster(mk, done){ // svg markup -> pixels at the current scale. r = the patch of the drawing it covers
+      var t = el('g', {}, bench); t.innerHTML = mk.mk; var bx = t.getBBox(); t.remove();
+      var pad = mk.tight ? 0 : 2, r = mk.tight ? {x:mk.rx, y:mk.ry, width:mk.w, height:mk.h} : {x:bx.x - pad, y:bx.y - pad, width:bx.width + pad * 2, height:bx.height + pad * 2};
+      var w = Math.max(1, Math.round(r.width * S)), h = Math.max(1, Math.round(r.height * S)), im = new Image();
+      im.onload = function(){ var c = document.createElement('canvas'); c.width = w; c.height = h; var x = c.getContext('2d'); x.drawImage(im, 0, 0, w, h); try { done({w:w, h:h, d:x.getImageData(0, 0, w, h).data, r:r}); } catch (e) { done(null); } };
+      im.onerror = function(){ done(null); };
+      im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" viewBox="' + r.x + ' ' + r.y + ' ' + r.width + ' ' + r.height + '">' + mk.mk + '</svg>');
+    }
+    function prep(){ // cutouts and the framed picture need pixels before the first frame
+      bS = S;
+      var jobs = bills.map(function(b){ return new Promise(function(res){ raster(b, function(o){ b.img = o; res(); }); }); });
+      tris.forEach(function(t){ if (t.tex && !t.tex.img && !t.tex.wait) { var x = t.tex; x.wait = 1; x.tight = 1; jobs.push(new Promise(function(res){ raster(x, function(o){ x.img = o; if (o) o.u = new Uint32Array(o.d.buffer.slice(0)); res(); }); })); } });
+      return Promise.all(jobs);
+    }
+
+    /* drawing */
+    function size(){
+      var cw = cvs.clientWidth, ch = cvs.clientHeight, w = Math.max(1, Math.round(cw * RES)), h = Math.max(1, Math.round(ch * RES));
+      if (w === pw && h === ph) return;
+      pw = w; ph = h; S = pw / 320; cvs.width = off.width = pw; cvs.height = off.height = ph;
+      imgd = octx.createImageData(pw, ph); px = new Uint32Array(imgd.data.buffer); zb = new Float32Array(pw * ph).fill(-1e9); ib = new Uint16Array(pw * ph); dirty = null;
+      if (bS && Math.abs(bS - S) > .01) { var t = token; tris.forEach(function(x){ if (x.tex) { x.tex.img = null; x.tex.wait = 0; } }); prep().then(function(){ if (t === token) kick(); }); }
+    }
+    function draw(){
+      size();
+      var cy = Math.cos(yaw * Math.PI / 180), sy = Math.sin(yaw * Math.PI / 180), cp = Math.cos(pitch * Math.PI / 180), sp = Math.sin(pitch * Math.PI / 180);
+      var Lx = 0, Ly = .8, Lz = .6, minX = pw, minY = ph, maxX = 0, maxY = 0;
+      var zs = zoom; // scale about the floor center (or the middle of a wall piece)
+      function T(p){ var x1 = p[0] * cy + p[2] * sy, z1 = -p[0] * sy + p[2] * cy, y = p[1] - pivot; return [(160 + x1 * zs) * S, (FLOOR - ((y * cp - z1 * sp) * zs + pivot)) * S, y * sp + z1 * cp]; }
+      if (dirty) { for (var ry = dirty[1]; ry <= dirty[3]; ry++) { var o0 = ry * pw + dirty[0], o1 = ry * pw + dirty[2] + 1; px.fill(0, o0, o1); zb.fill(-1e9, o0, o1); ib.fill(0, o0, o1); } }
+      var cache = {}, EC = [];
+      for (var k = 0; k < tris.length; k++) {
+        var t = tris[k], n = t.n, nx = n[0] * cy + n[2] * sy, nz1 = -n[0] * sy + n[2] * cy, ny = n[1] * cp - nz1 * sp, nz = n[1] * sp + nz1 * cp;
+        if (nz <= .002) continue; // facing away
+        var sh = .778 + .37 * (Lx * nx + Ly * ny + Lz * nz), m = t.mat === FLAT ? WOOD : t.mat, key = t.id;
+        var gk = clamp((nz - .3) / .55, 0, 1); // grain fades out on surfaces seen at a steep angle, where it would turn into a hatch
+        var f = (!t.seg && cache[key]) || {id:t.id, sh:sh, cb:u32(m.b, sh), cg:m.g && gk > .04 ? u32(mix(m.b, m.g, gk), sh) : 0, tex:t.tex && t.tex.img, ph:t.ph}; // round sides shade per facet
+        if (!t.seg) cache[key] = f;
+        if (!EC[t.id]) EC[t.id] = u32(m.e, 1);
+        var a = T(t.v[0]), b = T(t.v[1]), c = T(t.v[2]);
+        minX = Math.min(minX, a[0], b[0], c[0]); maxX = Math.max(maxX, a[0], b[0], c[0]); minY = Math.min(minY, a[1], b[1], c[1]); maxY = Math.max(maxY, a[1], b[1], c[1]);
+        fill(a, b, c, t.uv, f, t.tex);
+      }
+      // edge lines wherever one board meets another (or the air), in the nearer board's edge color
+      var x0 = clamp(Math.floor(minX) - 2, 0, pw - 1), x1 = clamp(Math.ceil(maxX) + 2, 0, pw - 1), y0 = clamp(Math.floor(minY) - 2, 0, ph - 1), y1 = clamp(Math.ceil(maxY) + 2, 0, ph - 1);
+      for (var y = y0; y <= y1; y++) for (var x = x0, i = y * pw + x0; x <= x1; x++, i++) {
+        var A = ib[i], e;
+        if (x < pw - 1 && A !== ib[i + 1]) { e = zb[i] >= zb[i + 1] ? EC[A] : EC[ib[i + 1]]; px[i] = px[i + 1] = e; }
+        if (y < ph - 1 && A !== ib[i + pw]) { e = zb[i] >= zb[i + pw] ? EC[A] : EC[ib[i + pw]]; px[i] = px[i + pw] = e; }
+      }
+      // paper cutouts, farthest first, hidden behind anything closer
+      var bl = bills.filter(function(b){ return b.img; }).map(function(b){
+        var ax = b.img.r.x + b.img.r.width / 2, ay = b.img.r.y + b.img.r.height - 2, p = T([ax + b.ox - 160, FLOOR - (ay + b.oy), 0]);
+        var w = Math.max(1, Math.round(b.img.w * zs)), h = Math.max(1, Math.round(b.img.h * zs));
+        return {b:b, w:w, h:h, x:Math.round(p[0] - w / 2), y:Math.round(p[1] - h + 2 * S * zs), z:p[2] + 1.5};
+      }).sort(function(a, b){ return a.z - b.z; });
+      bl.forEach(function(o){ x0 = Math.min(x0, clamp(o.x, 0, pw - 1)); y0 = Math.min(y0, clamp(o.y, 0, ph - 1)); x1 = Math.max(x1, clamp(o.x + o.w, 0, pw - 1)); y1 = Math.max(y1, clamp(o.y + o.h, 0, ph - 1)); });
+      if (x0 > x1 || y0 > y1) { x0 = y0 = 0; x1 = y1 = 1; }
+      bl.forEach(function(o){
+        var im = o.b.img, d = im.d, kx = im.w / o.w, ky = im.h / o.h; // drawn at the current zoom
+        for (var yy = 0; yy < o.h; yy++) { var Yp = o.y + yy; if (Yp < 0 || Yp >= ph) continue; var sy0 = Math.min(im.h - 1, Math.floor(yy * ky)) * im.w;
+          for (var xx = 0; xx < o.w; xx++) { var Xp = o.x + xx; if (Xp < 0 || Xp >= pw) continue;
+            var q = (sy0 + Math.min(im.w - 1, Math.floor(xx * kx))) * 4, al = d[q + 3]; if (!al) continue;
+            var j = Yp * pw + Xp; if (zb[j] > o.z) continue;
+            var dst = px[j], da = dst >>> 24, k2 = al / 255;
+            if (!da) { px[j] = ((al << 24) | (d[q + 2] << 16) | (d[q + 1] << 8) | d[q]) >>> 0; continue; }
+            var r = (dst & 255) * (1 - k2) + d[q] * k2, g = ((dst >>> 8) & 255) * (1 - k2) + d[q + 1] * k2, bb = ((dst >>> 16) & 255) * (1 - k2) + d[q + 2] * k2;
+            px[j] = ((255 << 24) | (Math.round(bb) << 16) | (Math.round(g) << 8) | Math.round(r)) >>> 0;
+          }
+        }
+      });
+      var put = dirty ? [Math.min(dirty[0], x0), Math.min(dirty[1], y0), Math.max(dirty[2], x1), Math.max(dirty[3], y1)] : [x0, y0, x1, y1];
+      dirty = [x0, y0, x1, y1];
+      octx.putImageData(imgd, 0, 0, put[0], put[1], put[2] - put[0] + 1, put[3] - put[1] + 1);
+      ctx.clearRect(0, 0, pw, ph);
+      if (!wall) { ctx.fillStyle = 'rgba(15,42,27,.08)'; ctx.beginPath(); ctx.ellipse(160 * S, (FLOOR + 2) * S, foot * zs * S, Math.max(6, foot * sp + 3) * zs * S, 0, 0, Math.PI * 2); ctx.fill(); }
+      ctx.drawImage(off, 0, 0);
+    }
+    var SIN = new Float32Array(1024); for (var si = 0; si < 1024; si++) SIN[si] = Math.sin(si / 1024 * Math.PI * 2) * .6; // grain wobble, looked up instead of computed per pixel
+    function fill(a, b, c, uv, f, tex){
+      var ax = a[0], ay = a[1], bx = b[0], by = b[1], cx = c[0], cy = c[1];
+      var area = (bx - ax) * (cy - ay) - (by - ay) * (cx - ax); if (Math.abs(area) < 1e-6) return;
+      var X0 = Math.max(0, Math.floor(Math.min(ax, bx, cx))), X1 = Math.min(pw - 1, Math.ceil(Math.max(ax, bx, cx)));
+      var Y0 = Math.max(0, Math.floor(Math.min(ay, by, cy))), Y1 = Math.min(ph - 1, Math.ceil(Math.max(ay, by, cy)));
+      if (X0 > X1 || Y0 > Y1) return;
+      var ia = 1 / area, id = f.id, cb = f.cb, cg = f.cg, im = f.tex, sh = Math.min(1, f.sh), A = a[2], Bz = b[2], Cz = c[2];
+      var u0 = uv[0][0], u1 = uv[1][0], u2 = uv[2][0], v0 = uv[0][1], v1 = uv[1][1], v2 = uv[2][1];
+      var d0 = (by - cy) * ia, d1 = (cy - ay) * ia, ph0 = f.ph / (Math.PI * 2) * 1024, K = .077 / (Math.PI * 2) * 1024;
+      var dz = d0 * (A - Cz) + d1 * (Bz - Cz), du = d0 * (u0 - u2) + d1 * (u1 - u2), dv = d0 * (v0 - v2) + d1 * (v1 - v2);
+      for (var y = Y0; y <= Y1; y++) {
+        var py = y + .5, pxx = X0 + .5, row = y * pw;
+        var w0 = ((bx - pxx) * (cy - py) - (by - py) * (cx - pxx)) * ia, w1 = ((cx - pxx) * (ay - py) - (cy - py) * (ax - pxx)) * ia;
+        var z = w0 * A + w1 * Bz + (1 - w0 - w1) * Cz, u = w0 * u0 + w1 * u1 + (1 - w0 - w1) * u2, v = w0 * v0 + w1 * v1 + (1 - w0 - w1) * v2;
+        for (var x = X0; x <= X1; x++, w0 += d0, w1 += d1, z += dz, u += du, v += dv) {
+          if (w0 < -1e-6 || w1 < -1e-6 || w0 + w1 > 1 + 1e-6) continue;
+          var i = row + x;
+          if (z <= zb[i]) continue;
+          zb[i] = z; ib[i] = id;
+          if (im) { // the picture in the frame: world x/y straight onto the image
+            var ix = Math.floor((u + 160 - tex.x) * S), iy = Math.floor((FLOOR - v - tex.y) * S);
+            if (ix >= 0 && iy >= 0 && ix < im.w && iy < im.h) { var s = im.u[iy * im.w + ix];
+              px[i] = ((255 << 24) | (Math.round(((s >>> 16) & 255) * sh) << 16) | (Math.round(((s >>> 8) & 255) * sh) << 8) | Math.round((s & 255) * sh)) >>> 0; continue; }
+            px[i] = cb; continue;
+          }
+          if (cg) { var gl = v + SIN[((u * K + ph0) | 0) & 1023], m = gl - Math.floor(gl / 4.2) * 4.2; px[i] = m < .8 ? cg : cb; }
+          else px[i] = cb;
+        }
+      }
+    }
+
+    /* motion */
+    var YAW = -32;
+    function ease(t){ return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function pmin(){ return wall ? -30 : 0; }
+    function kick(){ if (!raf && on && seen) { last = performance.now(); raf = requestAnimationFrame(frame); } }
+    function frame(now){
+      raf = 0; if (!on || !seen) return;
+      var dt = Math.min(48, now - last) / 16.7, more = false; last = now;
+      if (tint) { var k = Math.min(1, (now - tint.t0) / 450), e = 1 - Math.pow(1 - k, 3); WOOD = {b:mix(tint.a.b, tint.z.b, e), g:mix(tint.a.g, tint.z.g, e), e:mix(tint.a.e, tint.z.e, e)}; if (k >= 1) tint = null; more = true; }
+      if (intro) {
+        var t = clamp((now - intro.t0) / intro.d, 0, 1), q = ease(t);
+        yaw = intro.y1 * q; pitch = intro.p1 * q; zoom = 1 + (ZF - 1) * q; if (t >= 1) intro = null; more = true;
+      } else if (!drag) {
+        if (Math.abs(vy) > .02 || Math.abs(vp) > .02) { yaw += vy * dt; pitch = clamp(pitch + vp * dt, pmin(), 40); vy *= Math.pow(.92, dt); vp *= Math.pow(.84, dt); more = true; }
+        else if (!touched && !calm()) { yaw -= dt * .22; more = true; } // a slow turn until someone grabs it
+      }
+      draw();
+      if (more || drag) raf = requestAnimationFrame(frame);
+    }
+    function ensure(){
+      if (cvs) return;
+      cvs = document.createElement('canvas'); cvs.tabIndex = 0; cvs.setAttribute('role', 'img');
+      ctx = cvs.getContext('2d'); off = document.createElement('canvas'); octx = off.getContext('2d');
+      cvs.addEventListener('pointerdown', function(e){
+        if (!on || e.button > 0) return;
+        e.preventDefault(); touched = true; intro = null; zoom = ZF; vy = vp = 0;
+        drag = {id:e.pointerId, x:e.clientX, y:e.clientY, t:performance.now()};
+        try { cvs.setPointerCapture(e.pointerId); } catch (x) {}
+        cvs.classList.add('spinning'); kick();
+      });
+      cvs.addEventListener('pointermove', function(e){
+        if (!drag || e.pointerId !== drag.id) return;
+        var dx = e.clientX - drag.x, dy = e.clientY - drag.y, now = performance.now(), dt = Math.max(8, now - drag.t) / 16.7;
+        drag.x = e.clientX; drag.y = e.clientY; drag.t = now;
+        yaw += dx * .55; pitch = clamp(pitch + dy * .35, pmin(), 40);
+        vy = vy * .4 + dx * .55 / dt * .6; vp = vp * .4 + dy * .35 / dt * .6;
+        kick();
+      });
+      var up = function(e){ if (!drag || e.pointerId !== drag.id) return; if (performance.now() - drag.t > 90 || calm()) vy = vp = 0; drag = null; cvs.classList.remove('spinning'); kick(); };
+      cvs.addEventListener('pointerup', up); cvs.addEventListener('pointercancel', up);
+      cvs.addEventListener('keydown', function(e){
+        var k = {ArrowLeft:[-15, 0], ArrowRight:[15, 0], ArrowUp:[0, -6], ArrowDown:[0, 6]}[e.key];
+        if (!k || !on) return; e.preventDefault(); touched = true; intro = null; zoom = ZF; vy = vp = 0;
+        yaw += k[0]; pitch = clamp(pitch + k[1], pmin(), 40); kick();
+      });
+      if (window.IntersectionObserver) { io = new IntersectionObserver(function(es){ seen = es[es.length - 1].isIntersecting; if (seen) kick(); }); }
+      else seen = true;
+    }
+    return {
+      room:function(){ var R3 = RULES3[cur.b.id] || {}; return R3.wall ? 8 : Math.ceil(depth3() / 2 * Math.sin(40 * Math.PI / 180) + 8); }, // space under the piece once it tilts toward you
+      show:function(){
+        ensure();
+        var t = ++token;
+        if (outA) { outA.cancel(); outA = null; } cvs.style.pointerEvents = '';
+        build();
+        $('bwrap').appendChild(cvs); if (io) { io.disconnect(); io.observe(cvs); } else seen = true;
+        cvs.style.opacity = 0; cvs.setAttribute('aria-label', '3D view of your ' + (cur ? cur.desc : 'build') + '. Drag or use the arrow keys to spin it.');
+        pw = ph = 0; size(); WOOD = woodFor(finish); tint = null; TO = null;
+        yaw = 0; pitch = 0; zoom = 1; vy = vp = 0; touched = false; drag = null; intro = null;
+        prep().then(function(){
+          if (t !== token) return;
+          on = true; draw();
+          var swap = [gParts, $('bfloor'), $('bshadow')];
+          if (calm() || !cvs.animate) { cvs.style.opacity = 1; swap.forEach(function(n){ n.setAttribute('opacity', 0); }); yaw = YAW; pitch = wall ? 8 : 16; zoom = ZF; draw(); return; }
+          cvs.style.opacity = 1; cvs.animate([{opacity:0}, {opacity:1}], {duration:320, easing:'ease-out'});
+          swap.forEach(function(n){ fade(n, 0, 320); });
+          setTimeout(function(){ if (t !== token || touched) return; intro = {t0:performance.now(), d:1500, y1:YAW, p1:wall ? 8 : 16}; kick(); }, 260);
+        });
+      },
+      hide:function(){
+        token++; on = false; drag = null; intro = null; tint = null; cancelAnimationFrame(raf); raf = 0;
+        if (io) io.disconnect();
+        gParts.removeAttribute('opacity'); $('bfloor').removeAttribute('opacity');
+        $('bshadow').setAttribute('opacity', cur && cur.b.wall ? 0 : .08);
+        if (cvs && cvs.parentNode) {
+          var c = cvs, mine = token;
+          if (!calm() && c.animate && c.style.opacity !== '0') { c.style.pointerEvents = 'none'; outA = c.animate([{opacity:1}, {opacity:0}], {duration:200, easing:'ease-in', fill:'forwards'}); var rm = function(){ if (mine !== token) return; if (c.parentNode) c.remove(); c.style.pointerEvents = ''; if (outA) { outA.cancel(); outA = null; } }; outA.finished.then(rm, rm); }
+          else c.remove();
+        }
+      },
+      tint:function(k){ var z = woodFor(k); if (!on || calm()) { WOOD = z; if (on) kick(); return; } tint = {a:WOOD, z:z, t0:performance.now()}; kick(); }
+    };
+  })();
+
+  load(parse('nightstand'), false);
+
+  /* ---------- PAINT ---------- */
+  var cv = $('cv'), ctx = cv.getContext('2d'), base = document.createElement('canvas'), bctx = base.getContext('2d');
+  var W = 0, H = 0, dpr = 1, PAPER = '#FFF3E0';
+  var items = [], color = '#FF5A1F', size = .045, cur = null, drips = [], rafD = 0;
+  function sizeCanvas(){
+    var r = cv.getBoundingClientRect(); if (r.width < 10) return;
+    var nd = Math.min(2.5, window.devicePixelRatio || 1);
+    if (Math.round(r.width) === W && nd === dpr) return;
+    W = Math.round(r.width); H = Math.round(r.height); dpr = nd;
+    [cv, base].forEach(function(c){ c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); });
+    rebuild(); show();
+  }
+  window.addEventListener('resize', function(){ if (!ws.hidden && tab === 'paint') sizeCanvas(); });
+  function live(){ var s = 0; for (var i = items.length - 1; i >= 0; i--) if (items[i].clear) { s = i + 1; break; } return items.slice(s); }
+  function strokePath(c, st){
+    var pts = st.p, w = st.s * W;
+    c.save(); c.scale(dpr, dpr); c.strokeStyle = c.fillStyle = st.c; c.lineCap = c.lineJoin = 'round'; c.lineWidth = w;
+    if (pts.length === 1) { c.beginPath(); c.arc(pts[0][0] * W, pts[0][1] * H, w / 2, 0, 7); c.fill(); }
+    else {
+      c.beginPath(); c.moveTo(pts[0][0] * W, pts[0][1] * H);
+      for (var i = 1; i < pts.length - 1; i++) {
+        var mx = (pts[i][0] + pts[i + 1][0]) / 2, my = (pts[i][1] + pts[i + 1][1]) / 2;
+        c.quadraticCurveTo(pts[i][0] * W, pts[i][1] * H, mx * W, my * H);
+      }
+      var l = pts[pts.length - 1]; c.lineTo(l[0] * W, l[1] * H); c.stroke();
+    }
+    c.restore();
+  }
+  function drip(c, d, t){ // t: 0..1 progress
+    var len = d.l * H * t, x = d.x * W, y = d.y * H, w = d.w * W;
+    if (len < .5) return;
+    c.save(); c.scale(dpr, dpr); c.strokeStyle = c.fillStyle = d.c; c.lineCap = 'round';
+    c.lineWidth = w * (1 - .25 * t); c.beginPath(); c.moveTo(x, y); c.lineTo(x, y + len); c.stroke();
+    c.beginPath(); c.arc(x, y + len, w * .62, 0, 7); c.fill(); c.restore();
+  }
+  function hex(c){ return [parseInt(c.slice(1, 3), 16), parseInt(c.slice(3, 5), 16), parseInt(c.slice(5, 7), 16)]; }
+  function floodMask(it){ // scanline flood fill on what is painted so far; returns a canvas holding just the filled area
+    var w = base.width, h = base.height, sx = Math.min(w - 1, Math.floor(it.x * w)), sy = Math.min(h - 1, Math.floor(it.y * h));
+    var src = bctx.getImageData(0, 0, w, h).data, i0 = (sy * w + sx) * 4, tr = src[i0], tg = src[i0 + 1], tb = src[i0 + 2];
+    var fc = hex(it.c);
+    if (Math.abs(tr - fc[0]) + Math.abs(tg - fc[1]) + Math.abs(tb - fc[2]) < 24) return null; // already that color
+    var seen = new Uint8Array(w * h), TOL = 110, stack = [sx, sy];
+    function like(k){ var j = k * 4; return Math.abs(src[j] - tr) + Math.abs(src[j + 1] - tg) + Math.abs(src[j + 2] - tb) <= TOL; }
+    while (stack.length) {
+      var y = stack.pop(), x = stack.pop(), k = y * w + x;
+      while (x > 0 && !seen[k - 1] && like(k - 1)) { x--; k--; }
+      var up = false, dn = false;
+      for (; x < w && !seen[k] && like(k); x++, k++) {
+        seen[k] = 1;
+        if (y > 0) { var u = k - w; if (!seen[u] && like(u)) { if (!up) { stack.push(x, y - 1); up = true; } } else up = false; }
+        if (y < h - 1) { var d = k + w; if (!seen[d] && like(d)) { if (!dn) { stack.push(x, y + 1); dn = true; } } else dn = false; }
+      }
+    }
+    var m = document.createElement('canvas'); m.width = w; m.height = h;
+    var mc = m.getContext('2d'), out = mc.createImageData(w, h), o = out.data;
+    for (var yy = 0; yy < h; yy++) for (var xx = 0; xx < w; xx++) { // grow 1px so there is no halo at the edges
+      var q = yy * w + xx;
+      if (seen[q] || (xx > 0 && seen[q - 1]) || (xx < w - 1 && seen[q + 1]) || (yy > 0 && seen[q - w]) || (yy < h - 1 && seen[q + w])) {
+        var j = q * 4; o[j] = fc[0]; o[j + 1] = fc[1]; o[j + 2] = fc[2]; o[j + 3] = 255;
+      }
+    }
+    mc.putImageData(out, 0, 0);
+    return m;
+  }
+  var tool = 'brush', pour = null;
+  function bucket(e){ // pours from where you tap, spreading out in a circle
+    settle(); rebuild();
+    var pt = pos(e), it = {fill:true, x:pt[0], y:pt[1], c:color, s:0, p:[pt]}, m = floodMask(it);
+    if (!m) return;
+    items.push(it);
+    if (calm()) { bctx.drawImage(m, 0, 0); show(); return; }
+    var t0 = performance.now(), R = Math.hypot(W, H) * dpr, cx = pt[0] * W * dpr, cy = pt[1] * H * dpr;
+    cancelAnimationFrame(pour && pour.raf);
+    pour = {m:m};
+    (function step(now){
+      var t = Math.min(1, (now - t0) / 520), r = R * (1 - Math.pow(1 - t, 3));
+      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(base, 0, 0);
+      ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, Math.max(1, r), 0, 7); ctx.clip(); ctx.drawImage(m, 0, 0); ctx.restore();
+      if (t < 1) pour.raf = requestAnimationFrame(step); else { bctx.drawImage(m, 0, 0); pour = null; show(); }
+    })(t0);
+  }
+  ws.querySelectorAll('.tool button').forEach(function(b){ b.addEventListener('click', function(){
+    tool = b.dataset.t;
+    ws.querySelectorAll('.tool button').forEach(function(x){ x.setAttribute('aria-pressed', x === b); });
+    ws.querySelector('.sz').classList.toggle('off', tool === 'bucket');
+    $('easel').classList.toggle('bucket', tool === 'bucket');
+  }); });
+  function rebuild(){
+    bctx.setTransform(1, 0, 0, 1, 0, 0); bctx.fillStyle = PAPER; bctx.fillRect(0, 0, base.width, base.height);
+    live().forEach(function(st){ if (st.fill) { var m = floodMask(st); if (m) bctx.drawImage(m, 0, 0); return; } strokePath(bctx, st); (st.d || []).forEach(function(d){ if (d.done) drip(bctx, d, 1); }); });
+  }
+  function show(){
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(base, 0, 0);
+    var now = performance.now();
+    drips.forEach(function(d){ drip(ctx, d, ease(Math.min(1, (now - d.t0) / d.dur))); });
+  }
+  function animateDrips(){
+    cancelAnimationFrame(rafD);
+    (function step(now){
+      var still = [];
+      drips.forEach(function(d){ if (now - d.t0 >= d.dur) { d.done = true; drip(bctx, d, 1); } else still.push(d); });
+      drips = still; show();
+      if (drips.length) rafD = requestAnimationFrame(step);
+    })(performance.now());
+  }
+  function pos(e){ var r = cv.getBoundingClientRect(); return [Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), Math.min(1, Math.max(0, (e.clientY - r.top) / r.height))]; }
+  cv.addEventListener('pointerdown', function(e){
+    if (e.button > 0) return; e.preventDefault(); sizeCanvas();
+    if (tool === 'bucket') { bucket(e); return; }
+    try { cv.setPointerCapture(e.pointerId); } catch(_){}
+    cur = {c:color, s:size, p:[pos(e)], id:e.pointerId};
+    strokePath(bctx, cur); show();
+  });
+  cv.addEventListener('pointermove', function(e){
+    if (!cur || e.pointerId !== cur.id) return;
+    var p = pos(e), l = cur.p[cur.p.length - 1];
+    if (Math.hypot((p[0] - l[0]) * W, (p[1] - l[1]) * H) < 1.5) return;
+    var prev = cur.p.length > 1 ? cur.p[cur.p.length - 2] : l;
+    cur.p.push(p);
+    // draw just the new bit, same curve math as the full redraw
+    var seg = {c:cur.c, s:cur.s, p:[[(prev[0] + l[0]) / 2, (prev[1] + l[1]) / 2], l, [(l[0] + p[0]) / 2, (l[1] + p[1]) / 2]]};
+    if (cur.p.length === 2) seg.p = [l, p];
+    strokePath(bctx, seg); show();
+  });
+  function endStroke(e){
+    if (!cur || (e && e.pointerId !== cur.id)) return;
+    var st = cur; cur = null; delete st.id; st.d = [];
+    if (st.s >= .04 && st.c !== PAPER && st.p.length > 2) {
+      var n = st.s > .06 ? 2 + (Math.random() < .5 ? 1 : 0) : (Math.random() < .7 ? 1 : 2);
+      for (var i = 0; i < n; i++) {
+        var q = st.p[Math.floor(Math.random() * st.p.length)];
+        var d = {x:q[0] + (Math.random() - .5) * st.s * .5, y:q[1], l:.04 + Math.random() * (st.s > .06 ? .14 : .08), w:st.s * (.28 + Math.random() * .14), c:st.c, t0:performance.now() + i * 140, dur:900 + Math.random() * 700};
+        st.d.push(d);
+        if (calm()) { d.done = true; drip(bctx, d, 1); } else drips.push(d);
+      }
+    }
+    items.push(st); rebuild(); show(); if (drips.length) animateDrips();
+  }
+  cv.addEventListener('pointerup', endStroke); cv.addEventListener('pointercancel', endStroke);
+  $('easel').addEventListener('touchmove', function(e){ e.preventDefault(); }, {passive:false});
+  ws.querySelectorAll('.sw button').forEach(function(b){ b.addEventListener('click', function(){ color = b.dataset.c; ws.querySelectorAll('.sw button').forEach(function(x){ x.setAttribute('aria-pressed', x === b); }); }); });
+  ws.querySelectorAll('.sz button').forEach(function(b){ b.addEventListener('click', function(){ size = parseFloat(b.dataset.s); ws.querySelectorAll('.sz button').forEach(function(x){ x.setAttribute('aria-pressed', x === b); }); }); });
+  function settle(){ drips.forEach(function(d){ d.done = true; }); drips = []; cancelAnimationFrame(rafD); if (pour) { cancelAnimationFrame(pour.raf); pour = null; } }
+  $('pundo').addEventListener('click', function(){ if (!items.length) return; settle(); items.pop(); rebuild(); show(); });
+  $('pclear').addEventListener('click', function(){
+    if (!live().length) return; settle();
+    var go = function(){ items.push({clear:true}); rebuild(); show(); };
+    if (calm() || !cv.animate) return go();
+    cv.animate([{opacity:1}, {opacity:0}], {duration:180, easing:'ease-in'}).finished.then(function(){ go(); cv.animate([{opacity:0}, {opacity:1}], {duration:220, easing:'ease-out'}); });
+  });
+
+  /* frame it */
+  var framedBlob = null, title = 'Untitled';
+  var CN = {'#FF5A1F':'Orange', '#2457D6':'Blue', '#0F2A1B':'Forest', '#FFF3E0':'Cream'};
+  var ADJ = ['Quiet','Loud','Wobbly','Slow','Lazy','Electric','Crooked','Happy','Late','Soft','Wild','Sleepy','Brave','Lucky','Restless','Gentle','Big','Tiny'];
+  var NOUN = ['Afternoon','Sunset','Thought','Horizon','Dream','Garden','Weather','Feeling','Morning','Ocean','Highway','Rumor','Mountain','Weekend','Daydream','Echo','Wave','Picnic'];
+  function pick(a){ return a[Math.floor(Math.random() * a.length)]; }
+  function makeTitle(){ // named after what was actually painted: the main color, how busy it is, whether it dripped
+    var amt = {}, n = 0, dr = 0;
+    live().forEach(function(st){ if (st.fill) { amt[st.c] = (amt[st.c] || 0) + .5; n++; return; } var len = 0; for (var i = 1; i < st.p.length; i++) len += Math.hypot(st.p[i][0] - st.p[i - 1][0], st.p[i][1] - st.p[i - 1][1]); amt[st.c] = (amt[st.c] || 0) + (len + .02) * st.s; n++; dr += (st.d || []).length; });
+    var cols = Object.keys(amt).sort(function(a, b){ return amt[b] - amt[a]; }), main = CN[cols[0]] || 'Orange', second = CN[cols[1]];
+    var opts = [
+      function(){ return pick(ADJ) + ' ' + main + ' ' + pick(NOUN); },
+      function(){ return main + ' ' + pick(NOUN) + ', No. ' + (2 + Math.floor(Math.random() * 98)); },
+      function(){ return 'The ' + pick(ADJ) + ' ' + pick(NOUN); },
+      function(){ return 'Study in ' + main + (second ? ' and ' + second : ''); },
+      function(){ return pick(NOUN) + ' in ' + main; }
+    ];
+    if (dr >= 3) opts.push(function(){ return 'Still Wet, ' + pick(NOUN); }, function(){ return main + ' ' + pick(NOUN) + ' (Dripping)'; });
+    if (n <= 2) opts.push(function(){ return 'One ' + pick(ADJ) + ' Line'; });
+    if (n >= 12) opts.push(function(){ return 'Everything at Once'; }, function(){ return 'A Very ' + pick(ADJ) + ' ' + pick(NOUN); });
+    if (cols.length >= 3) opts.push(function(){ return 'Three Colors Walk Into a ' + pick(['Bar','Room','Field','Garden']); });
+    var t, guard = 0; do { t = pick(opts)(); } while (t === title && guard++ < 6);
+    return t;
+  }
+  function setTitle(t){
+    title = t; $('frtitle').textContent = t;
+    framedBlob = null; compose(true).toBlob(function(b){ if (title === t) framedBlob = b; }, 'image/png');
+  }
+  $('frtitle').addEventListener('click', function(){
+    var b = $('frtitle'), t = makeTitle();
+    if (calm() || !b.animate) return setTitle(t);
+    b.animate([{opacity:1, transform:'none'}, {opacity:0, transform:'translateY(-4px)'}], {duration:140, easing:'ease-in'}).finished.then(function(){
+      setTitle(t); b.animate([{opacity:0, transform:'translateY(4px)'}, {opacity:1, transform:'none'}], {duration:220, easing:'ease-out'});
+    });
+  });
+  function compose(forSave){
+    settle(); rebuild();
+    var F = 1200, pad = 70, rail = 46, iw = F - 2 * (pad + rail), ih = Math.round(iw * 5 / 4);
+    if (!forSave) pad = 24;
+    var out = document.createElement('canvas'); out.width = F - (forSave ? 0 : 92); out.height = ih + 2 * (pad + rail) + (forSave ? 130 : 0);
+    var c = out.getContext('2d');
+    if (forSave) { c.fillStyle = '#FFF3E0'; c.fillRect(0, 0, out.width, out.height); }
+    var fx = pad, fy = pad, fw = iw + 2 * rail, fh = ih + 2 * rail;
+    c.fillStyle = '#D9A866'; c.fillRect(fx, fy, fw, fh);                       // birch float frame
+    c.fillStyle = '#C48E4C'; c.fillRect(fx, fy + fh - 10, fw, 10); c.fillRect(fx + fw - 10, fy, 10, fh);
+    c.fillStyle = '#0F2A1B'; c.fillRect(fx + rail - 8, fy + rail - 8, iw + 16, ih + 16); // shadow gap
+    c.drawImage(base, fx + rail, fy + rail, iw, ih);
+    if (!forSave) return out;
+    var ty = fy + fh + 62;
+    c.fillStyle = '#0F2A1B'; c.textAlign = 'center';
+    var fs = 54; do { c.font = '400 ' + fs + 'px "Archivo Black", "Arial Black", sans-serif'; fs -= 2; } while (c.measureText(title).width > F - 140 && fs > 26); c.fillText(title, F / 2, ty + 10);
+    c.fillStyle = '#54604F'; c.font = '500 28px "IBM Plex Mono", ui-monospace, monospace'; c.fillText('BY YOU · FIELDWORK WORKSHOP', F / 2, ty + 62);
+    return out;
+  }
+  function showEasel(){
+    if ($('fr').hidden) return;
+    $('fr').hidden = true; $('easel').hidden = false; $('ptools').hidden = false; $('prow').hidden = false;
+    if (!calm() && $('easel').animate) $('easel').animate([{opacity:0}, {opacity:1}], {duration:260});
+    sizeCanvas(); show();
+  }
+  $('pframe').addEventListener('click', function(){
+    if (!live().length) { if ($('easel').animate && !calm()) $('easel').animate([{transform:'translateX(0)'}, {transform:'translateX(-6px)'}, {transform:'translateX(6px)'}, {transform:'translateX(0)'}], {duration:300}); return; }
+    $('frimg').src = compose(false).toDataURL('image/png');
+    setTitle(makeTitle());
+    $('easel').hidden = true; $('ptools').hidden = true; $('prow').hidden = true; $('fr').hidden = false;
+    if (!calm() && $('frimg').animate) {
+      $('frimg').style.transformOrigin = '50% 0';
+      $('frimg').animate([{opacity:0, transform:'translateY(-30px) rotate(-3deg)'}, {opacity:1, transform:'translateY(4px) rotate(1deg)', offset:.7}, {opacity:1, transform:'none'}], {duration:700, easing:'cubic-bezier(.25,.8,.3,1)'});
+    }
+    track('fieldwork/workshop-framed', 'Framed a painting: ' + title);
+  });
+  $('pback').addEventListener('click', showEasel);
+  $('psave').addEventListener('click', function(){
+    track('fieldwork/workshop-saved', 'Saved a painting');
+    var name = 'fieldwork-painting.png';
+    function download(){ var a = document.createElement('a'); a.href = framedBlob ? URL.createObjectURL(framedBlob) : $('frimg').src; a.download = name; document.body.appendChild(a); a.click(); a.remove(); }
+    if (framedBlob && navigator.canShare) {
+      var file = new File([framedBlob], name, {type:'image/png'});
+      if (navigator.canShare({files:[file]})) { navigator.share({files:[file], title:'My Fieldwork painting'}).catch(function(err){ if (err && err.name !== 'AbortError') download(); }); return; }
+    }
+    download();
+  });
+  $('preal').addEventListener('click', function(){ startProject('painting', 'Painted "' + title + '" in your workshop, would love a real one.'); });
+})();
+</script>
+
 </body>
 </html>
