@@ -549,9 +549,9 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
       if (!ctx) {
         var C = window.AudioContext || window.webkitAudioContext; if (!C) return null;
         try { if (navigator.audioSession) navigator.audioSession.type = 'ambient'; } catch (e) {} // follows the silent switch and mixes with music
-        ctx = new C(); master = ctx.createGain(); master.gain.value = 6.5;
+        ctx = new C(); master = ctx.createGain(); master.gain.value = 2.9;
         // everything goes through a gentle low-pass: it softens the very top of each click so it sounds milky, not sharp
-        var milk = ctx.createBiquadFilter(); milk.type = 'lowpass'; milk.frequency.value = 2600; milk.Q.value = .5;
+        var milk = ctx.createBiquadFilter(); milk.type = 'lowpass'; milk.frequency.value = 3200; milk.Q.value = .5;
         var comp = ctx.createDynamicsCompressor(); master.connect(milk); milk.connect(comp); comp.connect(ctx.destination);
       }
       if (ctx.state === 'suspended') ctx.resume();
@@ -573,25 +573,26 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
       g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
       s.connect(f); f.connect(g); g.connect(master); s.start(t); s.stop(t + dur + .02);
     }
-    // a milky click: one quick, soft-edged tap with a hint of body under it. No pitch slides, no rebound, no bounce.
+    // a friendly milky click: a soft, round little note with a gentle tap on top. No slides, no bounce.
     function click(f, vol){
-      noise(.016, vol, f, .9);
-      tone(f * .42, 0, .028, vol * .32, 'sine');
+      tone(f, 0, .055, vol, 'sine');
+      tone(f * 2, 0, .022, vol * .14, 'triangle');
+      noise(.012, vol * .4, 1500, .8);
     }
     var KIT = {
-      pop:function(){ click(1900, .3); tone(760, 0, .032, .06, 'sine'); },  // tabs: the same click, a touch fuller
-      tick:function(){ click(2000, .26); },                                // pills, filters, days, settings
-      open:function(){ click(2150, .26); },
-      close:function(){ click(1850, .24); },
-      soft:function(){ click(2000, .26); },                                // read / replied / new
-      done:function(){ click(1950, .3); tone(800, 0, .04, .07, 'sine'); }, // done, connected: a slightly fuller click
-      booked:function(){ click(1950, .3); tone(800, 0, .04, .07, 'sine'); },
-      trash:function(){ click(1400, .3); },
-      up:function(){ click(2050, .2); },
-      down:function(){ click(1850, .18); },
-      copy:function(){ click(2100, .24); },
-      pull:function(){ click(2000, .16); },
-      fresh:function(){ click(2050, .16); }
+      pop:function(){ click(784, .24); },                       // tabs: the same friendly click every time
+      tick:function(){ click(880, .2); },                       // pills, filters, days, settings
+      open:function(){ click(988, .2); },
+      close:function(){ click(784, .19); },
+      soft:function(){ click(880, .2); },                       // read / replied / new
+      done:function(){ click(1047, .17); click(1319, .13); },   // done, connected: two notes together, a happy little click
+      booked:function(){ click(1047, .17); click(1319, .13); },
+      trash:function(){ click(587, .22); },
+      up:function(){ click(932, .16); },
+      down:function(){ click(784, .15); },
+      copy:function(){ click(1047, .18); },
+      pull:function(){ click(880, .13); },
+      fresh:function(){ click(988, .13); }
     };
     // wake the audio on the first touch so the first real sound isn't lost
     var wake = function(){ if (on) ac(); window.removeEventListener('touchstart', wake, true); window.removeEventListener('mousedown', wake, true); };
