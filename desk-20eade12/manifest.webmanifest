@@ -1,10 +1,10 @@
 {
-  "name": "Fieldwork Desk",
-  "short_name": "Desk",
+  "name": "FWD Desk",
+  "short_name": "FWD Desk",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#FFF3E0",
+  "background_color": "#0F2A1B",
   "theme_color": "#FFF3E0",
   "icons": [
     {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
