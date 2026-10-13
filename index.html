@@ -312,6 +312,12 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
 .ws-link{font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:var(--ink);background:none;border:0;padding:6px 2px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--accent);text-decoration-thickness:2px}
 </style>
 
+<!-- Visitor counts (GoatCounter: free, no cookies, no banner). Counts page views plus a few taps; ignores local testing. -->
+<script>
+window.goatcounter = {path: 'fieldwork/'};
+function fwTrack(name, title){ try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({path:name, title:title||name, event:true}); } catch(e){} }
+</script>
+<script data-goatcounter="https://fieldworkdylan.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body>
 <main class="sheet intro">
@@ -654,6 +660,7 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
     return Promise.race([all, new Promise(function(r){ setTimeout(r, maxWait); })]);
   }
   function openGal(){
+    fwTrack('fieldwork/book-opened', 'Opened the book');
     lastFocus = document.activeElement;
     warmUp();
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -737,6 +744,7 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
   }
   function bars(){ return lb.querySelectorAll('.lb-bar'); }
   function open(w, tEl){
+    fwTrack('fieldwork/photo/' + w.t.toLowerCase().replace(/[^a-z0-9]+/g,'-'), 'Viewed: ' + w.t);
     if (busy) return;
     piece = w; idx = 0; thumb = tEl || null;
     var img = $('lbi');
@@ -802,6 +810,7 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
 
   /* "Start something like this": pick the matching project type and drop the piece into the reference field. */
   $('lbgo').addEventListener('click', function(){
+    if (piece) fwTrack('fieldwork/start-like-this', 'Start something like this: ' + piece.t);
     var w = piece, r = document.querySelector('input[name=type][value=' + w.c + ']');
     closeLb(true); gal.classList.remove('in'); gal.hidden = true; door.classList.remove('go'); document.body.classList.remove('locked');
     if(r){r.checked = true; r.dispatchEvent(new Event('change', {bubbles:true}))}
@@ -875,7 +884,7 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
 
   document.querySelectorAll('input[name=type]').forEach(function(r){
     r.addEventListener('change', function(){
-      current = r.value;
+      current = r.value; fwTrack('fieldwork/picked-' + r.value, 'Picked project type: ' + r.value);
       document.querySelectorAll('.tile').forEach(function(t){t.classList.toggle('on', t.contains(r) && r.checked)});
       build(current);
     });
@@ -918,6 +927,7 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
           $('f').hidden = true; $('donemsg').textContent = thanks; $('done').hidden = false;
           $('done').scrollIntoView({behavior:'smooth', block:'start'});
         } else { playSend(thanks); }
+        fwTrack('fieldwork/request-sent', 'Sent a project request');
       })
       .catch(function(e){
         btn.disabled = false; btn.textContent = 'Send my request';
@@ -1034,7 +1044,7 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
   var st = document.getElementById('stamp'), t;
   st.addEventListener('click', function(){
     if (st.classList.contains('open')) return;
-    st.classList.add('open');
+    st.classList.add('open'); fwTrack('fieldwork/found-the-eyes', 'Found the logo easter egg');
     t = setTimeout(function(){ st.classList.remove('open'); }, 5100);
   });
 })();
@@ -1053,6 +1063,7 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
     f.className = 'sd-flood'; f.style.setProperty('--fx', (r.left + r.width*.6) + 'px'); f.style.setProperty('--fy', (r.top + r.height*.55) + 'px');
     document.body.appendChild(f); d.classList.add('open');
     requestAnimationFrame(function(){ requestAnimationFrame(function(){ f.classList.add('go'); }); });
+    fwTrack('fieldwork/door-to-tattoo', 'Took the secret door to tattoos');
     setTimeout(function(){ window.location.href = d.href; }, 1050);
     window.addEventListener('pageshow', function(ev){ if (ev.persisted) { f.remove(); d.classList.remove('open'); } }, {once:true});
   });

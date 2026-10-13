@@ -214,6 +214,12 @@ body.intro .sign{animation-delay:.06s} body.intro .wall{animation-delay:.14s} bo
 .sd-flood.go{clip-path:circle(150% at var(--fx) var(--fy))}
 @media (prefers-reduced-motion:reduce){.sd-door-leaf,.sd-door-spill,.sd-door-light,.sd-eyes,.sd-flood{transition:none!important;animation:none!important}}
 </style>
+<!-- Visitor counts (GoatCounter: free, no cookies, no banner). Counts page views plus a few taps; ignores local testing. -->
+<script>
+window.goatcounter = {path: 'tattoo/'};
+function fwTrack(name, title){ try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({path:name, title:title||name, event:true}); } catch(e){} }
+</script>
+<script data-goatcounter="https://fieldworkdylan.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body class="intro">
 
@@ -422,6 +428,8 @@ body.intro .sign{animation-delay:.06s} body.intro .wall{animation-delay:.14s} bo
     p.addEventListener('click', function(){
       if (busy) return;
       var img = p.querySelector('img');
+      var pn = ((p.querySelector('.plaque b') || {}).textContent || 'piece');
+      fwTrack('tattoo/photo/' + pn.toLowerCase().replace(/[^a-z0-9]+/g,'-'), 'Viewed tattoo: ' + pn);
       $('lbimg').src = img.currentSrc || img.src; $('lbimg').alt = img.alt;
       $('lbcap').innerHTML = p.querySelector('.plaque').innerHTML;
       from = p.querySelector('.frame');
@@ -613,6 +621,7 @@ body.intro .sign{animation-delay:.06s} body.intro .wall{animation-delay:.14s} bo
         $('donemsg').textContent = 'Thanks ' + val('name').split(' ')[0] + '. I’ll reply to ' + val('email') + ' with a quote and open dates.';
         $('f').hidden = true; $('done').hidden = false;
         showThanks(val('name').split(' ')[0], val('email'));
+        fwTrack('tattoo/request-sent', 'Sent a tattoo request');
         $('done').scrollIntoView({block:'center'});
       })
       .catch(function(){
@@ -638,6 +647,7 @@ body.intro .sign{animation-delay:.06s} body.intro .wall{animation-delay:.14s} bo
     f.className = 'sd-flood'; f.style.setProperty('--fx', (r.left + r.width*.6) + 'px'); f.style.setProperty('--fy', (r.top + r.height*.55) + 'px');
     document.body.appendChild(f); d.classList.add('open');
     requestAnimationFrame(function(){ requestAnimationFrame(function(){ f.classList.add('go'); }); });
+    fwTrack('tattoo/door-to-fieldwork', 'Took the secret door to Fieldwork');
     setTimeout(function(){ window.location.href = d.href; }, 1050);
     window.addEventListener('pageshow', function(ev){ if (ev.persisted) { f.remove(); d.classList.remove('open'); } }, {once:true});
   });
