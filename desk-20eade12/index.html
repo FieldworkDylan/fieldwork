@@ -137,7 +137,7 @@ h1,h2,h3,p{margin:0}
 .pbtn.main{background:var(--ink);color:var(--bg)}
 .pbtn svg{width:16px;height:16px}
 .segs{display:flex;background:var(--sunk);border-radius:999px;padding:3px;gap:2px;align-self:flex-start}
-.segs button{border:0;background:transparent;border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:600;color:var(--ink-2);cursor:pointer;min-height:36px;transition:background-color .2s ease,color .2s ease}
+.segs button{border:0;background:transparent;border-radius:999px;padding:8px 12px;font-size:13.5px;font-weight:600;color:var(--ink-2);cursor:pointer;min-height:36px;transition:background-color .2s ease,color .2s ease}
 .segs button[aria-pressed=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(15,42,27,.14)}
 .segs button[data-st=done][aria-pressed=true]{color:var(--good)}
 .st-label{font-size:12.5px;color:var(--ink-3)}
@@ -417,7 +417,11 @@ h1,h2,h3,p{margin:0}
   if (['all', 'new', 'fieldwork', 'tattoo', 'done'].indexOf(filt) < 0) filt = 'all';
   var LABELS = {email:'Email', instagram:'Instagram', project:'Project', request:'Request', placement:'Placement', size:'Size', references:'References', first_tattoo:'First tattoo', best_days:'Best days', budget:'Budget', timing:'Timing', confirmed_18_plus:'18 or older'};
   var SKIP = {name:1, idea:1};
-  var ST = {new:'New', replied:'Replied', done:'Done'};
+  var ST = {new:'New', read:'Read', replied:'Replied', done:'Done'};
+  // "Read" is remembered on this phone too, so it sticks even if the inbox script only knows new / replied / done
+  var READ = {}; try { READ = JSON.parse(store('fwlog-read') || '{}') || {}; } catch (e) { READ = {}; }
+  function saveRead(){ store('fwlog-read', JSON.stringify(READ)); }
+  function stat(x){ return x.status === 'new' && READ[x.id] ? 'read' : (ST[x.status] ? x.status : 'new'); }
   function ago(iso, short){
     var t = new Date(iso), m = (Date.now() - t) / 60000;
     if (!(m >= 0)) return '';
@@ -429,27 +433,28 @@ h1,h2,h3,p{margin:0}
   function initial(name){ var m = String(name || '?').trim().match(/[A-Za-z0-9]/); return m ? m[0].toUpperCase() : '?'; }
   function skeleton(){ $('reqs').innerHTML = [1, 2, 3].map(function(){ return '<div class="sk" aria-hidden="true"><i class="a"></i><div><i class="l"></i><i class="l2"></i></div></div>'; }).join(''); }
   function renderReqs(list, sample){
-    var fresh = list.filter(function(x){ return x.status === 'new'; }).length;
+    var fresh = list.filter(function(x){ return stat(x) === 'new'; }).length;
     $('newcount').textContent = fresh > 99 ? '99+' : fresh; $('newcount').hidden = !fresh; $('ct-new').textContent = fresh || '';
     subReq = sample ? 'Here’s where your requests will show up.' : fresh ? plural(fresh, 'new request', 'new requests') + ' waiting for you.' : list.length ? 'You’re all caught up.' : 'No requests yet. They’ll land here the moment someone sends one.';
     head();
     $('sampletag2').hidden = !sample;
     document.querySelectorAll('#filters button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.f === filt); });
-    var show = list.filter(function(x){ return filt === 'all' ? true : filt === 'new' ? x.status === 'new' : filt === 'done' ? x.status === 'done' : x.site === filt; });
+    var show = list.filter(function(x){ return filt === 'all' ? true : filt === 'new' ? stat(x) === 'new' : filt === 'done' ? stat(x) === 'done' : x.site === filt; });
     if (!show.length) { $('reqs').innerHTML = emptyCard(list.length ? (filt === 'new' ? 'Nothing new. Nice work.' : 'Nothing here yet.') : 'No requests yet.', true); return; }
     $('reqs').innerHTML = show.map(function(x){
       var d = x.details || {}, site = x.site === 'tattoo' ? 't' : 'f', kind = d.project || d.request || (site === 't' ? 'Tattoo' : 'Project'), open = openId === x.id;
       var facts = Object.keys(d).filter(function(k){ return !SKIP[k] && String(d[k]).trim(); }).map(function(k){ return '<dt>' + esc(LABELS[k] || k) + '</dt><dd>' + esc(d[k]) + '</dd>'; }).join('');
       var subj = 'Re: your ' + (site === 't' ? 'tattoo request' : String(kind).toLowerCase() + ' request');
       var mail = x.email ? 'mailto:' + encodeURIComponent(x.email).replace(/%40/g, '@') + '?subject=' + encodeURIComponent(subj) : '';
-      return '<article class="req' + (x.status === 'new' ? ' new' : '') + (open ? ' open' : '') + '" data-id="' + esc(x.id) + '">' +
-        '<button type="button" class="rhead" aria-expanded="' + open + '"><span class="av ' + site + '" aria-hidden="true">' + esc(initial(x.name)) + (x.status === 'new' ? '<span class="dot"></span>' : '') + '</span>' +
+      var st = stat(x);
+      return '<article class="req' + (st === 'new' ? ' new' : '') + (open ? ' open' : '') + '" data-id="' + esc(x.id) + '">' +
+        '<button type="button" class="rhead" aria-expanded="' + open + '"><span class="av ' + site + '" aria-hidden="true">' + esc(initial(x.name)) + (st === 'new' ? '<span class="dot"></span>' : '') + '</span>' +
         '<span class="rmain"><span class="rline"><span class="rname">' + esc(x.name || 'No name') + '</span><span class="rtime">' + esc(ago(x.received, true)) + '</span></span>' +
-        '<span class="rkind">' + esc(kind) + ' · ' + (site === 't' ? 'Tattoo' : 'Fieldwork') + (x.status !== 'new' ? ' · ' + ST[x.status] : '') + '</span>' +
+        '<span class="rkind">' + esc(kind) + ' · ' + (site === 't' ? 'Tattoo' : 'Fieldwork') + (st !== 'new' ? ' · ' + ST[st] : '') + '</span>' +
         '<span class="ridea">' + esc(d.idea || '') + '</span></span></button>' +
         '<div class="rmore"' + (open ? '' : ' hidden') + '><div class="rmore-in">' + (facts ? '<dl class="facts">' + facts + '</dl>' : '') +
         '<div class="acts">' + (mail ? '<a class="pbtn main" href="' + mail + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 9 5 13l5 4"/><path d="M5 13h9a5 5 0 0 1 5 5v1"/></svg>Reply</a><button type="button" class="pbtn" data-copy="' + esc(x.email) + '">Copy email</button>' : '') + '</div>' +
-        '<div class="segs" role="group" aria-label="Status">' + ['new', 'replied', 'done'].map(function(sv){ return '<button type="button" data-st="' + sv + '" aria-pressed="' + (x.status === sv) + '">' + ST[sv] + '</button>'; }).join('') + '</div>' +
+        '<div class="segs" role="group" aria-label="Status">' + ['new', 'read', 'replied', 'done'].map(function(sv){ return '<button type="button" data-st="' + sv + '" aria-pressed="' + (st === sv) + '">' + ST[sv] + '</button>'; }).join('') + '</div>' +
         '<span class="st-label">Received ' + esc(new Date(x.received).toLocaleString([], {weekday:'short', month:'short', day:'numeric', hour:'numeric', minute:'2-digit'})) + '</span>' +
         '</div></div></article>';
     }).join('');
@@ -467,12 +472,17 @@ h1,h2,h3,p{margin:0}
       return;
     }
     var sb = e.target.closest('[data-st]');
-    if (sb && sb.dataset.st !== x.status) {
-      var before = x.status; x.status = sb.dataset.st;
+    if (sb && sb.dataset.st !== stat(x)) {
+      var to = sb.dataset.st, before = x.status, wasRead = !!READ[id];
+      if (to === 'read') READ[id] = 1; else delete READ[id];
+      saveRead(); x.status = to;
       card.querySelectorAll('[data-st]').forEach(function(b){ b.setAttribute('aria-pressed', b === sb); });
-      toast(x.status === 'new' ? 'Marked as new' : x.status === 'replied' ? 'Marked as replied' : 'Marked as done');
+      toast('Marked as ' + ST[to].toLowerCase());
       setTimeout(function(){ renderReqs(list(), !items); }, 350);
-      if (items) iget({key:ikey, action:'status', id:id, status:x.status}).catch(function(){ x.status = before; renderReqs(items, false); toast('Couldn’t save. Try again.'); });
+      if (items) iget({key:ikey, action:'status', id:id, status:to}).catch(function(){
+        x.status = before; if (wasRead) READ[id] = 1; else delete READ[id]; saveRead();
+        renderReqs(items, false); toast('Couldn’t save. Try again.');
+      });
     }
   });
   function toggle(card, id){ // opens and closes with a soft height change
