@@ -7,6 +7,9 @@
 <title>Fieldwork | Start a Project</title>
 <meta name="theme-color" content="#FFF3E0">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fieldwork">
 <meta property="og:title" content="Start a project with Dylan Havens">
@@ -34,7 +37,7 @@ body{
 }
 .sheet{max-width:700px;margin-inline:auto;display:flex;flex-direction:column;gap:32px}
 .top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.stamp{position:relative;display:inline-flex;padding:0;border:0;background:none;font:inherit;color:inherit;cursor:pointer;transform:rotate(-2deg);perspective:700px;-webkit-tap-highlight-color:transparent}
+.stamp{position:relative;display:inline-flex;padding:0;border:0;background:none;font:inherit;color:inherit;cursor:pointer;perspective:700px;-webkit-tap-highlight-color:transparent}
 .stamp:focus-visible{outline:3px solid var(--blue);outline-offset:4px;border-radius:8px}
 .lid{display:flex;border:2px solid var(--ink);border-radius:6px;padding:8px 12px;background:var(--paper);transform-origin:50% 0;backface-visibility:hidden;-webkit-backface-visibility:hidden;position:relative;z-index:2}
 .box{position:absolute;inset:0;z-index:1;border:2px solid var(--ink);border-radius:6px;background:#0A1810;display:flex;align-items:center;justify-content:center;visibility:hidden}
@@ -67,17 +70,19 @@ legend{padding:0;float:left;width:100%;display:flex;align-items:center;gap:12px;
 legend + *{clear:both}
 .tag{font-family:var(--mono);font-size:12px;font-weight:500;border:1.5px solid var(--ink);border-radius:50%;width:28px;height:28px;display:inline-grid;place-items:center;flex:none}
 .choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
-.tile{position:relative;display:flex;flex-direction:column;gap:2px;padding:14px 16px;border:2px solid var(--ink);border-radius:4px;cursor:pointer;background:transparent;min-width:0}
+.tile{position:relative;display:flex;flex-direction:column;gap:2px;padding:14px 16px;border:2px solid var(--ink);border-radius:4px;cursor:pointer;background:transparent;min-width:0;transition:background-color .25s ease,box-shadow .25s cubic-bezier(.2,.8,.2,1)}
+@media (hover:hover){.tile:not(.on):hover{background:rgba(246,227,195,.55)}}
 .tile input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer;margin:0}
 .tile .name{font-family:var(--display);font-size:19px;line-height:1.15}
 .tile .sub{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
 .tile.on{background:var(--paper-2);box-shadow:4px 4px 0 var(--accent)}
-.tile.on::after{content:"";position:absolute;top:10px;right:10px;width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.tile::after{content:"";position:absolute;top:10px;right:10px;width:12px;height:12px;border-radius:50%;background:var(--accent);transform:scale(0);transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+.tile.on::after{transform:scale(1);content:"";position:absolute;top:10px;right:10px;width:12px;height:12px;border-radius:50%;background:var(--accent)}
 .tile:focus-within{outline:3px solid var(--blue);outline-offset:3px}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
 .field input,.field select,.field textarea{
-  font:inherit;font-family:var(--mono);font-size:15px;color:var(--ink);background:transparent;
+  font:inherit;font-family:var(--mono);font-size:16px;color:var(--ink);background:transparent;
   border:0;border-bottom:2px solid var(--ink);border-radius:0;padding:8px 2px;width:100%;min-width:0
 }
 .field select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 14px) 55%,calc(100% - 8px) 55%;background-size:6px 6px;background-repeat:no-repeat;padding-right:28px}
@@ -114,7 +119,7 @@ legend + *{clear:both}
 .bk-page > .gal-in{position:absolute;left:0;top:0;margin:0;max-width:none;transform-origin:0 0}
 .bk-cover{position:absolute;inset:-6px -6px -6px 0;background:var(--blue);border:2.5px solid var(--ink);border-radius:4px 10px 10px 4px;transform-origin:0 50%;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;box-shadow:inset 14px 0 0 rgba(15,42,27,.25)}
 .bk-cover .bk-band{position:absolute;left:0;right:0;height:16px;background:var(--accent);border-block:2px solid var(--ink)}
-.bk-cover .bk-logo{width:62%;padding:12px 14px;background:var(--paper);border:2.5px solid var(--ink);border-radius:6px;transform:rotate(-2deg)}
+.bk-cover .bk-logo{width:62%;padding:12px 14px;background:var(--paper);border:2.5px solid var(--ink);border-radius:6px}
 .bk-cover .bk-logo svg{width:100%;height:auto;display:block;overflow:visible}
 .bk-cover .bk-t{font-family:var(--display);font-size:18px;letter-spacing:.14em;color:var(--paper)}
 
@@ -147,6 +152,16 @@ legend + *{clear:both}
 .lb .nav{display:flex;gap:8px}
 .lb .btn{box-shadow:4px 4px 0 var(--accent);background:var(--paper);color:var(--ink);border-color:var(--paper);font-size:15px;padding:10px 16px;min-height:44px}
 body.locked{overflow:hidden}
+/* Polish: text selection in brand colors, a gentle load-in, soft error and button feedback. */
+::selection{background:var(--accent);color:var(--paper)}
+main.intro > *{animation:introUp .7s cubic-bezier(.2,.8,.2,1) both}
+main.intro > *:nth-child(2){animation-delay:.08s}
+main.intro > *:nth-child(3){animation-delay:.16s}
+main.intro > *:nth-child(n+4){animation-delay:.24s}
+@keyframes introUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.btn{transition:transform .12s ease,box-shadow .12s ease}
+@media (prefers-reduced-motion: reduce){main.intro > *{animation:none}.tile,.tile::after{transition:none}}
+
 /* Send animation: the screen folds into a letter over blue, goes in an envelope, gets licked, sealed and mailed. */
 .fold{position:fixed;inset:0;z-index:70;background:var(--blue);overflow:hidden}
 .fold[hidden]{display:none}
@@ -215,7 +230,7 @@ body.locked{overflow:hidden}
 
 </head>
 <body>
-<main class="sheet">
+<main class="sheet intro">
   <header class="top">
     <button class="stamp" id="stamp" type="button" aria-label="FW.D logo. Tap to open.">
       <span class="box" aria-hidden="true"><span class="eyes"><i><b></b></i><i><b></b></i></span></span>
@@ -637,6 +652,12 @@ body.locked{overflow:hidden}
       }
       c.id = 'q_'+q.id; f.appendChild(c); box.appendChild(f);
     });
+    if (box.animate && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+      [].forEach.call(box.children, function(el, i){
+        el.animate([{opacity:0, transform:'translateY(8px)'}, {opacity:1, transform:'none'}], {duration:380, delay:i*45, easing:'cubic-bezier(.2,.8,.2,1)', fill:'backwards'});
+      });
+      $('dtitle').animate([{opacity:0}, {opacity:1}], {duration:300});
+    }
   }
 
   document.querySelectorAll('input[name=type]').forEach(function(r){
@@ -822,6 +843,18 @@ body.locked{overflow:hidden}
     setTimeout(function(){ window.location.href = d.href; }, 1050);
     window.addEventListener('pageshow', function(ev){ if (ev.persisted) { f.remove(); d.classList.remove('open'); } }, {once:true});
   });
+})();
+</script>
+<script>
+(function(){
+  var m = document.querySelector('main.sheet');
+  setTimeout(function(){ m.classList.remove('intro'); }, 1100);
+  /* soft fade-in for messages under the send button */
+  var err = document.getElementById('err');
+  if (err && window.MutationObserver) new MutationObserver(function(){
+    if (err.textContent && err.animate && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches))
+      err.animate([{opacity:0, transform:'translateY(-4px)'}, {opacity:1, transform:'none'}], {duration:260, easing:'ease-out'});
+  }).observe(err, {childList:true, characterData:true, subtree:true});
 })();
 </script>
 </body>

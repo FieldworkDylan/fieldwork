@@ -13,6 +13,10 @@
 <meta name="twitter:card" content="summary_large_image">
 <style>[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}</style>
 <title>Dylandotattoo Booking</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@700&display=swap">
 <style>
 /* Layout: phone-first shop. Sign up top, a wall band with a picture rail and framed work hanging from it, then a booking card. Sticky book button until the form is on screen. Single light look on purpose. */
@@ -160,6 +164,13 @@ footer a{color:inherit}
 .towel{position:absolute;left:0;top:0;width:150px;height:auto;pointer-events:none;will-change:transform;filter:drop-shadow(0 10px 14px rgba(0,0,0,.25))}
 .preview-link{display:block;margin:12px auto 0;background:none;border:0;color:var(--muted);font:500 13px/1 var(--body);text-decoration:underline;cursor:pointer}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.wire,.hang .frame{animation:none}}
+/* Polish: brand text selection, gentle load-in. */
+::selection{background:var(--stencil);color:#FFF}
+body.intro .top,body.intro .sign,body.intro .wall,body.intro .book{animation:introUp .7s cubic-bezier(.2,.8,.2,1) both}
+body.intro .sign{animation-delay:.06s} body.intro .wall{animation-delay:.14s} body.intro .book{animation-delay:.22s}
+@keyframes introUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){body.intro *{animation:none!important}}
+
 
 /* speakeasy door: dark, cracked open, something on the other side */
 .sd-door-wrap{display:flex;justify-content:center;padding-block:38px 8px}
@@ -204,7 +215,7 @@ footer a{color:inherit}
 @media (prefers-reduced-motion:reduce){.sd-door-leaf,.sd-door-spill,.sd-door-light,.sd-eyes,.sd-flood{transition:none!important;animation:none!important}}
 </style>
 </head>
-<body>
+<body class="intro">
 
 <div class="gut">
   <div class="top">
@@ -223,25 +234,25 @@ footer a{color:inherit}
   <div class="gut wall-head"><h2 id="wallh">Recent work</h2><span class="lbl count" id="count"></span></div>
   <div class="rail" aria-hidden="true"></div>
   <div class="hang" id="hang">
-    <button class="piece" type="button" aria-label="Scorpion. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/scorpion.jpg" alt="Scorpion tattoo by Dylan" loading="eager"></span><span class="plaque"><b>Scorpion</b><span>No. 01</span></span></button>
-    <button class="piece" type="button" aria-label="Dog. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/dog.jpg" alt="Dog tattoo by Dylan" loading="eager"></span><span class="plaque"><b>Dog</b><span>No. 02</span></span></button>
-    <button class="piece" type="button" aria-label="Fox skull. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/fox-skull.jpg" alt="Fox skull tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Fox skull</b><span>No. 03</span></span></button>
-    <button class="piece" type="button" aria-label="Sliced fish. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/fish.jpg" alt="Sliced fish tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Sliced fish</b><span>No. 04</span></span></button>
-    <button class="piece" type="button" aria-label="Ladybug eye. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/ladybug.jpg" alt="Ladybug eye tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Ladybug eye</b><span>No. 05</span></span></button>
-    <button class="piece" type="button" aria-label="Saber-tooth skull. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/sabertooth.jpg" alt="Saber-tooth skull tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Saber-tooth skull</b><span>No. 06</span></span></button>
-    <button class="piece" type="button" aria-label="Whale yin-yang. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/whales.jpg" alt="Whale yin-yang tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Whale yin-yang</b><span>No. 07</span></span></button>
-    <button class="piece" type="button" aria-label="Bold scorpion. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/scorpion-bold.jpg" alt="Bold scorpion tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Bold scorpion</b><span>No. 08</span></span></button>
-    <button class="piece" type="button" aria-label="Melting faces. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/faces.jpg" alt="Melting faces tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Melting faces</b><span>No. 09</span></span></button>
-    <button class="piece" type="button" aria-label="Glitch eye. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/eye.jpg" alt="Glitch eye tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Glitch eye</b><span>No. 10</span></span></button>
-    <button class="piece" type="button" aria-label="Dagger & eye. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/dagger-eye.jpg" alt="Dagger & eye tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Dagger & eye</b><span>No. 11</span></span></button>
-    <button class="piece" type="button" aria-label="Swallowtail. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/swallowtail.jpg" alt="Swallowtail tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Swallowtail</b><span>No. 12</span></span></button>
-    <button class="piece" type="button" aria-label="Skull. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/skull.jpg" alt="Skull tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Skull</b><span>No. 13</span></span></button>
-    <button class="piece" type="button" aria-label="Sneakers. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/sneakers.jpg" alt="Sneakers tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Sneakers</b><span>No. 14</span></span></button>
-    <button class="piece" type="button" aria-label="Window cross. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/window-cross.jpg" alt="Window cross tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Window cross</b><span>No. 15</span></span></button>
-    <button class="piece" type="button" aria-label="Wall break. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/wall-break.jpg" alt="Wall break tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Wall break</b><span>No. 16</span></span></button>
-    <button class="piece" type="button" aria-label="Bold butterfly. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/bold-butterfly.jpg" alt="Bold butterfly tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Bold butterfly</b><span>No. 17</span></span></button>
-    <button class="piece" type="button" aria-label="Two trout. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/trout.jpg" alt="Two trout tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Two trout</b><span>No. 18</span></span></button>
-    <button class="piece" type="button" aria-label="Spool. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/spool.jpg" alt="Spool tattoo by Dylan" loading="lazy"></span><span class="plaque"><b>Spool</b><span>No. 19</span></span></button>
+    <button class="piece" type="button" aria-label="Scorpion. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/scorpion.jpg" alt="Scorpion tattoo by Dylan" loading="eager" width="900" height="900" decoding="async"></span><span class="plaque"><b>Scorpion</b><span>No. 01</span></span></button>
+    <button class="piece" type="button" aria-label="Dog. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/dog.jpg" alt="Dog tattoo by Dylan" loading="eager" width="900" height="900" decoding="async"></span><span class="plaque"><b>Dog</b><span>No. 02</span></span></button>
+    <button class="piece" type="button" aria-label="Fox skull. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/fox-skull.jpg" alt="Fox skull tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Fox skull</b><span>No. 03</span></span></button>
+    <button class="piece" type="button" aria-label="Sliced fish. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/fish.jpg" alt="Sliced fish tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Sliced fish</b><span>No. 04</span></span></button>
+    <button class="piece" type="button" aria-label="Ladybug eye. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/ladybug.jpg" alt="Ladybug eye tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Ladybug eye</b><span>No. 05</span></span></button>
+    <button class="piece" type="button" aria-label="Saber-tooth skull. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/sabertooth.jpg" alt="Saber-tooth skull tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Saber-tooth skull</b><span>No. 06</span></span></button>
+    <button class="piece" type="button" aria-label="Whale yin-yang. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/whales.jpg" alt="Whale yin-yang tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Whale yin-yang</b><span>No. 07</span></span></button>
+    <button class="piece" type="button" aria-label="Bold scorpion. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/scorpion-bold.jpg" alt="Bold scorpion tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Bold scorpion</b><span>No. 08</span></span></button>
+    <button class="piece" type="button" aria-label="Melting faces. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/faces.jpg" alt="Melting faces tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Melting faces</b><span>No. 09</span></span></button>
+    <button class="piece" type="button" aria-label="Glitch eye. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/eye.jpg" alt="Glitch eye tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Glitch eye</b><span>No. 10</span></span></button>
+    <button class="piece" type="button" aria-label="Dagger & eye. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/dagger-eye.jpg" alt="Dagger & eye tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Dagger & eye</b><span>No. 11</span></span></button>
+    <button class="piece" type="button" aria-label="Swallowtail. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/swallowtail.jpg" alt="Swallowtail tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Swallowtail</b><span>No. 12</span></span></button>
+    <button class="piece" type="button" aria-label="Skull. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/skull.jpg" alt="Skull tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Skull</b><span>No. 13</span></span></button>
+    <button class="piece" type="button" aria-label="Sneakers. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/sneakers.jpg" alt="Sneakers tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Sneakers</b><span>No. 14</span></span></button>
+    <button class="piece" type="button" aria-label="Window cross. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/window-cross.jpg" alt="Window cross tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Window cross</b><span>No. 15</span></span></button>
+    <button class="piece" type="button" aria-label="Wall break. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/wall-break.jpg" alt="Wall break tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Wall break</b><span>No. 16</span></span></button>
+    <button class="piece" type="button" aria-label="Bold butterfly. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/bold-butterfly.jpg" alt="Bold butterfly tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Bold butterfly</b><span>No. 17</span></span></button>
+    <button class="piece" type="button" aria-label="Two trout. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/trout.jpg" alt="Two trout tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Two trout</b><span>No. 18</span></span></button>
+    <button class="piece" type="button" aria-label="Spool. View larger"><svg class="wire" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 L3 40 M50 0 L97 40" stroke="currentColor" stroke-width="1.2" fill="none" vector-effect="non-scaling-stroke"/></svg><span class="frame" style="display:block"><img src="img/spool.jpg" alt="Spool tattoo by Dylan" loading="lazy" width="900" height="900" decoding="async"></span><span class="plaque"><b>Spool</b><span>No. 19</span></span></button>
   </div>
   <div class="dots" id="dots" aria-hidden="true"></div>
 </section>
@@ -388,20 +399,85 @@ footer a{color:inherit}
   hang.addEventListener('scroll', function(){ requestAnimationFrame(mark); }, {passive:true});
   mark();
 
-  /* lightbox */
-  var lb = $('lb');
+  /* lightbox: the framed piece lifts off the wall and grows, then goes back on close */
+  var lb = $('lb'), from = null, busy = false;
+  function calm(){ return window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  function flip(a, b){ return 'translate(' + (a.left - b.left) + 'px,' + (a.top - b.top) + 'px) scale(' + (a.width / b.width) + ',' + (a.height / b.height) + ')'; }
+  function centerFlip(a, b, extraY, extraS, rot){ // move frame b so its center sits on a's center at a's size
+    var s = (a.width / b.width) * (extraS || 1);
+    return 'translate(' + ((a.left + a.width / 2) - (b.left + b.width / 2)) + 'px,' + ((a.top + a.height / 2) - (b.top + b.height / 2) + (extraY || 0)) + 'px) scale(' + s + ') rotate(' + (rot || 0) + 'deg)';
+  }
+  function tilt(el){ // current hanging angle of a frame on the wall
+    var m = getComputedStyle(el).transform; if (!m || m === 'none') return 0;
+    var v = m.match(/matrix\(([^)]+)\)/); if (!v) return 0; v = v[1].split(',').map(parseFloat);
+    return Math.atan2(v[1], v[0]) * 180 / Math.PI;
+  }
+  function tf(a, b, dy, s, rx, r){
+    var k = a ? (a.width / b.width) * s : s, x = a ? (a.left + a.width / 2) - (b.left + b.width / 2) : 0, y = a ? (a.top + a.height / 2) - (b.top + b.height / 2) : 0;
+    return 'translate(' + x + 'px,' + (y + dy) + 'px) scale(' + k + ') perspective(900px) rotateX(' + rx + 'deg) rotate(' + r + 'deg)';
+  }
+  var REST = '0 14px 22px -14px rgba(0,0,0,.55), 0 1px 2px rgba(0,0,0,.18)';
+  var LIFT = '0 34px 50px -18px rgba(0,0,0,.45), 0 8px 16px rgba(0,0,0,.12)';
   pieces.forEach(function(p){
     p.addEventListener('click', function(){
+      if (busy) return;
       var img = p.querySelector('img');
-      $('lbimg').src = img.src; $('lbimg').alt = img.alt;
+      $('lbimg').src = img.currentSrc || img.src; $('lbimg').alt = img.alt;
       $('lbcap').innerHTML = p.querySelector('.plaque').innerHTML;
-      lb.hidden = false; document.body.style.overflow = 'hidden'; $('lbx').focus();
+      from = p.querySelector('.frame');
+      var r0 = tilt(from);
+      lb.hidden = false; document.body.style.overflow = 'hidden'; $('lbx').focus({preventScroll:true});
+      if (calm() || !lb.animate) return;
+      busy = true;
+      var big = lb.querySelector('.frame'), a = from.getBoundingClientRect(), b = big.getBoundingClientRect();
+      // getBoundingClientRect includes the tilt; undo that so the size matches the frame itself
+      var c = Math.abs(Math.cos(r0 * Math.PI / 180)) + Math.abs(Math.sin(r0 * Math.PI / 180)), w = a.width / c;
+      a = {left:a.left + (a.width - w) / 2, top:a.top + (a.height - w) / 2, width:w, height:w};
+      from.style.visibility = 'hidden';
+      big.style.transformOrigin = '50% 50%';
+      var T = 1150; // 0-.32 tilt out and lift off the nail, .32-.38 hold, .38-1 carry to the middle
+      var wire = p.querySelector('.wire');
+      if (wire) wire.animate([{opacity:1}, {opacity:0}], {duration:T * .2, delay:T * .1, easing:'ease-in', fill:'forwards'});
+      lb.animate([{backgroundColor:'rgba(236,225,201,0)'}, {backgroundColor:'rgba(236,225,201,.97)'}], {duration:650, delay:T * .38, easing:'ease-in-out', fill:'backwards'});
+      [$('lbcap'), $('lbx')].forEach(function(el){ el.animate([{opacity:0, transform:'translateY(8px)'}, {opacity:1, transform:'none'}], {duration:300, delay:T * .9, easing:'ease-out', fill:'backwards'}); });
+      big.animate([
+        {offset:0,   transform:tf(a, b, 0, 1, 0, r0),      boxShadow:REST, easing:'cubic-bezier(.4,0,.3,1)'},
+        {offset:.12, transform:tf(a, b, -6, 1.03, 16, r0 * .6), boxShadow:LIFT, easing:'cubic-bezier(.4,0,.2,1)'},
+        {offset:.32, transform:tf(a, b, -46, 1.1, 9, 0),   boxShadow:LIFT, easing:'linear'},
+        {offset:.38, transform:tf(a, b, -48, 1.11, 8, 0),  boxShadow:LIFT, easing:'cubic-bezier(.45,0,.2,1)'},
+        {offset:1,   transform:tf(null, b, 0, 1, 0, 0),    boxShadow:LIFT}
+      ], {duration:T}).finished.then(function(){ busy = false; }, function(){ busy = false; });
+      big.style.boxShadow = LIFT;
     });
   });
-  function closeLb(){ lb.hidden = true; document.body.style.overflow = ''; }
+  function closeLb(){
+    if (lb.hidden || busy) return;
+    var f = from;
+    function done(){ lb.hidden = true; document.body.style.overflow = ''; if (f) f.style.visibility = ''; from = null; busy = false;
+      lb.getAnimations({subtree:true}).forEach(function(x){ x.cancel(); }); if (f) { var w = f.parentNode.querySelector('.wire'); if (w) w.getAnimations().forEach(function(x){ if (!(window.CSSAnimation && x instanceof CSSAnimation)) x.cancel(); }); } }
+    if (calm() || !f || !lb.animate) { done(); return; }
+    busy = true;
+    var big = lb.querySelector('.frame'), b = big.getBoundingClientRect(), a = f.getBoundingClientRect(), r0 = tilt(f);
+    var c = Math.abs(Math.cos(r0 * Math.PI / 180)) + Math.abs(Math.sin(r0 * Math.PI / 180)), w = a.width / c;
+    a = {left:a.left + (a.width - w) / 2, top:a.top + (a.height - w) / 2, width:w, height:w};
+    big.style.transformOrigin = '50% 50%';
+    var T = 1050; // 0-.46 carry back above the nail, .46-.52 hold, .52-1 hang it and let it swing back flat
+    var wire = f.parentNode.querySelector('.wire');
+    [$('lbcap'), $('lbx')].forEach(function(el){ el.animate([{opacity:1}, {opacity:0}], {duration:250, fill:'forwards'}); });
+    lb.animate([{backgroundColor:'rgba(236,225,201,.97)'}, {backgroundColor:'rgba(236,225,201,0)'}], {duration:550, delay:60, easing:'ease-in-out', fill:'forwards'});
+    if (wire) { wire.getAnimations().forEach(function(x){ if (!(window.CSSAnimation && x instanceof CSSAnimation)) x.cancel(); }); wire.animate([{opacity:0}, {opacity:1}], {duration:T * .26, delay:T * .52, easing:'ease-out', fill:'backwards'}); }
+    big.animate([
+      {offset:0,   transform:tf(null, b, 0, 1, 0, 0),    boxShadow:LIFT, easing:'cubic-bezier(.45,0,.2,1)'},
+      {offset:.46, transform:tf(a, b, -48, 1.11, 8, 0),  boxShadow:LIFT, easing:'linear'},
+      {offset:.52, transform:tf(a, b, -46, 1.1, 9, 0),   boxShadow:LIFT, easing:'cubic-bezier(.4,0,.2,1)'},
+      {offset:.82, transform:tf(a, b, -6, 1.03, 16, r0 * .6), boxShadow:LIFT, easing:'cubic-bezier(.3,0,.3,1)'},
+      {offset:1,   transform:tf(a, b, 0, 1, 0, r0),      boxShadow:REST}
+    ], {duration:T, fill:'forwards'}).finished.then(done, done);
+  }
   $('lbx').addEventListener('click', closeLb);
   lb.addEventListener('click', function(e){ if (e.target === lb || e.target.closest('.lb-in')) closeLb(); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeLb(); });
+  setTimeout(function(){ document.body.classList.remove('intro'); }, 1100);
 
   /* smooth jump to form */
   document.querySelectorAll('a[href="#book"]').forEach(function(a){
