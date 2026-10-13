@@ -1089,6 +1089,7 @@ function fwTrack(name, title){ try { if (window.goatcounter && window.goatcounte
   if (!ws || !wsdoor) return;
   function calm(){ return window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches; }
   function track(a, b){ if (window.fwTrack) fwTrack(a, b); }
+  function slug(t){ return String(t).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 50) || 'something'; }
   var lastFocus = null, tab = 'build';
 
   /* ---------- open / close ---------- */
@@ -1526,7 +1527,7 @@ function fwTrack(name, title){ try { if (window.goatcounter && window.goatcounte
       if (!calm() && n.animate) n.animate([{opacity:0, transform:'translateY(8px)'}, {opacity:1, transform:'none'}], {duration:380, delay:250 + i * 90, easing:'ease-out', fill:'backwards'});
     });
     if (wantFin && wantFin !== 'natural') later(function(){ applyFinish(wantFin); }, calm() ? 0 : 900); // they asked for it by name
-    track('fieldwork/workshop-built', 'Built ' + an(cur ? cur.desc : 'piece') + ' (' + total + '%)');
+    track('fieldwork/built/' + slug(cur ? cur.desc : 'piece'), 'Built ' + an(cur ? cur.desc : 'piece')); // one line per kind of build in the visitor log
   }
   function applyFinish(k){
     finish = k; var f = FIN[k]; V3.tint(k);
@@ -1605,7 +1606,7 @@ function fwTrack(name, title){ try { if (window.goatcounter && window.goatcounte
   function ask(q){
     q = (q || '').trim(); if (!q) { $('bqin').focus(); return; }
     var r = parse(q);
-    track('fieldwork/workshop-asked', 'Asked to build: ' + q.slice(0, 60) + (r ? '' : ' (no plan)'));
+    track('fieldwork/' + (r ? 'asked/' : 'asked-noplan/') + slug(q), q.slice(0, 60)); // one line per thing people typed
     if (!r) {
       $('bmsg').textContent = NOPE[Math.floor(Math.random() * NOPE.length)] + ' Try one of these, or a bookshelf, desk, chair or planter.';
       var c = $('bchips'); c.classList.remove('nudge'); void c.offsetWidth; c.classList.add('nudge');
