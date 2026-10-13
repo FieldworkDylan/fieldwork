@@ -12,7 +12,7 @@
 <meta name="theme-color" content="#FFF3E0" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#10201A" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
-<script>try{var m=localStorage.getItem('fwlog-mode'),t=localStorage.getItem('fwlog-palette');if(m==='light'||m==='dark')document.documentElement.dataset.theme=m;if(t==='cloud'||t==='sage')document.documentElement.dataset.palette=t;}catch(e){}</script>
+<script>try{var m=localStorage.getItem('fwlog-mode'),t=localStorage.getItem('fwlog-palette');if(m==='light'||m==='dark')document.documentElement.dataset.theme=m;if(t==='cloud'||t==='sage')document.documentElement.dataset.palette=t;if(localStorage.getItem('fwlog-lock'))document.documentElement.dataset.locked='';}catch(e){}</script>
 <link rel="icon" href="icon-64.png" type="image/png">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -302,10 +302,41 @@ body.nohap .hx{display:none}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86px)}
 
+/* lock screen: nothing else is drawn while it's up, so the app switcher only ever shows this */
+.lock{display:none;position:fixed;inset:0;z-index:200;background:var(--bg);align-items:center;justify-content:center;text-align:center;padding:24px 28px calc(24px + env(safe-area-inset-bottom,0px))}
+html[data-locked] .lock{display:flex}
+html[data-locked] body{overflow:hidden}
+html[data-locked] body > :not(.lock){visibility:hidden}
+.lock-in{display:flex;flex-direction:column;align-items:center;max-width:320px;animation:lockin .4s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes lockin{from{opacity:0;transform:translateY(10px) scale(.97)}}
+.lock .brand svg{height:38px}
+.lock .brand b{font-size:24px;padding-bottom:3px}
+.lockico{width:68px;height:68px;border-radius:22px;background:var(--card);box-shadow:var(--shadow);display:grid;place-items:center;color:var(--accent);margin:40px 0 18px}
+.lockico svg{width:30px;height:30px}
+.lock h1{font-family:var(--display);font-weight:400;font-size:25px;letter-spacing:-.01em;margin:0 0 8px;color:var(--ink)}
+.lock p{margin:0;color:var(--ink-2);font-size:15.5px;line-height:1.45}
+.lock .pbtn{min-height:54px;padding:14px 26px;font-size:16px;margin-top:28px}
+.lock .pbtn svg{width:20px;height:20px}
+.lock .err{margin-top:14px}
+.lockreset{background:none;border:0;color:var(--ink-3);font:inherit;font-size:13.5px;margin-top:22px;padding:8px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.lock.nope .lockico{animation:nope .4s ease}
+@keyframes nope{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
 </style>
 </head>
 <body>
+<div class="lock" id="lock" role="dialog" aria-modal="true" aria-labelledby="lockh">
+  <div class="lock-in">
+    <span class="brand" role="img" aria-label="FW.D Desk"><svg viewBox="-8 -14 336 162" aria-hidden="true"><path class="lf" d="M0 20H70V50H34V68H60V96H34V140H0Z"/><path class="lf" transform="translate(6 0)" d="M64 20H98L106 88L114 20H142L150 88L158 20H192L170 140H138L128 78L118 140H86Z"/><circle class="ldot" cx="190" cy="125" r="15"/><g transform="translate(202 20)"><g class="swing"><path class="ld" transform="translate(0 -20)" fill-rule="evenodd" d="M0 20H42C70 20 84 44 84 80C84 116 70 140 42 140H0ZM32 50H42C50 50 54 62 54 80C54 98 50 110 42 110H32Z"/></g></g></svg><b>Desk</b></span>
+    <span class="lockico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.8"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/><path d="M12 14.5v2"/></svg></span>
+    <h1 id="lockh">Desk is locked</h1>
+    <p id="locksub">Unlock to see your requests and bookings.</p>
+    <button type="button" class="pbtn main" id="unlock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5V6.5A2.5 2.5 0 0 1 6.5 4h2M15.5 4h2A2.5 2.5 0 0 1 20 6.5v2M20 15.5v2a2.5 2.5 0 0 1-2.5 2.5h-2M8.5 20h-2A2.5 2.5 0 0 1 4 17.5v-2"/><path d="M9 9.5v1.2M15 9.5v1.2M12.2 9.5v3.6h-1M9.6 15.6a3.4 3.4 0 0 0 4.8 0"/></svg><span id="unlockt">Unlock</span></button>
+    <p class="err" id="lockerr" hidden></p>
+    <button type="button" class="lockreset" id="lockreset">Can’t unlock?</button>
+  </div>
+</div>
 <header class="bar" id="bar">
   <div class="bar-in">
     <span class="brand" id="brand" role="img" aria-label="FW.D Desk"><svg viewBox="-8 -14 336 162" aria-hidden="true"><path class="lf" d="M0 20H70V50H34V68H60V96H34V140H0Z"/><path class="lf" transform="translate(6 0)" d="M64 20H98L106 88L114 20H142L150 88L158 20H192L170 140H138L128 78L118 140H86Z"/><circle class="ldot" cx="190" cy="125" r="15"/><g transform="translate(202 20)"><g class="swing"><path class="ld" transform="translate(0 -20)" fill-rule="evenodd" d="M0 20H42C70 20 84 44 84 80C84 116 70 140 42 140H0ZM32 50H42C50 50 54 62 54 80C54 98 50 110 42 110H32Z"/></g></g></svg><b>Desk</b></span>
@@ -440,6 +471,12 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
       <ul class="rowlist">
         <li><span class="rt"><b>Tap sounds</b><span>Soft clicks as you tap around. Your phone’s silent switch mutes them.</span></span><button type="button" class="switch" id="sndsw" role="switch" aria-checked="true" aria-label="Tap sounds"><i></i></button></li>
         <li><span class="rt"><b>Haptics</b><span>A light tap you can feel with each click.</span></span><button type="button" class="switch" id="hapsw" role="switch" aria-checked="true" aria-label="Haptics"><i></i></button></li>
+      </ul>
+    </section>
+    <section class="set" aria-labelledby="h-priv">
+      <div class="sec-h"><h2 id="h-priv">Privacy</h2></div>
+      <ul class="rowlist">
+        <li><span class="rt"><b id="lockt">Lock with Face ID</b><span id="locks">Asks for Face ID when you open Desk, or come back after a minute away.</span></span><button type="button" class="switch" id="locksw" role="switch" aria-checked="false" aria-labelledby="lockt"><i></i></button></li>
       </ul>
     </section>
     <section class="set" aria-labelledby="h-conn">
@@ -1126,6 +1163,74 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
   $('hapsw').setAttribute('aria-checked', SFX.hap);
   $('hapsw').addEventListener('click', function(){ var v = !SFX.hap; this.setAttribute('aria-checked', v); SFX.setHap(v); toast(v ? 'Haptics on' : 'Haptics off'); });
   $('sndsw').addEventListener('click', function(){ var v = !SFX.on; this.setAttribute('aria-checked', v); SFX.set(v); toast(v ? 'Sounds on' : 'Sounds off'); });
+  /* ---------- lock: Face ID (or your phone's passcode) before Desk opens ----------
+     Turning it on makes a passkey that lives in this phone's keychain. Unlocking asks the phone to confirm it's you with it.
+     It guards the screen; your keys still sit on this phone, so the phone's own passcode is the real wall. */
+  (function(){
+    var LK = 'fwlog-lock', PK = window.PublicKeyCredential, root = document.documentElement;
+    var cred = store(LK), away = 0, busy = false, ask = null, GRACE = 60000;
+    var bio = SFX.ios ? 'Face ID' : 'your screen lock';
+    function b64(buf){ return btoa(String.fromCharCode.apply(null, new Uint8Array(buf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+    function unb64(t){ t = t.replace(/-/g, '+').replace(/_/g, '/'); while (t.length % 4) t += '='; var b = atob(t), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+    function rnd(n){ var u = new Uint8Array(n); crypto.getRandomValues(u); return u; }
+    function able(){ return PK && PK.isUserVerifyingPlatformAuthenticatorAvailable ? PK.isUserVerifyingPlatformAuthenticatorAvailable().catch(function(){ return false; }) : Promise.resolve(false); }
+    function locked(){ return 'locked' in root.dataset; }
+    function shut(){ if (!cred) return; root.dataset.locked = ''; $('lockerr').hidden = true; }
+    function open(){ if (!locked()) return; delete root.dataset.locked; window.scrollTo(0, window.scrollY); }
+    function say(msg){ var e = $('lockerr'); e.textContent = msg; e.hidden = false; var l = $('lock'); l.classList.remove('nope'); void l.offsetWidth; l.classList.add('nope'); }
+    // ask the phone; true only if it confirmed it's you (Face ID or passcode) with this Desk's own passkey
+    function prove(){
+      var id; try { id = unb64(cred); } catch (e) { return Promise.reject(e); }
+      if (ask) ask.abort(); ask = window.AbortController ? new AbortController() : null;
+      var o = {publicKey:{challenge:rnd(32), rpId:location.hostname, allowCredentials:[{type:'public-key', id:id, transports:['internal']}], userVerification:'required', timeout:60000}};
+      if (ask) o.signal = ask.signal;
+      return navigator.credentials.get(o)
+        .then(function(a){ return !!a && b64(a.rawId) === cred && !!(new Uint8Array(a.response.authenticatorData)[32] & 4); });
+    }
+    var tries = 0;
+    function unlock(auto){
+      if (!cred || (busy && auto)) return; // a tap takes over from an attempt that's still waiting
+      var n = ++tries; busy = true;
+      prove().then(function(ok){ if (n !== tries) return; if (ok) { open(); SFX.play('open'); } else if (!auto) say('That didn’t match. Try again.'); })
+        .catch(function(e){ if (n !== tries || auto) return; say(e && e.name === 'NotAllowedError' ? 'Not unlocked. Tap to try again.' : 'Couldn’t check ' + bio + ' just now. Try again.'); })
+        .then(function(){ if (n === tries) busy = false; });
+    }
+    function make(){
+      return navigator.credentials.create({publicKey:{
+        challenge:rnd(32), rp:{name:'FWD Desk', id:location.hostname},
+        user:{id:rnd(16), name:'FWD Desk', displayName:'FWD Desk'},
+        pubKeyCredParams:[{type:'public-key', alg:-7}, {type:'public-key', alg:-257}],
+        authenticatorSelection:{authenticatorAttachment:'platform', userVerification:'required', residentKey:'preferred'},
+        attestation:'none', timeout:60000}})
+        .then(function(c){ if (!c) throw {name:'none'}; cred = b64(c.rawId); store(LK, cred); });
+    }
+    var sw = $('locksw');
+    function paint(){ sw.setAttribute('aria-checked', !!cred); }
+    $('unlockt').textContent = SFX.ios ? 'Unlock with Face ID' : 'Unlock';
+    if (!SFX.ios) { $('lockt').textContent = 'Lock Desk'; $('locks').textContent = 'Asks for your fingerprint or screen lock when you open Desk, or come back after a minute away.'; }
+    paint();
+    able().then(function(ok){ if (!ok && !cred) { sw.disabled = true; $('locks').textContent = 'This browser can’t do ' + (SFX.ios ? 'Face ID' : 'a screen lock check') + ' here. Open Desk from your Home Screen.'; } });
+    sw.addEventListener('click', function(){
+      if (busy) return; busy = true;
+      if (!cred) make().then(function(){ paint(); SFX.play('done'); toast('Lock on'); }).catch(function(e){ toast(e && e.name === 'NotAllowedError' ? 'Lock stayed off' : 'Couldn’t set up the lock'); }).then(function(){ busy = false; });
+      else prove().then(function(ok){ if (!ok) throw {}; cred = null; store(LK, null); paint(); toast('Lock off'); }).catch(function(){ toast('Lock stays on'); }).then(function(){ busy = false; });
+    });
+    $('unlock').addEventListener('click', function(){ unlock(false); });
+    $('lockreset').addEventListener('click', function(){
+      if (!confirm('Start over on this phone?\n\nThis removes the lock and forgets your inbox key and visitor token here, so nothing opens without them. You’ll paste them in again after.')) return;
+      [LK, IKEY, KEY].forEach(function(k){ store(k, null); }); location.reload();
+    });
+    // leaving the app covers it straight away; back within a minute opens again, longer asks for Face ID
+    document.addEventListener('visibilitychange', function(){
+      if (!cred) return;
+      if (document.hidden) { if (!locked()) { away = Date.now(); shut(); } }
+      else if (away && Date.now() - away < GRACE) { away = 0; open(); }
+      else { away = 0; unlock(true); }
+    });
+    window.addEventListener('pagehide', function(){ if (cred && !locked()) { away = Date.now(); shut(); } });
+    if (locked()) { if (!cred) open(); else unlock(true); } // on launch, ask right away where the phone allows it; otherwise the button does
+  })();
+
   var standalone = (window.navigator.standalone === true) || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
   $('install').hidden = standalone;
   document.addEventListener('visibilitychange', function(){ if (!document.hidden) refresh(); });
@@ -1134,7 +1239,7 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
     var y0 = null, pull = 0, ptr = $('ptr'), arrow = ptr.querySelector('svg');
     var armed = false;
     function set(p){ var k = Math.min(1, p / 70); if (k >= 1 && !armed) { armed = true; SFX.play('pull'); } else if (k < 1) armed = false; ptr.style.opacity = k; ptr.style.transform = 'translateY(' + (Math.min(p, 90) * .55 - 30) + 'px) scale(' + (.6 + .4 * k) + ')'; arrow.style.transform = 'rotate(' + (k >= 1 ? 180 : 0) + 'deg)'; arrow.style.transition = 'transform .18s ease'; }
-    window.addEventListener('touchstart', function(e){ y0 = window.scrollY <= 0 && e.touches.length === 1 ? e.touches[0].clientY : null; pull = 0; }, {passive:true});
+    window.addEventListener('touchstart', function(e){ if ('locked' in document.documentElement.dataset) { y0 = null; return; } y0 = window.scrollY <= 0 && e.touches.length === 1 ? e.touches[0].clientY : null; pull = 0; }, {passive:true});
     window.addEventListener('touchmove', function(e){ if (y0 === null) return; pull = Math.max(0, e.touches[0].clientY - y0); if (window.scrollY > 0) { pull = 0; y0 = null; } set(pull); }, {passive:true});
     window.addEventListener('touchend', function(){
       if (y0 === null) return; y0 = null;
