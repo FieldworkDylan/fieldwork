@@ -590,6 +590,13 @@ function fwTrack(name, title){ try { if (window.goatcounter && window.goatcounte
   if (location.hash === '#thanks') showThanks('', '');
   /* booking form */
   var ENDPOINT = 'https://formsubmit.co/ajax/027deb3078663909fd5bd75d20ef0f98';
+  var DESK = 'https://script.google.com/macros/s/AKfycbwRaPAbIfG88dN6lws50HJXQ06a4S8wA9vUV8yyMvoZETUKHcGauZu_Flai3lEckBmr/exec'; // your Desk app's inbox (a Google Sheet). Every request also lands there. Empty = off.
+  var reqId = '';
+  function toDesk(site, payload){ // a copy for the Desk app; the email still goes out as before
+    if (!DESK) return;
+    var f = {}; Object.keys(payload).forEach(function(k){ if (k.charAt(0) !== '_') f[k] = payload[k]; });
+    try { fetch(DESK, {method:'POST', mode:'no-cors', keepalive:true, headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({site:site, id:reqId, fields:f})}).catch(function(){}); } catch (e) {}
+  }
   var DM = 'https://ig.me/m/dylandotattoo';
   function val(id){var e=$(id); return e ? e.value.trim() : ''}
   function pick(n){var e=document.querySelector('input[name="'+n+'"]:checked'); return e ? e.value : ''}
@@ -614,6 +621,8 @@ function fwTrack(name, title){ try { if (window.goatcounter && window.goatcounte
       budget: val('budget'), timing: val('when'), confirmed_18_plus: 'Yes'
     };
     var btn = $('go'); btn.disabled = true; btn.textContent = 'Sending…';
+    if (!reqId) reqId = 'tt-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); // same id on a retry, so it only shows once
+    toDesk('tattoo', payload);
     fetch(ENDPOINT, {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify(payload)})
       .then(function(r){return r.json().catch(function(){return {}}).then(function(d){return {ok:r.ok, d:d}})})
       .then(function(x){

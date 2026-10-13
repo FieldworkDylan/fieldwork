@@ -1,6 +1,6 @@
 {
-  "name": "Visitor Log",
-  "short_name": "Visitors",
+  "name": "Fieldwork Desk",
+  "short_name": "Desk",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

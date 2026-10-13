@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Visitor Log</title>
+<title>Fieldwork Desk</title>
 <meta name="robots" content="noindex,nofollow">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Visitors">
+<meta name="apple-mobile-web-app-title" content="Desk">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#FFF3E0">
 <link rel="manifest" href="manifest.webmanifest">
@@ -91,21 +91,85 @@ section{display:flex;flex-direction:column;gap:12px;min-width:0}
 .foot div{display:flex;gap:10px}
 .link{background:none;border:0;padding:6px 0;font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--ink-2);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .busy .tiles,.busy section{opacity:.55;transition:opacity .2s ease}
+/* tabs */
+.tabs{display:flex;gap:22px;border-bottom:2px solid var(--ink)}
+.tabs button{background:none;border:0;padding:0 0 10px;margin-bottom:-2px;border-bottom:4px solid transparent;font-family:var(--display);font-size:19px;cursor:pointer;color:var(--ink-2);display:flex;align-items:center;gap:8px}
+.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabs button:focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+.badge{font-family:var(--mono);font-size:12px;background:var(--accent);color:#fff;border-radius:999px;padding:1px 8px;line-height:1.5}
+.panel{display:flex;flex-direction:column;gap:30px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{font-family:var(--mono);font-size:12.5px;letter-spacing:.03em;background:transparent;border:1.5px solid var(--ink);border-radius:999px;padding:6px 12px;min-height:34px;cursor:pointer}
+.chips button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.chips button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+/* request cards */
+.reqs{display:flex;flex-direction:column;gap:12px}
+.req{border:2px solid var(--ink);border-radius:6px;background:#FFFBF2}
+.req.new{box-shadow:4px 4px 0 var(--accent)}
+.req.t.new{box-shadow:4px 4px 0 var(--blue)}
+.req > button{all:unset;box-sizing:border-box;display:flex;flex-direction:column;gap:5px;width:100%;padding:14px 14px 13px;cursor:pointer}
+.req > button:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:4px}
+.rtop{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rname{font-weight:700;font-size:17px;min-width:0;overflow-wrap:anywhere}
+.pill{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:2px 8px;border:1.5px solid currentColor;white-space:nowrap}
+.pill.f{color:var(--accent-text)} .pill.t{color:var(--blue)}
+.pill.st{margin-left:auto;color:var(--ink-2)} .pill.st.new{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.rmeta{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.ridea{font-size:15px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.req.open .ridea{display:block;-webkit-line-clamp:unset}
+.rmore{border-top:1.5px dashed var(--line);padding:12px 14px 14px;display:flex;flex-direction:column;gap:14px}
+.rmore dl{margin:0;display:grid;grid-template-columns:minmax(90px,34%) minmax(0,1fr);gap:7px 12px;font-size:14.5px}
+.rmore dt{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--ink-2);padding-top:2px}
+.rmore dd{margin:0;overflow-wrap:anywhere;white-space:pre-wrap}
+.ract{display:flex;gap:8px;flex-wrap:wrap}
+.ract .btn{min-height:42px;padding:8px 14px;font-size:14.5px;text-decoration:none;display:inline-flex;align-items:center}
+.sbtn{font-family:var(--mono);font-size:12px;background:transparent;border:1.5px solid var(--ink);border-radius:4px;padding:8px 10px;min-height:42px;cursor:pointer}
+.sbtn[aria-pressed=true]{background:var(--ink);color:var(--paper)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <main class="sheet" id="app">
   <header class="top">
-    <p class="eyebrow">Fieldwork · Visitor log</p>
+    <p class="eyebrow">Fieldwork · Desk</p>
     <h1>Hey Dylan.</h1>
     <p class="sub" id="sub">Here’s who stopped by this week.</p>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button type="button" role="tab" id="tab-req" aria-controls="p-req" aria-selected="true">Requests <span class="badge" id="newcount" hidden>0</span></button>
+    <button type="button" role="tab" id="tab-vis" aria-controls="p-vis" aria-selected="false">Visitors</button>
+  </div>
+
+  <div class="panel" id="p-req" role="tabpanel" aria-labelledby="tab-req">
+    <div class="connect" id="connect2" hidden>
+      <h2>Connect your inbox</h2>
+      <p>Every request from both sites lands here, newest first. Paste your inbox key once and this phone remembers it.</p>
+      <form class="field" id="keyform2" autocomplete="off">
+        <label for="key2" style="position:absolute;left:-9999px">Inbox key</label>
+        <input id="key2" type="password" placeholder="Paste your inbox key" spellcheck="false" autocapitalize="off">
+        <button class="btn" type="submit">Connect</button>
+      </form>
+      <p class="err" id="keyerr2" hidden></p>
+      <p class="note">Below are sample requests so you can see the layout.</p>
+    </div>
+    <p class="sample" id="sampletag2" hidden>Sample requests</p>
+    <p class="err" id="inboxerr" hidden></p>
+    <div class="chips" role="group" aria-label="Show">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      <button type="button" data-f="new" aria-pressed="false">New</button>
+      <button type="button" data-f="fieldwork" aria-pressed="false">Fieldwork</button>
+      <button type="button" data-f="tattoo" aria-pressed="false">Tattoo</button>
+    </div>
+    <div class="reqs" id="reqs"></div>
+  </div>
+
+  <div class="panel" id="p-vis" role="tabpanel" aria-labelledby="tab-vis" hidden>
     <div class="seg" role="group" aria-label="Time range">
       <button type="button" data-r="1" aria-pressed="false">Today</button>
       <button type="button" data-r="7" aria-pressed="true">7 days</button>
       <button type="button" data-r="30" aria-pressed="false">30 days</button>
     </div>
-  </header>
 
   <div class="connect" id="connect" hidden>
     <h2>Connect your counter</h2>
@@ -158,10 +222,11 @@ section{display:flex;flex-direction:column;gap:12px;min-width:0}
     <h2 id="h-asked">What they asked the workshop to build</h2>
     <div id="asked"></div>
   </section>
+  </div>
 
   <footer class="foot">
     <p id="stamp">Not connected yet</p>
-    <div><button class="link" type="button" id="refresh">Refresh</button><button class="link" type="button" id="forget" hidden>Disconnect</button></div>
+    <div><button class="link" type="button" id="refresh">Refresh</button><button class="link" type="button" id="forget" hidden>Forget keys on this phone</button></div>
   </footer>
 </main>
 
@@ -297,7 +362,7 @@ section{display:flex;flex-direction:column;gap:12px;min-width:0}
     $('t-visits').textContent = n(v); $('t-visits-s').textContent = 'Fieldwork ' + n(o.visits.f) + ' · Tattoo ' + n(o.visits.t);
     $('t-req').textContent = n(rq); $('t-req-s').textContent = 'Projects ' + n(o.req.f) + ' · Tattoos ' + n(o.req.t);
     $('t-built').textContent = n(bt); $('t-built-s').textContent = o.built.length ? 'Most: ' + o.built[0].what.replace(/^Built an? /, '') : 'Nothing yet';
-    $('sub').textContent = v ? 'Here’s who stopped by ' + LABEL[range] + '.' : 'Quiet ' + LABEL[range] + '. Share the link and check back.';
+    subVis = v ? 'Here’s who stopped by ' + LABEL[range] + '.' : 'Quiet ' + LABEL[range] + '. Share the link and check back.'; head();
     chart(o.days);
     rows(o.did, $('did'), 'No taps yet. Once people open the book or the workshop, it shows up here.');
     rows(o.work, $('work'), 'Nobody has opened a photo yet.', 6);
@@ -330,18 +395,18 @@ section{display:flex;flex-direction:column;gap:12px;min-width:0}
   function load(fromKey){
     if (!key) { showConnect(); render(sample(), true); return; }
     if (busy) return; busy = true;
-    $('app').classList.add('busy'); $('loaderr').hidden = true; $('stamp').textContent = 'Checking…';
+    $('app').classList.add('busy'); $('loaderr').hidden = true; stampVis = 'Checking…'; head();
     fetchAll().then(function(d){
-      store(KEY, key); $('connect').hidden = true; $('forget').hidden = false; $('keyerr').hidden = true;
+      store(KEY, key); $('connect').hidden = true; $('keyerr').hidden = true; head();
       render(shape(d), false);
-      $('stamp').textContent = 'Live from GoatCounter · updated ' + time();
+      stampVis = 'Visitors live from GoatCounter · updated ' + time(); head();
     }, function(e){
       if (fromKey || e.kind === 'key' || e.kind === 'perm') { if (fromKey) key = ''; else { key = ''; store(KEY, null); } showConnect(); render(sample(), true); }
       fail(e, fromKey);
-      $('stamp').textContent = key ? 'Last try failed at ' + time() : 'Not connected yet';
+      stampVis = key ? 'Last try failed at ' + time() : 'Visitors not connected yet'; head();
     }).then(function(){ busy = false; $('app').classList.remove('busy'); });
   }
-  function showConnect(){ $('connect').hidden = false; $('forget').hidden = true; $('stamp').textContent = 'Not connected yet'; }
+  function showConnect(){ $('connect').hidden = false; stampVis = 'Visitors not connected yet'; head(); }
 
   document.querySelectorAll('.seg button').forEach(function(b){
     b.setAttribute('aria-pressed', +b.dataset.r === range);
@@ -355,9 +420,106 @@ section{display:flex;flex-direction:column;gap:12px;min-width:0}
     e.preventDefault(); var v = $('key').value.trim(); if (!v) { $('key').focus(); return; }
     key = v; $('key').value = ''; $('keyerr').hidden = true; load(true);
   });
-  $('refresh').addEventListener('click', function(){ load(); });
-  $('forget').addEventListener('click', function(){ key = ''; store(KEY, null); $('loaderr').hidden = true; load(); });
-  document.addEventListener('visibilitychange', function(){ if (!document.hidden && key) load(); }); // fresh numbers whenever the app is reopened
+  /* ---------- requests inbox (both sites' forms send a copy to a Google Sheet) ---------- */
+  var INBOX = 'https://script.google.com/macros/s/AKfycbwRaPAbIfG88dN6lws50HJXQ06a4S8wA9vUV8yyMvoZETUKHcGauZu_Flai3lEckBmr/exec', IKEY = 'fwlog-inbox', ikey = store(IKEY) || '', items = null, filt = 'all', openId = null, ibusy = false;
+  var tab = store('fwlog-tab') === 'vis' ? 'vis' : 'req', subVis = '', subReq = '', stampVis = 'Visitors not connected yet', stampReq = 'Inbox not connected yet';
+  function head(){
+    $('sub').textContent = (tab === 'req' ? subReq : subVis) || ' ';
+    $('stamp').textContent = tab === 'req' ? stampReq : stampVis;
+    $('forget').hidden = !key && !ikey;
+  }
+  function setTab(t){
+    tab = t; store('fwlog-tab', t);
+    $('tab-req').setAttribute('aria-selected', t === 'req'); $('tab-vis').setAttribute('aria-selected', t === 'vis');
+    $('p-req').hidden = t !== 'req'; $('p-vis').hidden = t !== 'vis'; head();
+  }
+  $('tab-req').addEventListener('click', function(){ setTab('req'); });
+  $('tab-vis').addEventListener('click', function(){ setTab('vis'); });
+
+  var LABELS = {email:'Email', instagram:'Instagram', project:'Project', request:'Request', placement:'Placement', size:'Size', references:'References', first_tattoo:'First tattoo', best_days:'Best days', budget:'Budget', timing:'Timing', confirmed_18_plus:'18 or older'};
+  var SKIP = {name:1, idea:1};
+  function ago(iso){
+    var t = new Date(iso), m = (Date.now() - t) / 60000;
+    if (!(m >= 0)) return '';
+    if (m < 1) return 'just now'; if (m < 60) return Math.round(m) + ' min ago';
+    var h = m / 60; if (h < 24) return Math.round(h) + 'h ago';
+    var d = h / 24; if (d < 1.5) return 'yesterday'; if (d < 7) return Math.round(d) + ' days ago';
+    return MON[t.getMonth()] + ' ' + t.getDate();
+  }
+  var ST = {new:'New', replied:'Replied', done:'Done'};
+  function renderReqs(list, sample){
+    var fresh = list.filter(function(x){ return x.status === 'new'; }).length;
+    $('newcount').textContent = fresh; $('newcount').hidden = !fresh;
+    subReq = sample ? 'Here’s where your requests will show up.' : fresh ? 'You have ' + plural(fresh, 'new request', 'new requests') + '.' : list.length ? 'All caught up. No new requests.' : 'No requests yet. They’ll land here the moment someone sends one.';
+    head();
+    $('sampletag2').hidden = !sample;
+    var show = list.filter(function(x){ return filt === 'all' || (filt === 'new' ? x.status === 'new' : x.site === filt); });
+    if (!show.length) { $('reqs').innerHTML = '<p class="empty">' + (list.length ? 'Nothing here with that filter.' : 'No requests yet.') + '</p>'; return; }
+    $('reqs').innerHTML = show.map(function(x){
+      var d = x.details || {}, site = x.site === 'tattoo' ? 't' : 'f', kind = d.project || d.request || (site === 't' ? 'Tattoo' : 'Project'), open = openId === x.id;
+      var rows = Object.keys(d).filter(function(k){ return !SKIP[k] && String(d[k]).trim(); }).map(function(k){ return '<dt>' + esc(LABELS[k] || k) + '</dt><dd>' + esc(d[k]) + '</dd>'; }).join('');
+      var subj = 'Re: your ' + (site === 't' ? 'tattoo request' : String(kind).toLowerCase() + ' request');
+      var mail = x.email ? 'mailto:' + encodeURIComponent(x.email).replace(/%40/g, '@') + '?subject=' + encodeURIComponent(subj) : '';
+      return '<article class="req ' + site + (x.status === 'new' ? ' new' : '') + (open ? ' open' : '') + '" data-id="' + esc(x.id) + '">' +
+        '<button type="button" class="rhead" aria-expanded="' + open + '"><span class="rtop"><span class="rname">' + esc(x.name || 'No name') + '</span><span class="pill ' + site + '">' + (site === 't' ? 'Tattoo' : 'Fieldwork') + '</span><span class="pill st ' + esc(x.status) + '">' + (ST[x.status] || 'New') + '</span></span>' +
+        '<span class="rmeta">' + esc(kind) + ' · ' + esc(ago(x.received)) + '</span><span class="ridea">' + esc(d.idea || '') + '</span></button>' +
+        '<div class="rmore"' + (open ? '' : ' hidden') + '>' + (rows ? '<dl>' + rows + '</dl>' : '') +
+        '<div class="ract">' + (mail ? '<a class="btn" href="' + mail + '">Email back</a><button type="button" class="sbtn" data-copy="' + esc(x.email) + '">Copy email</button>' : '') + '</div>' +
+        '<div class="ract" role="group" aria-label="Status">' + ['new', 'replied', 'done'].map(function(sv){ return '<button type="button" class="sbtn" data-st="' + sv + '" aria-pressed="' + (x.status === sv) + '">' + ST[sv] + '</button>'; }).join('') + '</div></div></article>';
+    }).join('');
+  }
+  $('reqs').addEventListener('click', function(e){
+    var card = e.target.closest('.req'); if (!card) return;
+    var id = card.dataset.id, list = items || SAMPLE_REQS, x = list.filter(function(r){ return r.id === id; })[0]; if (!x) return;
+    if (e.target.closest('.rhead')) { openId = openId === id ? null : id; renderReqs(list, !items); return; }
+    var cp = e.target.closest('[data-copy]');
+    if (cp) { var done = function(){ cp.textContent = 'Copied'; setTimeout(function(){ cp.textContent = 'Copy email'; }, 1400); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(cp.dataset.copy).then(done, function(){ cp.textContent = cp.dataset.copy; }); else cp.textContent = cp.dataset.copy; return; }
+    var sb = e.target.closest('[data-st]');
+    if (sb && sb.dataset.st !== x.status) {
+      var before = x.status; x.status = sb.dataset.st; renderReqs(list, !items);
+      if (items) iget({key:ikey, action:'status', id:id, status:x.status}).catch(function(){ x.status = before; renderReqs(items, false); $('inboxerr').textContent = 'Couldn’t save that change. Check your connection and try again.'; $('inboxerr').hidden = false; });
+    }
+  });
+  document.querySelectorAll('.chips button').forEach(function(b){ b.addEventListener('click', function(){
+    filt = b.dataset.f; document.querySelectorAll('.chips button').forEach(function(x){ x.setAttribute('aria-pressed', x === b); });
+    renderReqs(items || SAMPLE_REQS, !items);
+  }); });
+  function iget(q){
+    if (!INBOX) return Promise.reject({kind:'setup'});
+    var qs = Object.keys(q).map(function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(q[k]); }).join('&');
+    return fetch(INBOX + '?' + qs).then(function(r){ if (!r.ok) throw {kind:'server', status:r.status}; return r.json(); }, function(){ throw {kind:'net'}; })
+      .then(function(d){ if (!d || !d.ok) throw {kind:d && d.error === 'key' ? 'key' : 'server', status:'bad reply'}; return d; });
+  }
+  function loadInbox(fromKey){
+    if (!ikey) { $('connect2').hidden = false; items = null; stampReq = 'Inbox not connected yet'; renderReqs(SAMPLE_REQS, true); return; }
+    if (ibusy) return; ibusy = true; $('inboxerr').hidden = true;
+    iget({key:ikey}).then(function(d){
+      store(IKEY, ikey); items = d.items || []; $('connect2').hidden = true; $('keyerr2').hidden = true;
+      stampReq = 'Inbox updated ' + time(); renderReqs(items, false);
+    }, function(e){
+      var msg = e.kind === 'key' ? 'That inbox key didn’t work. Copy the whole thing and try again.' : e.kind === 'setup' ? 'The inbox isn’t switched on yet.' : e.kind === 'net' ? 'Couldn’t reach your inbox. Check your connection and tap Refresh.' : 'Your inbox had a hiccup. Tap Refresh in a minute.';
+      if (e.kind === 'key' || e.kind === 'setup') { ikey = ''; if (!fromKey) store(IKEY, null); items = null; $('connect2').hidden = false; $('keyerr2').textContent = msg; $('keyerr2').hidden = false; renderReqs(SAMPLE_REQS, true); stampReq = 'Inbox not connected yet'; }
+      else { $('inboxerr').textContent = msg; $('inboxerr').hidden = false; stampReq = 'Last try failed at ' + time(); if (items) renderReqs(items, false); else renderReqs(SAMPLE_REQS, true); }
+      head();
+    }).then(function(){ ibusy = false; });
+  }
+  $('keyform2').addEventListener('submit', function(e){
+    e.preventDefault(); var v = $('key2').value.trim(); if (!v) { $('key2').focus(); return; }
+    ikey = v; $('key2').value = ''; $('keyerr2').hidden = true; loadInbox(true);
+  });
+  var hr = 3600000, now = Date.now();
+  var SAMPLE_REQS = [
+    {id:'s1', received:new Date(now - 2 * hr).toISOString(), site:'fieldwork', name:'Maya R.', email:'maya@example.com', status:'new', details:{project:'Furniture', idea:'A round walnut coffee table, like the one in your workshop game. About 36 inches across.', budget:'$800–1,200', timing:'Before the holidays'}},
+    {id:'s2', received:new Date(now - 27 * hr).toISOString(), site:'tattoo', name:'Jordan K.', email:'jordan@example.com', status:'new', details:{request:'Custom design', idea:'Small line-work dog on my forearm, curly hair like your dog.', placement:'Forearm', size:'Palm-sized', first_tattoo:'Yes', best_days:'Weekends', confirmed_18_plus:'Yes'}},
+    {id:'s3', received:new Date(now - 76 * hr).toISOString(), site:'fieldwork', name:'Sam T.', email:'sam@example.com', status:'replied', details:{project:'Art', idea:'A painting for my living room, blues and oranges.', budget:'$300–500', timing:'No rush'}}
+  ];
+
+  $('refresh').addEventListener('click', function(){ load(); loadInbox(); });
+  $('forget').addEventListener('click', function(){ key = ''; store(KEY, null); ikey = ''; store(IKEY, null); $('loaderr').hidden = true; $('inboxerr').hidden = true; load(); loadInbox(); });
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden) { if (key) load(); if (ikey) loadInbox(); } }); // fresh numbers whenever the app is reopened
+  setTab(tab);
+  loadInbox();
   load();
 })();
 </script>
