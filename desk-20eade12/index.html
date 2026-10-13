@@ -273,6 +273,10 @@ h1,h2,h3,p{margin:0}
 .rowlist .go{color:var(--ink-3);font-size:18px;line-height:1}
 .mini{border:0;background:var(--sunk);border-radius:999px;padding:7px 13px;font-size:13.5px;font-weight:600;cursor:pointer;min-height:34px;white-space:nowrap}
 .ver{text-align:center;font-size:12.5px;color:var(--ink-3)}
+.switch{flex:none;width:51px;height:31px;border-radius:999px;border:0;padding:2px;background:var(--track);cursor:pointer;transition:background-color .2s ease}
+.switch i{display:block;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
+.switch[aria-checked=true]{background:var(--good)}
+.switch[aria-checked=true] i{transform:translateX(20px)}
 
 /* tab bar */
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--bar);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);border-top:1px solid var(--hair);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -427,6 +431,10 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
         <button type="button" class="opt" data-palette="sage" aria-pressed="false"><span class="sw" style="background:#E9F0E5"><i style="background:#FAFCF8"></i><b style="background:#FF5A1F"></b><s style="background:#0F2A1B"></s></span>Sage</button>
       </div>
     </section>
+    <section class="set" aria-labelledby="h-snd" id="sounds">
+      <div class="sec-h"><h2 id="h-snd">Sounds</h2></div>
+      <ul class="rowlist"><li><span class="rt"><b>Tap sounds</b><span>Soft clicks and chimes. Your phone’s silent switch mutes them.</span></span><button type="button" class="switch" id="sndsw" role="switch" aria-checked="true" aria-label="Tap sounds"><i></i></button></li></ul>
+    </section>
     <section class="set" aria-labelledby="h-conn">
       <div class="sec-h"><h2 id="h-conn">Connections</h2></div>
       <ul class="rowlist">
@@ -527,12 +535,71 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
     if (scroll) window.scrollTo(0, 0);
     if (t === 'vis') { if (pendingChart) { chart(pendingChart); pendingChart = null; } grow(); }
   }
-  TABS.forEach(function(k){ $('tab-' + k).addEventListener('click', function(){ if (tab === k) window.scrollTo({top:0, behavior:calm() ? 'auto' : 'smooth'}); else setTab(k, true); }); });
+  TABS.forEach(function(k, i){ $('tab-' + k).addEventListener('click', function(){ if (tab === k) window.scrollTo({top:0, behavior:calm() ? 'auto' : 'smooth'}); else { SFX.play('pop', i); setTab(k, true); } }); });
   window.addEventListener('scroll', function(){ $('bar').classList.toggle('lined', window.scrollY > 4); }, {passive:true});
   var toastT = 0;
   function toast(msg){ var t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(function(){ t.classList.remove('on'); }, 1800); }
   var EMPTY_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 13.5 6 5.8A2 2 0 0 1 7.9 4.5h8.2A2 2 0 0 1 18 5.8l2.5 7.7"/><path d="M3.5 13.5V18a1.5 1.5 0 0 0 1.5 1.5h14a1.5 1.5 0 0 0 1.5-1.5v-4.5h-5l-1.3 2.2h-4.4L8.5 13.5z"/></svg>';
   function emptyCard(msg, icon){ return '<div class="empty">' + (icon ? EMPTY_ICON : '') + '<span>' + msg + '</span></div>'; }
+
+  /* ---------- sounds: tiny tones made right here (no audio files), soft and short ---------- */
+  var SFX = (function(){
+    var ctx = null, master = null, on = store('fwlog-sound') !== 'off';
+    function ac(){
+      if (!ctx) {
+        var C = window.AudioContext || window.webkitAudioContext; if (!C) return null;
+        try { if (navigator.audioSession) navigator.audioSession.type = 'ambient'; } catch (e) {} // follows the silent switch and mixes with music
+        ctx = new C(); master = ctx.createGain(); master.gain.value = .9;
+        var comp = ctx.createDynamicsCompressor(); master.connect(comp); comp.connect(ctx.destination);
+      }
+      if (ctx.state === 'suspended') ctx.resume();
+      return ctx;
+    }
+    function tone(f0, f1, dur, vol, type, delay){
+      var c = ac(); if (!c) return;
+      var t = c.currentTime + (delay || 0), o = c.createOscillator(), g = c.createGain();
+      o.type = type || 'sine'; o.frequency.setValueAtTime(f0, t); if (f1) o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .006); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+      o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + .03);
+    }
+    var buf = null;
+    function noise(dur, vol, freq, q, delay){
+      var c = ac(); if (!c) return;
+      if (!buf) { buf = c.createBuffer(1, c.sampleRate * .25, c.sampleRate); var d = buf.getChannelData(0); for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; }
+      var t = c.currentTime + (delay || 0), s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
+      s.buffer = buf; f.type = 'bandpass'; f.frequency.value = freq; f.Q.value = q || 1.2;
+      g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+      s.connect(f); f.connect(g); g.connect(master); s.start(t); s.stop(t + dur + .02);
+    }
+    var KIT = {
+      tick:function(){ noise(.028, .09, 3200, 1.5); tone(1900, 1300, .03, .025, 'triangle'); },              // pills, filters, days
+      pop:function(i){ var b = 470 + (i || 0) * 55; tone(b, b * 1.5, .09, .1); tone(b * 2, b * 3, .05, .018, 'triangle'); }, // tabs
+      open:function(){ tone(380, 520, .08, .06); },
+      close:function(){ tone(460, 330, .08, .045); },
+      done:function(){ tone(880, 0, .45, .065); tone(1318.5, 0, .55, .055, 'sine', .085); tone(2637, 0, .25, .012, 'sine', .085); }, // marked done, connected
+      soft:function(){ tone(700, 0, .16, .05); tone(1050, 0, .2, .035, 'sine', .06); },                    // read / replied / new
+      booked:function(){ [659.3, 880, 1318.5].forEach(function(f, i){ tone(f, 0, .42 - i * .06, .06 - i * .01, 'sine', i * .075); }); },
+      trash:function(){ tone(170, 70, .2, .14); noise(.07, .05, 500, .8); },
+      up:function(){ tone(300, 560, .13, .05); },
+      down:function(){ tone(520, 300, .12, .04); },
+      copy:function(){ noise(.02, .08, 4200, 2); tone(1500, 0, .05, .03, 'triangle', .02); },
+      pull:function(){ tone(900, 1200, .05, .04, 'triangle'); },
+      fresh:function(){ tone(1046.5, 0, .14, .035); }
+    };
+    // wake the audio on the first touch so the first real sound isn't lost
+    var wake = function(){ if (on) ac(); window.removeEventListener('touchstart', wake, true); window.removeEventListener('mousedown', wake, true); };
+    window.addEventListener('touchstart', wake, true); window.addEventListener('mousedown', wake, true);
+    return {
+      play:function(name, arg){ if (!on || !KIT[name]) return; try { KIT[name](arg); } catch (e) {} },
+      get on(){ return on; },
+      set:function(v){ on = !!v; store('fwlog-sound', on ? 'on' : 'off'); if (on) { ac(); KIT.soft(); } }
+    };
+  })();
+  // small taps everywhere get a light tick; bigger moments call their own sound
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('#filters button, #ranges button, #ev-kind button, .opt, .navb, .todayb, .day, .mini, #ev-allday');
+    if (b && !b.closest('#sounds')) SFX.play('tick');
+  }, true);
 
   /* ---------- requests inbox (both sites' forms send a copy to a Google Sheet) ---------- */
   var INBOX = 'https://script.google.com/macros/s/AKfycbwRaPAbIfG88dN6lws50HJXQ06a4S8wA9vUV8yyMvoZETUKHcGauZu_Flai3lEckBmr/exec', IKEY = 'fwlog-inbox';
@@ -590,7 +657,7 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
     if (e.target.closest('[data-sched]')) { var bk = bookingFor(id); if (bk) openSheet(bk); else openSheet(null, x); return; }
     var cp = e.target.closest('[data-copy]');
     if (cp) {
-      var ok = function(){ toast('Email copied'); };
+      var ok = function(){ toast('Email copied'); SFX.play('copy'); };
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(cp.dataset.copy).then(ok, function(){ cp.textContent = cp.dataset.copy; });
       else cp.textContent = cp.dataset.copy;
       return;
@@ -601,7 +668,7 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
       if (to === 'read') READ[id] = 1; else delete READ[id];
       saveRead(); x.status = to;
       card.querySelectorAll('[data-st]').forEach(function(b){ b.setAttribute('aria-pressed', b === sb); });
-      toast('Marked as ' + ST[to].toLowerCase());
+      toast('Marked as ' + ST[to].toLowerCase()); SFX.play(to === 'done' ? 'done' : 'soft');
       setTimeout(function(){ renderReqs(list(), !items); }, 350);
       if (items) iget({key:ikey, action:'status', id:id, status:to}).catch(function(){
         x.status = before; if (wasRead) READ[id] = 1; else delete READ[id]; saveRead();
@@ -613,7 +680,7 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
     var more = card.querySelector('.rmore'), opening = openId !== id;
     var prev = openId && document.querySelector('.req[data-id="' + CSS.escape(openId) + '"]');
     if (prev && prev !== card) { prev.classList.remove('open'); prev.querySelector('.rmore').hidden = true; prev.querySelector('.rhead').setAttribute('aria-expanded', 'false'); }
-    openId = opening ? id : null;
+    openId = opening ? id : null; SFX.play(opening ? 'open' : 'close');
     card.classList.toggle('open', opening); card.querySelector('.rhead').setAttribute('aria-expanded', opening);
     if (calm() || !more.animate) { more.hidden = !opening; return; }
     if (opening) { more.hidden = false; var h = more.scrollHeight; more.animate([{height:'0px', opacity:0}, {height:h + 'px', opacity:1}], {duration:260, easing:'cubic-bezier(.2,.8,.2,1)'}); }
@@ -632,7 +699,7 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
     return iget({key:ikey}).then(function(d){
       store(IKEY, ikey); items = d.items || []; $('connect2').hidden = true; $('keyerr2').hidden = true;
       stampReq = 'Updated ' + time(); renderReqs(items, false);
-      if (fromKey) toast('Inbox connected');
+      if (fromKey) { toast('Inbox connected'); SFX.play('done'); }
       return loadEvents(d.calendar === true);
     }, function(e){
       var msg = e.kind === 'key' ? 'That inbox key didn’t work. Copy the whole thing and try again.' : e.kind === 'net' ? 'Couldn’t reach your inbox. Check your connection and pull down to refresh.' : 'Your inbox had a hiccup. Pull down to refresh in a minute.';
@@ -734,15 +801,15 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
     $('ev-note').value = ev ? (ev.note || '') : '';
     setKind(ev ? ev.kind : r ? (r.site === 'tattoo' ? 'tattoo' : 'project') : 'other');
     $('ev-del').hidden = !ev; $('ev-del').textContent = 'Delete'; $('everr').hidden = true;
-    var sc = $('scrim'), sh = $('evform'); sc.hidden = false; sh.hidden = false; document.body.style.overflow = 'hidden';
+    var sc = $('scrim'), sh = $('evform'); sc.hidden = false; sh.hidden = false; document.body.style.overflow = 'hidden'; SFX.play('up');
     requestAnimationFrame(function(){ requestAnimationFrame(function(){ sc.classList.add('on'); sh.classList.add('on'); }); });
     if (!ev && !r) setTimeout(function(){ $('ev-title').focus(); }, 340);
   }
-  function closeSheet(){
-    var sc = $('scrim'), sh = $('evform'); sc.classList.remove('on'); sh.classList.remove('on'); document.body.style.overflow = '';
+  function closeSheet(quiet){
+    var sc = $('scrim'), sh = $('evform'); if (quiet !== true && !sh.hidden) SFX.play('down'); sc.classList.remove('on'); sh.classList.remove('on'); document.body.style.overflow = '';
     setTimeout(function(){ if (!sh.classList.contains('on')) { sc.hidden = true; sh.hidden = true; } }, calm() ? 0 : 330);
   }
-  $('scrim').addEventListener('click', closeSheet); $('ev-cancel').addEventListener('click', closeSheet);
+  $('scrim').addEventListener('click', function(){ closeSheet(); }); $('ev-cancel').addEventListener('click', function(){ closeSheet(); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !$('evform').hidden) closeSheet(); });
   function upsert(ev){ if (!events) events = ikey ? [] : SAMPLE_EVENTS.slice(); var i = events.map(function(x){ return x.id; }).indexOf(ev.id); if (i > -1) events[i] = ev; else events.push(ev); }
   function refreshAll(){ renderCal(); renderReqs(list(), !items); }
@@ -754,7 +821,7 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
     var before = editing ? JSON.parse(JSON.stringify(editing)) : null;
     var ev = {id:editing ? editing.id : 'ev-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), date:date, time:tm, title:title, kind:kind, request:forReq || '', note:$('ev-note').value.trim()};
     upsert(ev); selDay = date; var d = pd(date); calMonth = new Date(d.getFullYear(), d.getMonth(), 1);
-    refreshAll(); closeSheet(); toast((before ? 'Saved for ' : 'Booked for ') + dayLabel(date) + (tm ? ' · ' + fmtTime(tm) : ''));
+    refreshAll(); closeSheet(true); SFX.play('booked'); toast((before ? 'Saved for ' : 'Booked for ') + dayLabel(date) + (tm ? ' · ' + fmtTime(tm) : ''));
     if (ikey) iget({key:ikey, action:'saveEvent', ev:JSON.stringify(ev)}).catch(function(){
       if (before) upsert(before); else events = events.filter(function(x){ return x.id !== ev.id; });
       refreshAll(); toast('Couldn’t save. Try again.');
@@ -766,7 +833,7 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
     if (!delArm) { delArm = 1; b.textContent = 'Tap again to delete'; setTimeout(function(){ if (delArm) { delArm = 0; b.textContent = 'Delete'; } }, 3000); return; }
     delArm = 0;
     var gone = editing; events = evs().filter(function(x){ return x.id !== gone.id; });
-    refreshAll(); closeSheet(); toast('Booking deleted');
+    refreshAll(); closeSheet(true); SFX.play('trash'); toast('Booking deleted');
     if (ikey) iget({key:ikey, action:'deleteEvent', id:gone.id}).catch(function(){ upsert(gone); refreshAll(); toast('Couldn’t delete. Try again.'); });
   });
   var SAMPLE_EVENTS = (function(){
@@ -949,7 +1016,7 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
     return fetchAll().then(function(d){
       store(KEY, key); $('connect').hidden = true; $('keyerr').hidden = true;
       render(shape(d), false); stampVis = 'Visitors updated ' + time(); head();
-      if (fromKey) toast('Counter connected');
+      if (fromKey) { toast('Counter connected'); SFX.play('done'); }
     }, function(e){
       var msg = e.kind === 'key' ? 'That token didn’t work. Make sure you copied the whole thing.' : e.kind === 'perm' ? 'That token can’t read stats. Make a new one with “Read statistics” ticked.' : e.kind === 'net' ? 'Couldn’t reach GoatCounter. Check your connection and pull down to refresh.' : 'GoatCounter had a hiccup (' + e.status + '). Pull down to refresh in a minute.';
       if (e.kind === 'key' || e.kind === 'perm') { key = ''; if (!fromKey) store(KEY, null); $('connect').hidden = false; $('keyerr').textContent = msg; $('keyerr').hidden = false; render(sample(), true); stampVis = ''; }
@@ -972,12 +1039,12 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
 
   /* ---------- refresh: button, pull down, or coming back to the app ---------- */
   var spinning = 0;
-  function refresh(){
+  function refresh(byHand){
     if (spinning) return; spinning = 1; $('refresh').classList.add('spin');
     var br = $('brand'); br.classList.remove('wave'); void br.offsetWidth; br.classList.add('wave');
-    Promise.all([load(), loadInbox()]).then(function(){ setTimeout(function(){ spinning = 0; $('refresh').classList.remove('spin'); }, 350); });
+    Promise.all([load(), loadInbox()]).then(function(){ setTimeout(function(){ spinning = 0; $('refresh').classList.remove('spin'); if (byHand === true) SFX.play('fresh'); }, 350); });
   }
-  $('refresh').addEventListener('click', refresh);
+  $('refresh').addEventListener('click', function(){ SFX.play('tick'); refresh(true); });
   /* ---------- settings ---------- */
   function conns(){
     [['inbox', !!ikey], ['count', !!key]].forEach(function(c){
@@ -1007,18 +1074,21 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
   document.querySelectorAll('#modes .opt').forEach(function(b){ b.addEventListener('click', function(){ store('fwlog-mode', b.dataset.mode); look(); }); });
   document.querySelectorAll('#palettes .opt').forEach(function(b){ b.addEventListener('click', function(){ store('fwlog-palette', b.dataset.palette); look(); }); });
   if (window.matchMedia) { var mq = matchMedia('(prefers-color-scheme: dark)'); if (mq.addEventListener) mq.addEventListener('change', look); }
+  $('sndsw').setAttribute('aria-checked', SFX.on);
+  $('sndsw').addEventListener('click', function(){ var v = !SFX.on; this.setAttribute('aria-checked', v); SFX.set(v); toast(v ? 'Sounds on' : 'Sounds off'); });
   var standalone = (window.navigator.standalone === true) || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
   $('install').hidden = standalone;
   document.addEventListener('visibilitychange', function(){ if (!document.hidden) refresh(); });
   setInterval(function(){ if (!document.hidden && items) renderReqs(items, false); }, 60000); // keeps “5m ago” honest
   (function(){ // pull to refresh
     var y0 = null, pull = 0, ptr = $('ptr'), arrow = ptr.querySelector('svg');
-    function set(p){ var k = Math.min(1, p / 70); ptr.style.opacity = k; ptr.style.transform = 'translateY(' + (Math.min(p, 90) * .55 - 30) + 'px) scale(' + (.6 + .4 * k) + ')'; arrow.style.transform = 'rotate(' + (k >= 1 ? 180 : 0) + 'deg)'; arrow.style.transition = 'transform .18s ease'; }
+    var armed = false;
+    function set(p){ var k = Math.min(1, p / 70); if (k >= 1 && !armed) { armed = true; SFX.play('pull'); } else if (k < 1) armed = false; ptr.style.opacity = k; ptr.style.transform = 'translateY(' + (Math.min(p, 90) * .55 - 30) + 'px) scale(' + (.6 + .4 * k) + ')'; arrow.style.transform = 'rotate(' + (k >= 1 ? 180 : 0) + 'deg)'; arrow.style.transition = 'transform .18s ease'; }
     window.addEventListener('touchstart', function(e){ y0 = window.scrollY <= 0 && e.touches.length === 1 ? e.touches[0].clientY : null; pull = 0; }, {passive:true});
     window.addEventListener('touchmove', function(e){ if (y0 === null) return; pull = Math.max(0, e.touches[0].clientY - y0); if (window.scrollY > 0) { pull = 0; y0 = null; } set(pull); }, {passive:true});
     window.addEventListener('touchend', function(){
       if (y0 === null) return; y0 = null;
-      if (pull >= 70) refresh();
+      if (pull >= 70) refresh(true);
       ptr.style.transition = 'opacity .25s ease, transform .25s ease'; set(0); setTimeout(function(){ ptr.style.transition = ''; }, 260);
     }, {passive:true});
   })();
