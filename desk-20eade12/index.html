@@ -432,8 +432,11 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
       </div>
     </section>
     <section class="set" aria-labelledby="h-snd" id="sounds">
-      <div class="sec-h"><h2 id="h-snd">Sounds</h2></div>
-      <ul class="rowlist"><li><span class="rt"><b>Tap sounds</b><span>Soft clicks as you tap around. Your phone’s silent switch mutes them.</span></span><button type="button" class="switch" id="sndsw" role="switch" aria-checked="true" aria-label="Tap sounds"><i></i></button></li></ul>
+      <div class="sec-h"><h2 id="h-snd">Sounds &amp; feel</h2></div>
+      <ul class="rowlist">
+        <li><span class="rt"><b>Tap sounds</b><span>Soft clicks as you tap around. Your phone’s silent switch mutes them.</span></span><button type="button" class="switch" id="sndsw" role="switch" aria-checked="true" aria-label="Tap sounds"><i></i></button></li>
+        <li><span class="rt"><b>Haptics</b><span>A light tap you can feel with each click.</span></span><button type="button" class="switch" id="hapsw" role="switch" aria-checked="true" aria-label="Haptics"><i></i></button></li>
+      </ul>
     </section>
     <section class="set" aria-labelledby="h-conn">
       <div class="sec-h"><h2 id="h-conn">Connections</h2></div>
@@ -544,7 +547,19 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
 
   /* ---------- sounds: tiny tones made right here (no audio files), soft and short ---------- */
   var SFX = (function(){
-    var ctx = null, master = null, on = store('fwlog-sound') !== 'off';
+    var ctx = null, master = null, on = store('fwlog-sound') !== 'off', hap = store('fwlog-haptic') !== 'off';
+    // a light tap: Android vibrates; on iPhone (iOS 18+) toggling a hidden switch gives the system's own little tick
+    var IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    function buzz(){
+      if (!hap) return;
+      try {
+        if (navigator.vibrate && !IOS) { navigator.vibrate(8); return; }
+        if (!IOS) return;
+        var l = document.createElement('label'), i = document.createElement('input');
+        l.setAttribute('aria-hidden', 'true'); l.style.display = 'none'; i.type = 'checkbox'; i.setAttribute('switch', '');
+        l.appendChild(i); document.head.appendChild(l); l.click(); l.remove();
+      } catch (e) {}
+    }
     function ac(){
       if (!ctx) {
         var C = window.AudioContext || window.webkitAudioContext; if (!C) return null;
@@ -598,8 +613,10 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
     var wake = function(){ if (on) ac(); window.removeEventListener('touchstart', wake, true); window.removeEventListener('mousedown', wake, true); };
     window.addEventListener('touchstart', wake, true); window.addEventListener('mousedown', wake, true);
     return {
-      play:function(name, arg){ if (!on || !KIT[name]) return; try { KIT[name](arg); } catch (e) {} },
+      play:function(name, arg){ if (!KIT[name]) return; if (name !== 'fresh') buzz(); if (on) { try { KIT[name](arg); } catch (e) {} } },
       get on(){ return on; },
+      get hap(){ return hap; },
+      setHap:function(v){ hap = !!v; store('fwlog-haptic', hap ? 'on' : 'off'); buzz(); },
       set:function(v){ on = !!v; store('fwlog-sound', on ? 'on' : 'off'); if (on) { ac(); KIT.soft(); } }
     };
   })();
@@ -1083,6 +1100,8 @@ body.fabon .toast{bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 86
   document.querySelectorAll('#palettes .opt').forEach(function(b){ b.addEventListener('click', function(){ store('fwlog-palette', b.dataset.palette); look(); }); });
   if (window.matchMedia) { var mq = matchMedia('(prefers-color-scheme: dark)'); if (mq.addEventListener) mq.addEventListener('change', look); }
   $('sndsw').setAttribute('aria-checked', SFX.on);
+  $('hapsw').setAttribute('aria-checked', SFX.hap);
+  $('hapsw').addEventListener('click', function(){ var v = !SFX.hap; this.setAttribute('aria-checked', v); SFX.setHap(v); toast(v ? 'Haptics on' : 'Haptics off'); });
   $('sndsw').addEventListener('click', function(){ var v = !SFX.on; this.setAttribute('aria-checked', v); SFX.set(v); toast(v ? 'Sounds on' : 'Sounds off'); });
   var standalone = (window.navigator.standalone === true) || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
   $('install').hidden = standalone;
