@@ -1,17 +1,18 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; script-src 'sha256-RtpiKrFRqXsUzdjVHrJregH+/yOqEBT5BUsII1NGTOU='; manifest-src 'self'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; script-src 'sha256-d3ZI/CuEFpiro4F+FJXa9hc71izFw+84JMgCBPNWltM='; manifest-src 'self'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
 <title>Inspo Index</title>
 <meta name="apple-mobile-web-app-title" content="Inspo Index">
-<meta name="theme-color" content="#E4472A">
+<meta name="theme-color" content="#E4472A" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
-<script>(function(){var A='https://claude.ai/artifact/WnurAaRkfBezyDRTU54WAz';if(/[?&]launch(=|&|$)/.test(location.search)){document.documentElement.className='go';location.replace(A);}else{try{history.replaceState(null,'','?launch');}catch(e){}}})();</script>
+<script>(function(){try{if(matchMedia('(prefers-color-scheme: dark)').matches)document.querySelector('link[rel="apple-touch-icon"]').href='icon-dark-180.png';}catch(e){}var A='https://claude.ai/artifact/WnurAaRkfBezyDRTU54WAz';if(/[?&]launch(=|&|$)/.test(location.search)){document.documentElement.className='go';location.replace(A);}else{try{history.replaceState(null,'','?launch');}catch(e){}}})();</script>
 <style>
 html,body{margin:0;height:100%;background:#E4472A;color:#151515}
 body{font:600 17px/1.35 -apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;display:grid;place-items:center;text-align:center;
@@ -23,12 +24,13 @@ p{margin:0 auto;max-width:19em}
 .how svg{width:17px;height:17px}
 .note{margin-top:14px;font-size:.86rem;opacity:.75}
 a{color:inherit}
+@media (prefers-color-scheme: dark){html,body{background:#141414;color:#BDF23A}.how{background:#BDF23A;color:#141414}}
 .go h1,.go p,.go .how,.go .note{display:none}
 .go .mark{margin:0 auto;animation:none}
 </style>
 </head><body>
 <main>
-<img class="mark" src="mark.png" alt="" width="220" height="220">
+<picture><source srcset="mark-dark.png" media="(prefers-color-scheme: dark)"><img class="mark" src="mark.png" alt="" width="220" height="220"></picture>
 <h1>Inspo Index</h1>
 <p>Put it on your Home Screen with your own icon.</p>
 <div class="how"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M6 11H5v10h14V11h-1"/></svg>Share, then Add to Home Screen</div>
