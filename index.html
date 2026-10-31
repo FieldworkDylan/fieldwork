@@ -39,23 +39,30 @@ body{
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 .sheet{max-width:700px;margin-inline:auto;display:flex;flex-direction:column;gap:32px}
-.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .stamp{position:relative;display:inline-flex;padding:0;border:0;background:none;font:inherit;color:inherit;cursor:pointer;perspective:700px;-webkit-tap-highlight-color:transparent}
-.stamp:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:8px}
-.lid{display:flex;border:2px solid var(--ink);border-radius:6px;padding:12px 14px;background:var(--paper);transform-origin:50% 0;backface-visibility:hidden;-webkit-backface-visibility:hidden;position:relative;z-index:2}
-.box{position:absolute;inset:0;z-index:1;border:2px solid var(--ink);border-radius:6px;background:#141310;display:flex;align-items:center;justify-content:center;visibility:hidden}
-.eyes{display:flex;gap:22px}
-.eyes i{position:relative;display:block;width:36px;height:36px;border-radius:50%;background:#fff;overflow:hidden;box-shadow:inset 0 0 0 1px #141310}
-.eyes b{position:absolute;left:50%;top:50%;width:18px;height:18px;border-radius:50%;background:#141310;transform:translate(-50%,-50%)}
-.stamp.open .box{visibility:visible}
-.stamp.open .lid{animation:lid 5s ease-in-out forwards}
+.stamp:focus-visible{outline:3px solid var(--accent);outline-offset:6px;border-radius:6px}
+/* Logo: no box. Tap it and the O swings open like a door; something inside looks left, then right. */
+.mark{position:relative;display:block;width:clamp(150px,45vw,190px);perspective:420px}
+.mark .logo{width:100%;height:auto;display:block}
+.ohole,.odoor{position:absolute;left:37.984%;top:2.606%;width:29.308%;height:77.147%;display:block}
+.ohole{visibility:hidden}
+.ohole img,.odoor img{width:100%;height:100%;display:block}
+.odoor{transform-origin:0 50%;will-change:transform;z-index:2}
+.odoor img{filter:drop-shadow(0 0 0 transparent)}
+.stamp.open .odoor img{animation:odoorshade 5s ease-in-out forwards}
+@keyframes odoorshade{0%,4%{filter:brightness(1)}12%,82%{filter:brightness(.72)}96%,100%{filter:brightness(1)}}
+.eyes{position:absolute;left:0;right:0;top:44%;display:flex;justify-content:center;gap:5px}
+.eyes i{position:relative;display:block;width:16px;height:16px;border-radius:50%;background:#fff;overflow:hidden}
+.eyes b{position:absolute;left:50%;top:50%;width:8px;height:8px;border-radius:50%;background:#0B0A08;transform:translate(-50%,-50%)}
+.stamp.open .ohole{visibility:visible}
+.stamp.open .odoor{animation:odoor 5s ease-in-out forwards}
 .stamp.open .eyes{animation:eyes 5s ease-out forwards}
 .stamp.open .eyes b{animation:pupils 5s ease-out forwards}
-@keyframes lid{0%{transform:rotateX(0)}12%{transform:rotateX(-112deg)}82%{transform:rotateX(-112deg)}96%,100%{transform:rotateX(0)}}
-@keyframes eyes{0%,16%{transform:translateX(0)}26%,40%{transform:translateX(-9px)}52%,66%{transform:translateX(9px)}78%,100%{transform:translateX(0)}}
-@keyframes pupils{0%,16%{transform:translate(-50%,-50%)}26%,40%{transform:translate(calc(-50% - 7px),-50%)}52%,66%{transform:translate(calc(-50% + 7px),-50%)}78%,100%{transform:translate(-50%,-50%)}}
-@media (prefers-reduced-motion: reduce){.stamp.open .lid{animation:none;opacity:0}.stamp.open .eyes,.stamp.open .eyes b{animation:none}}
-.stamp .logo{width:168px;height:auto;display:block}
+@keyframes odoor{0%{transform:rotateY(0)}12%{transform:rotateY(-128deg)}82%{transform:rotateY(-128deg)}96%,100%{transform:rotateY(0)}}
+@keyframes eyes{0%,16%{transform:translateX(0)}26%,40%{transform:translateX(-3px)}52%,66%{transform:translateX(3px)}78%,100%{transform:translateX(0)}}
+@keyframes pupils{0%,16%{transform:translate(-50%,-50%)}26%,40%{transform:translate(calc(-50% - 3px),-50%)}52%,66%{transform:translate(calc(-50% + 3px),-50%)}78%,100%{transform:translate(-50%,-50%)}}
+@media (prefers-reduced-motion: reduce){.stamp.open .odoor{animation:none;opacity:0}.stamp.open .eyes,.stamp.open .eyes b{animation:none}}
 .mono{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
 .tag,.field label,.x,.tab,.fin-l,.ws-count,.score span,.fr-cap span,.card .cap,.chips button{font-weight:700}
 h1{font-family:var(--display);font-weight:700;font-size:clamp(46px,12.5vw,78px);line-height:.9;margin:0;text-wrap:balance;letter-spacing:-.005em;text-transform:uppercase}
@@ -108,8 +115,9 @@ legend + *{clear:both}
 
 /* Gallery book: an upright spine beside the logo; tapping pulls the book out and opens it to the album. */
 .top{align-items:flex-end}
-.door{padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-right:6px}
-.door svg{width:34px;height:auto;display:block}
+.door{padding:0 2px;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;font-family:var(--display);font-weight:700;font-size:clamp(20px,5.6vw,24px);line-height:1;letter-spacing:.01em;text-transform:uppercase;color:var(--ink);min-height:44px;display:inline-flex;align-items:center;gap:9px}
+.door::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none;transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+@media (hover:hover){.door:hover::before{transform:scale(1.5)}}
 .door:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:4px}
 .bookfx{position:fixed;inset:0;z-index:55;background:var(--deep);display:flex;align-items:center;justify-content:center;perspective:1600px;opacity:0}
 .bookfx[hidden]{display:none}
@@ -232,7 +240,7 @@ main.intro > *:nth-child(n+4){animation-delay:.24s}
 @media (prefers-reduced-motion:reduce){.sd-door-leaf,.sd-door-spill,.sd-door-light,.sd-eyes,.sd-flood{transition:none!important;animation:none!important}}
 
 /* Workshop: a second book on the shelf. Inside: build a nightstand, or paint something that drips. */
-.shelf{display:flex;align-items:flex-end;gap:7px;margin-right:6px}
+.shelf{display:flex;flex-direction:column;align-items:flex-end;gap:0}
 .shelf .door{margin-right:0}
 .ws{position:fixed;inset:0;z-index:52;background-color:var(--deep);overflow-y:auto;padding:24px 20px 64px;-webkit-overflow-scrolling:touch}
 .ws[hidden],.ws [hidden]{display:none!important}
@@ -325,34 +333,16 @@ function fwTrack(name, title){ try { if (window.goatcounter && window.goatcounte
 <main class="sheet intro">
   <header class="top">
     <button class="stamp" id="stamp" type="button" aria-label="Made Out Back logo. Tap to open.">
-      <span class="box" aria-hidden="true"><span class="eyes"><i><b></b></i><i><b></b></i></span></span>
-      <span class="lid"><img class="logo" src="img/logo-red.svg" alt="Made Out Back" width="168" height="115"></span>
+      <span class="mark">
+        <img class="logo" src="img/logo-red-noo.svg" alt="Made Out Back" width="190" height="130">
+        <span class="ohole" aria-hidden="true"><img src="img/o-hole.svg" alt=""><span class="eyes"><i><b></b></i><i><b></b></i></span></span>
+        <span class="odoor" aria-hidden="true"><img src="img/o-door.svg" alt=""></span>
+      </span>
     </button>
-    <div class="shelf">
-    <button class="door" id="door" type="button" aria-label="Open the gallery" aria-haspopup="dialog">
-      <svg viewBox="0 0 38 128" aria-hidden="true">
-        <!-- gallery spine: birch with a red and an ink band -->
-        <defs><clipPath id="spclip"><rect width="38" height="128" rx="2.5"/></clipPath></defs>
-        <g clip-path="url(#spclip)">
-          <rect y="0" width="38" height="3.97" fill="#E2402B"/>
-          <rect y="3.97" width="38" height="12.16" fill="#1D1B16"/>
-          <rect y="16.13" width="38" height="111.87" fill="#E9D4AE"/>
-          <text text-anchor="middle" dominant-baseline="central" fill="#1D1B16" style="font-family:var(--display);font-size:13px;font-weight:700"><tspan x="19" y="34.9">G</tspan><tspan x="19" y="47.3">A</tspan><tspan x="19" y="59.7">L</tspan><tspan x="19" y="72.1">L</tspan><tspan x="19" y="84.5">E</tspan><tspan x="19" y="96.9">R</tspan><tspan x="19" y="109.3">Y</tspan></text>
-        </g>
-      </svg>
-    </button>
-    <button class="door" id="wsdoor" type="button" aria-label="Open the workshop" aria-haspopup="dialog">
-      <svg viewBox="0 0 38 128" aria-hidden="true">
-        <defs><clipPath id="spclip2"><rect width="38" height="128" rx="2.5"/></clipPath></defs>
-        <g clip-path="url(#spclip2)">
-          <rect y="0" width="38" height="3.97" fill="#1D1B16"/>
-          <rect y="3.97" width="38" height="12.16" fill="#E9D4AE"/>
-          <rect y="16.13" width="38" height="111.87" fill="#E2402B"/>
-          <text text-anchor="middle" dominant-baseline="central" fill="#E9D4AE" style="font-family:var(--display);font-size:13px;font-weight:700"><tspan x="19" y="28.7">W</tspan><tspan x="19" y="41.1">O</tspan><tspan x="19" y="53.5">R</tspan><tspan x="19" y="65.9">K</tspan><tspan x="19" y="78.3">S</tspan><tspan x="19" y="90.7">H</tspan><tspan x="19" y="103.1">O</tspan><tspan x="19" y="115.5">P</tspan></text>
-        </g>
-      </svg>
-    </button>
-    </div>
+    <nav class="shelf" aria-label="More">
+      <button class="door" id="door" type="button" aria-haspopup="dialog">Gallery</button>
+      <button class="door" id="wsdoor" type="button" aria-haspopup="dialog">Workshop</button>
+    </nav>
   </header>
 
   <div>
